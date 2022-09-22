@@ -1,0 +1,39 @@
+{
+  "name": "vue-manage-system",
+  "version": "5.2.0",
+  "private": true,
+  "scripts": {
+    "local": "vite --open",
+    "build": "vite build",
+    "build:dev": "vite build --mode=development",
+    "build:test": "vite build --mode=test",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "element-plus": "^1.0.2-beta.52",
+    "file-saver": "^2.0.5",
+    "js-md5": "^0.7.3",
+    "md-editor-v3": "^2.2.0",
+    "moment": "^2.29.4",
+    "pinia": "^2.0.14",
+    "script-loader": "^0.7.2",
+    "vue": "^3.2.4",
+    "vue-cropperjs": "^5.0.0",
+    "vue-i18n": "^9.0.0",
+    "vue-router": "^4.0.10",
+    "vue-schart": "^2.0.0",
+    "wangeditor": "^4.7.4",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.3.3",
+    "@vue/compiler-sfc": "^3.1.2",
+    "vite": "^2.8.6"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
