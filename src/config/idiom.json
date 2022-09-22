@@ -1,0 +1,78 @@
+{
+    "IdiomHeaderFirstTab": [
+        {
+            "prop": "id",
+            "label": "id",
+            "editable": false,
+            "type": "input",
+            "show": false
+        },
+        {
+            "prop": "balance",
+            "label": "账户红包余额",
+            "editable": false,
+            "type": "input",
+            "show": true
+        },
+        {
+            "prop": "distribute_money",
+            "label": "下发金额",
+            "editable": false,
+            "type": "input",
+            "show": true
+        },
+        {
+            "prop": "double_multiple",
+            "label": "激励视频翻倍",
+            "editable": false,
+            "type": "input",
+            "show": true
+        }
+    ],
+    "IdiomHeaderSecondTab": [
+        {
+            "prop": "id",
+            "label": "id",
+            "editable": false,
+            "type": "input",
+            "show": false
+        },
+        {
+            "prop": "balance",
+            "label": "账户红包余额",
+            "editable": false,
+            "type": "input",
+            "show": true
+        },
+        {
+            "prop": "distribute_money",
+            "label": "下发金额",
+            "editable": false,
+            "type": "input",
+            "show": true
+        }
+    ],
+    "IdiomHeaderThirdTab": [
+        {
+            "prop": "id",
+            "label": "id",
+            "editable": false,
+            "type": "input",
+            "show": false
+        },
+        {
+            "prop": "balance",
+            "label": "账户红包余额",
+            "editable": false,
+            "type": "input",
+            "show": true
+        },
+        {
+            "prop": "distribute_money",
+            "label": "下发金额",
+            "editable": false,
+            "type": "input",
+            "show": true
+        }
+    ]
+}

@@ -1,0 +1,59 @@
+{
+    "options": [
+        {
+            "value": "北京",
+            "label": "北京"
+        },
+        {
+            "value": "上海",
+            "label": "上海"
+        },
+        {
+            "value": "广州",
+            "label": "广州"
+        },
+        {
+            "value": "深圳",
+            "label": "深圳"
+        }
+    ],
+    "tableHeader": [
+        {
+            "prop": "name",
+            "label": "姓名",
+            "editable": false,
+            "type": "input"
+        },
+        {
+            "prop": "birth",
+            "label": "生日",
+            "editable": false,
+            "type": "date"
+        },
+        {
+            "prop": "phone",
+            "label": "电话",
+            "editable": false,
+            "type": "input"
+        },
+        {
+            "prop": "province",
+            "label": "省份",
+            "editable": false,
+            "type": "input"
+        },
+        {
+            "prop": "city",
+            "label": "市区",
+            "editable": false,
+            "type": "input"
+        },
+        {
+            "prop": "address",
+            "label": "详细地址",
+            "editable": false,
+            "type": "input"
+        }
+    ],
+    "pageTotal": 4
+}

@@ -1,0 +1,172 @@
+{
+    "DianxiaoHeaderFirstTab": [
+        {
+            "prop": "id",
+            "label": "id",
+            "editable": false,
+            "type": "input",
+            "show": false,
+            "isedited":true
+        },
+        {
+            "prop": "main_product_name",
+            "label": "父游戏名",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "product_name",
+            "label": "子游戏名",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "updated_at",
+            "label": "操作记录",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        }
+    ],
+    "DianxiaoHeaderSecondTab": [
+        {
+            "prop": "id",
+            "label": "id",
+            "editable": false,
+            "type": "input",
+            "show": false,
+            "isedited":true
+        },
+        {
+            "prop": "main_product_name",
+            "label": "父游戏名",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "product_name",
+            "label": "子游戏名",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "updated_at",
+            "label": "操作记录",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        }
+    ],
+    "DianxiaoHeaderThirdTab": [
+        {
+            "prop": "id",
+            "label": "id",
+            "editable": false,
+            "type": "input",
+            "show": false,
+            "isedited":true
+        },
+        {
+            "prop": "main_product_name",
+            "label": "父游戏名",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "product_name",
+            "label": "子游戏名",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "updated_at",
+            "label": "操作记录",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        }
+    ],
+    "DianxiaoHeaderFourTab": [
+        {
+            "prop": "id",
+            "label": "id",
+            "editable": false,
+            "type": "input",
+            "show": false,
+            "isedited":true
+        },
+        {
+            "prop": "main_product_name",
+            "label": "父游戏名",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "product_name",
+            "label": "子游戏名",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "updated_at",
+            "label": "操作记录",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        }
+    ],
+    "DianxiaoHeaderFiveTab": [
+        {
+            "prop": "id",
+            "label": "id",
+            "editable": false,
+            "type": "input",
+            "show": false,
+            "isedited":true
+        },
+        {
+            "prop": "main_product_name",
+            "label": "父游戏名",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "product_name",
+            "label": "子游戏名",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "updated_at",
+            "label": "操作记录",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        }
+    ]
+}

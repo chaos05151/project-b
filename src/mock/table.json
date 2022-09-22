@@ -1,0 +1,202 @@
+{
+    "list": [
+        {
+            "id": 1,
+            "name": "张三",
+            "money": 123,
+            "address": "广东省东莞市长安镇",
+            "state": "成功",
+            "date": "2019-11-1",
+            "thumb": "https://lin-xin.gitee.io/images/post/wms.png"
+        },
+        {
+            "id": 2,
+            "name": "李四",
+            "money": 456,
+            "address": "广东省广州市白云区",
+            "state": "成功",
+            "date": "2019-10-11",
+            "thumb": "https://lin-xin.gitee.io/images/post/node3.png"
+        },
+        {
+            "id": 3,
+            "name": "王五",
+            "money": 789,
+            "address": "湖南省长沙市",
+            "state": "失败",
+            "date": "2019-11-11",
+            "thumb": "https://lin-xin.gitee.io/images/post/parcel.png"
+        },
+        {
+            "id": 4,
+            "name": "赵六",
+            "money": 1011,
+            "address": "福建省厦门市鼓浪屿",
+            "state": "成功",
+            "date": "2019-10-20",
+            "thumb": "https://lin-xin.gitee.io/images/post/notice.png"
+        }
+    ],
+    "options": [
+        {
+            "value": "北京",
+            "label": "北京"
+        },
+        {
+            "value": "上海",
+            "label": "上海"
+        },
+        {
+            "value": "广州",
+            "label": "广州"
+        },
+        {
+            "value": "深圳",
+            "label": "深圳"
+        }
+    ],
+    "tableHeader": [
+        {
+            "prop": "name",
+            "label": "姓名",
+            "editable": false,
+            "type": "input"
+        },
+        {
+            "prop": "birth",
+            "label": "生日",
+            "editable": false,
+            "type": "date"
+        },
+        {
+            "prop": "phone",
+            "label": "电话",
+            "editable": false,
+            "type": "input"
+        },
+        {
+            "prop": "province",
+            "label": "省份",
+            "editable": false,
+            "type": "input"
+        },
+        {
+            "prop": "city",
+            "label": "市区",
+            "editable": false,
+            "type": "input"
+        },
+        {
+            "prop": "address",
+            "label": "详细地址",
+            "editable": false,
+            "type": "input"
+        }
+    ],
+    "tableDataAAAA": [
+        {
+            "name": "北京",
+            "province": "北京市",
+            "city": "普陀区",
+            "address": "金沙江路 1518 弄",
+            "birth": "2016-05-02",
+            "phone": "12345678910"
+        },
+        {
+            "name": "李四",
+            "birth": "2016-05-04",
+            "province": "北京市",
+            "city": "普陀区",
+            "address": "金沙江路 1517 弄",
+            "age": 19,
+            "phone": "12345678911"
+        },
+        {
+            "name": "王五",
+            "birth": "2016-05-01",
+            "province": "北京市",
+            "city": "普陀区",
+            "address": "金沙江路 1519 弄",
+            "phone": "12345678912"
+        },
+        {
+            "name": "赵六",
+            "birth": "2016-05-03",
+            "province": "北京市",
+            "city": "普陀区",
+            "address": "金沙江路 1516 弄",
+            "phone": "12345678913"
+        }
+    ],
+    "tableDataBBBB": [
+        {
+            "name": "上海",
+            "province": "上海市",
+            "city": "普陀区",
+            "address": "金沙江路 1518 弄",
+            "birth": "2016-05-02",
+            "phone": "12345678910"
+        },
+        {
+            "name": "李四",
+            "birth": "2016-05-04",
+            "province": "上海市",
+            "city": "普陀区",
+            "address": "金沙江路 1517 弄",
+            "age": 19,
+            "phone": "12345678911"
+        },
+        {
+            "name": "王五",
+            "birth": "2016-05-01",
+            "province": "上海市",
+            "city": "普陀区",
+            "address": "金沙江路 1519 弄",
+            "phone": "12345678912"
+        },
+        {
+            "name": "赵六",
+            "birth": "2016-05-03",
+            "province": "上海市",
+            "city": "普陀区",
+            "address": "金沙江路 1516 弄",
+            "phone": "12345678913"
+        }
+    ],
+    "tableDataCCCC": [
+        {
+            "name": "广东",
+            "province": "广州市",
+            "city": "普陀区",
+            "address": "金沙江路 1518 弄",
+            "birth": "2016-05-02",
+            "phone": "12345678910"
+        },
+        {
+            "name": "李四",
+            "birth": "2016-05-04",
+            "province": "广州市",
+            "city": "普陀区",
+            "address": "金沙江路 1517 弄",
+            "age": 19,
+            "phone": "12345678911"
+        },
+        {
+            "name": "王五",
+            "birth": "2016-05-01",
+            "province": "广州市",
+            "city": "普陀区",
+            "address": "金沙江路 1519 弄",
+            "phone": "12345678912"
+        },
+        {
+            "name": "赵六",
+            "birth": "2016-05-03",
+            "province": "广州市",
+            "city": "普陀区",
+            "address": "金沙江路 1516 弄",
+            "phone": "12345678913"
+        }
+    ],
+    "pageTotal": 4
+}

@@ -1,0 +1,89 @@
+{
+    "RiskHeaderFirstTab": [
+        {
+            "prop": "id",
+            "label": "序号",
+            "editable": false,
+            "type": "input",
+            "show": false,
+            "isedited":true
+        },
+        {
+            "prop": "amount",
+            "label": "提现金额",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "ip_address",
+            "label": "提现ip地址",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "batch_id",
+            "label": "提现订单号",
+            "editable": false,
+            "type": "switch",
+            "show": true
+        },
+        {
+            "prop": "status",
+            "label": "提现状态",
+            "editable": false,
+            "type": "input",
+            "show": true
+        },
+        {
+            "prop": "updated_at",
+            "label": "提现时间",
+            "editable": false,
+            "type": "input",
+            "show": true
+        }
+    ],
+    "RiskHeaderSecondTab": [
+        {
+            "prop": "id",
+            "label": "id",
+            "editable": false,
+            "type": "input",
+            "show": false,
+            "isedited":true
+        },
+        {
+            "prop": "oaid",
+            "label": "数盟id",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "ip",
+            "label": "登录ip",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "ip_address",
+            "label": "登录ip地址",
+            "editable": false,
+            "type": "input",
+            "show": true
+        },
+        {
+            "prop": "updated_at",
+            "label": "登录时间",
+            "editable": false,
+            "type": "input",
+            "show": true
+        }
+    ]
+}

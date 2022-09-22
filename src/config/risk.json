@@ -1,0 +1,401 @@
+{
+    "RiskHeaderFirstTab": [
+        {
+            "prop": "id",
+            "label": "id",
+            "editable": false,
+            "type": "input",
+            "show": false,
+            "isedited":true
+        },
+        {
+            "prop": "main_product_name",
+            "label": "父游戏名",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "product_name",
+            "label": "子游戏名",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "package_name",
+            "label": "包名",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "simulator_login_status",
+            "label": "模拟器登录",
+            "editable": false,
+            "type": "input",
+            "show": true
+        },
+        {
+            "prop": "more_open_login_status",
+            "label": "多开登录",
+            "editable": false,
+            "type": "input",
+            "show": true
+        },
+        {
+            "prop": "exception_login_status",
+            "label": "异常登录",
+            "editable": false,
+            "type": "input",
+            "show": true
+        },
+        {
+            "prop": "one_device_login_num",
+            "label": "单设备登录数",
+            "editable": false,
+            "type": "input",
+            "show": true
+        },
+        {
+            "prop": "exception_device_watch_advertisement_num",
+            "label": "异常设备看广告数",
+            "editable": false,
+            "type": "input",
+            "show": true
+        },
+        {
+            "prop": "simulator_watch_advertisement_status",
+            "label": "模拟器看广告",
+            "editable": false,
+            "type": "input",
+            "show": true
+        },
+        {
+            "prop": "more_open_watch_advertisement_status",
+            "label": "多开设备看广告",
+            "editable": false,
+            "type": "input",
+            "show": true
+        },
+        {
+            "prop": "updated_at",
+            "label": "操作记录",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        }
+    ],
+    "RiskHeaderSecondTab": [
+        {
+            "prop": "id",
+            "label": "id",
+            "editable": false,
+            "type": "input",
+            "show": false,
+            "isedited":true
+        },
+        {
+            "prop": "main_product_name",
+            "label": "父游戏名",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "product_name",
+            "label": "子游戏名",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "package_name",
+            "label": "包名",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "account_bind_num",
+            "label": "最多绑定账号数",
+            "editable": false,
+            "type": "input",
+            "show": true
+        },
+        {
+            "prop": "one_day_withdrawal_count",
+            "label": "单日可提现数",
+            "editable": false,
+            "type": "input",
+            "show": true
+        },
+        {
+            "prop": "updated_at",
+            "label": "操作记录",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        }
+    ],
+    "RiskHeaderThirdTab": [
+        {
+            "prop": "id",
+            "label": "id",
+            "editable": false,
+            "type": "input",
+            "show": false,
+            "isedited":true
+        },
+        {
+            "prop": "main_product_name",
+            "label": "父游戏名",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "product_name",
+            "label": "子游戏名",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "package_name",
+            "label": "包名",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "open_real_name_authentication_status",
+            "label": "实名认证",
+            "editable": false,
+            "type": "input",
+            "show": true
+        },
+        {
+            "prop": "real_name_authentication_node",
+            "label": "认证节点",
+            "editable": false,
+            "type": "input",
+            "show": true
+        },
+        {
+            "prop": "real_name_authentication_api",
+            "label": "认证接口",
+            "editable": false,
+            "type": "input",
+            "show": true
+        },
+        {
+            "prop": "anti_addiction_status",
+            "label": "防沉迷",
+            "editable": false,
+            "type": "input",
+            "show": true
+        },
+        {
+            "prop": "anti_addiction_open_condition",
+            "label": "开启条件",
+            "editable": false,
+            "type": "input",
+            "show": true
+        },
+        {
+            "prop": "updated_at",
+            "label": "操作记录",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        }
+    ],
+    "RiskHeaderFourTab": [
+        {
+            "prop": "id",
+            "label": "id",
+            "editable": false,
+            "type": "input",
+            "show": false,
+            "isedited":true
+        },
+        {
+            "prop": "main_product_name",
+            "label": "父游戏名",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "product_name",
+            "label": "子游戏名",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "package_name",
+            "label": "包名",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "mobile_phone_bind_status",
+            "label": "是否开启手机绑定",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "readonly":false
+        },
+        {
+            "prop": "mobile_phone_bind_condition",
+            "label": "手机绑定条件",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "readonly":false
+        },
+        {
+            "prop": "updated_at",
+            "label": "操作记录",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        }
+    ],
+    "RiskHeaderFiveTab": [
+        {
+            "prop": "id",
+            "label": "id",
+            "editable": false,
+            "type": "input",
+            "show": false,
+            "isedited":true
+        },
+        {
+            "prop": "main_product_name",
+            "label": "父游戏名",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "product_name",
+            "label": "子游戏名",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "package_name",
+            "label": "包名",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "user_agreement_url",
+            "label": "用户协议地址",
+            "editable": false,
+            "type": "input",
+            "show": true
+        },
+        {
+            "prop": "privacy_agreement_url",
+            "label": "隐私协议地址",
+            "editable": false,
+            "type": "input",
+            "show": true
+        },
+        {
+            "prop": "updated_at",
+            "label": "操作记录",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        }
+    ],"RiskHeaderSixTab":[
+        {
+            "prop": "id",
+            "label": "id",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "main_product_name",
+            "label": "父游戏名",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop": "product_name",
+            "label": "子游戏名",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "isedited":true
+        },
+        {
+            "prop":"channel",
+            "label":"渠道",
+            "editable":false,
+            "type":"input",
+            "show":true,
+            "isedited":true
+        },
+        {
+            "prop":"game_version",
+            "label":"版本",
+            "editable":false,
+            "show":true,
+            "isedited":true
+        },
+        {
+            "prop":"open_advertising",
+            "label":"开启广告",
+            "editable":false,
+            "show":true,
+            "isedited":true
+        },
+        {
+            "prop":"open_fake_page",
+            "label":"开启假页面",
+            "editable":false,
+            "show":true,
+            "isedited":true
+        },
+        {
+            "prop":"work_date",
+            "label":"生效日期",
+            "editable":false,
+            "show":true,
+            "isedited":true
+        }
+    ]
+}

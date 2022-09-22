@@ -1,0 +1,180 @@
+{
+    "options": [
+        {
+            "value": "北京",
+            "label": "北京"
+        },
+        {
+            "value": "上海",
+            "label": "上海"
+        },
+        {
+            "value": "广州",
+            "label": "广州"
+        },
+        {
+            "value": "深圳",
+            "label": "深圳"
+        }
+    ],
+    "VideoHeaderExport2Excel":["id","答对题数","账户余额","概率60%","概率30%","概率10%","翻倍领奖倍数","红包领奖倍数"],
+    "VideoHeaderFirstTab": [
+        {
+            "prop": "id",
+            "label": "id",
+            "editable": false,
+            "type": "input",
+            "show": false,
+            "sortable":false
+        },
+        {
+            "prop": "answer_count",
+            "label": "答对题数",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "sortable":true
+        },
+        {
+            "prop": "balance",
+            "label": "账户余额",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "sortable":false
+        },
+        {
+            "prop": "sixty_rate",
+            "label": "概率60%",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "sortable":false
+        },
+        {
+            "prop": "thirty_rate",
+            "label": "概率30%",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "sortable":false
+        },
+        {
+            "prop": "ten_rate",
+            "label": "概率10%",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "sortable":false
+        },
+        {
+            "prop": "double_multiple",
+            "label": "翻倍领奖倍数",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "sortable":false
+        },
+        {
+            "prop": "answer_multiple",
+            "label": "红包领奖倍数",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "sortable":false
+        }
+    ],
+    "VideoHeaderSecondTab": [
+        {
+            "prop": "id",
+            "label": "id",
+            "editable": false,
+            "type": "input",
+            "show": false,
+            "sortable":false
+        },
+        {
+            "prop": "balance",
+            "label": "账户余额",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "sortable":true
+        },
+        {
+            "prop": "answer_count",
+            "label": "答对题数",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "sortable":false
+        },
+        {
+            "prop": "distribute_money",
+            "label": "红包数额",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "sortable":false
+        },
+        {
+            "prop": "discount_distribute",
+            "label": "打折下发",
+            "editable": false,
+            "type": "input",
+            "show": true,
+            "sortable":false
+        }
+    ],
+    "VideoHeaderThirdTab": [
+        {
+            "prop": "id",
+            "label": "id",
+            "editable": false,
+            "type": "input",
+            "show": false
+        },
+        {
+            "prop": "balance",
+            "label": "账户余额",
+            "editable": false,
+            "type": "input",
+            "show": true
+        },
+        {
+            "prop": "one_to_five",
+            "label": "第1-5题",
+            "editable": false,
+            "type": "input",
+            "show": true
+        },
+        {
+            "prop": "six_to_ten",
+            "label": "第6-10题",
+            "editable": false,
+            "type": "input",
+            "show": true
+        },
+        {
+            "prop": "eleven_to_twenty",
+            "label": "第10-20题",
+            "editable": false,
+            "type": "input",
+            "show": true
+        },
+        {
+            "prop": "double_multiple",
+            "label": "翻倍领奖倍数",
+            "editable": false,
+            "type": "input",
+            "show": true
+        },
+        {
+            "prop": "answer_multiple",
+            "label": "红包领奖倍数",
+            "editable": false,
+            "type": "input",
+            "show": true
+        }
+    ]
+}
