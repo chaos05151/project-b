@@ -9,12 +9,12 @@
         </div>
         <div class="container">
             <div class="handle-box">
-                <el-select v-model="main_product_name_selected" placeholder="一级游戏" class="m-2"
+                <el-select v-model="main_product_name_selected" placeholder="项目" class="m-2"
                     @change="getProductAndDataList">
                     <el-option v-for="item in options" :key="item.id" :label="item.main_product_name"
                         :value="item.id" />
                 </el-select>
-                <el-select v-model="product_name_selected" placeholder="二级游戏" class="m-2" @change="getDataById">
+                <el-select v-model="product_name_selected" placeholder="应用" class="m-2" @change="getDataById">
                     <el-option v-for="item in suboptions" :key="item.product_id" :label="item.product_name"
                         :value="item.product_id" />
                 </el-select>
@@ -22,12 +22,12 @@
                     start-placeholder="开始日期" end-placeholder="结束日期" />
                 <el-button type="primary" @click="getExcel">导出</el-button>
                 <el-button type="primary"
-                    @click="goback(main_product_name_selected,product_name_selected,query.product_id)">返回</el-button>
+                    @click="goback">返回</el-button>
             </div>
             <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
                 <el-table-column prop="wechat_user_id" label="用户ID"></el-table-column>
-                <el-table-column prop="main_product_name" label="父游戏"></el-table-column>
-                <el-table-column prop="product_name" label="子游戏"></el-table-column>
+                <el-table-column prop="main_product_name" label="项目名称"></el-table-column>
+                <el-table-column prop="product_name" label="应用名称"></el-table-column>
                 <el-table-column prop="nickname" label="用户名"></el-table-column>
                 <el-table-column prop="bind_account_count" label="设备关联账号"></el-table-column>
                 <el-table-column prop="amount" label="申请提现金额"></el-table-column>
@@ -71,7 +71,7 @@ const product_name_selected = ref("")
 const tableData = ref([]);
 const tableExportData = ref([]);
 let main_product_id = ref("")
-const product_type = ref("一级游戏");
+const product_type = ref("项目");
 const widthdrawDetail = reactive({
 });
 const dataExport = ref({})
@@ -106,7 +106,7 @@ const getData = (data) => {
     }).then(() => {
     })
 };
-//获取一级游戏产品信息
+//获取项目产品信息
 const getProductDataList = () => {
     fetchMainProductList().then((res) => {
         options.value = res.data;
@@ -115,7 +115,7 @@ const getProductDataList = () => {
         // ElMessage.error("服务器异常！");
     });
 };
-//根据一级游戏获取二级游戏产品信息
+//根据项目获取应用产品信息
 const getSubProductDataList = (query) => {
     const data = {
         main_product_id: query
@@ -161,35 +161,41 @@ export default {
                 query.main_product_id = route.params.main_product_id
                 main_product_id.value = route.params.main_product_id
                 getSubProductDataList(route.params.main_product_id)
+            }else {
+                getSubProductDataList()
             }
         }
-        const goback = (mName, pName, pId) => {
-            if (typeof (pName) == "number") {
-                suboptions.value.map(item => {
-                    if (item.product_id == pName) {
-                        mName = item.main_product_name
-                        pName = item.product_name
-                        return
-                    }
-                })
-            } else if (typeof (mName) == "number" && pName == "") {
-                options.value.map(item => {
-                    if (item.id == mName) {
-                        mName = item.main_product_name
-                    }
-                    return
-                })
-            }
-            dateRange.value = null;
-            router.push({
-                name: 'withdrawdetail',
-                params: {
-                    main_product_name: mName,
-                    product_name: pName,
-                    product_id: pId,
-                    main_product_id: main_product_id.value
-                }
-            })
+        console.log(main_product_name_selected.value,product_name_selected.value,);
+        // const goback = (mName, pName, pId) => {
+        //     if (typeof (pName) == "number") {
+        //         suboptions.value.map(item => {
+        //             if (item.product_id == pName) {
+        //                 mName = item.main_product_name
+        //                 pName = item.product_name
+        //                 return
+        //             }
+        //         })
+        //     } else if (typeof (mName) == "number" && pName == "") {
+        //         options.value.map(item => {
+        //             if (item.id == mName) {
+        //                 mName = item.main_product_name
+        //             }
+        //             return
+        //         })
+        //     }
+        //     dateRange.value = null;
+        //     router.push({
+        //         name: 'withdrawdetail',
+        //         params: {
+        //             main_product_name: mName,
+        //             product_name: pName,
+        //             product_id: pId,
+        //             main_product_id: main_product_id.value
+        //         }
+        //     })
+        // }
+        const goback=()=>{
+            router.go(-1)
         }
 
 
@@ -232,6 +238,7 @@ export default {
         // 导出为excel
         const getExcel = () => {
             //处理导出数据
+            console.log('dataExport.value', dataExport.value)
             dataExport.value.page_size = pageTotal.value ? pageTotal.value <= 10000 ? pageTotal.value : 10000 : 10
             withdrawCheckList(dataExport.value)
                 .then((res) => {
@@ -253,8 +260,8 @@ export default {
                         });
                         const titleArr = [
                             "用户ID",
-                            "父游戏",
-                            "子游戏",
+                            "项目名称",
+                            "应用名称",
                             "用户名",
                             "设备关联账号",
                             "申请提现金额",
@@ -280,7 +287,7 @@ export default {
 
         const getProductAndDataList = () => {
             product_name_selected.value = ""
-            //获取二级游戏列表
+            //获取应用列表
             if (main_product_name_selected.value == -1) {
                 getData(query)
             } else {
@@ -330,7 +337,7 @@ export default {
             }
         };
         const getDataById = () => {
-            //通过二级游戏id获取对应二级游戏
+            //通过应用id获取对应应用
             if (product_name_selected.value == -1) {
                 const data = {
                     ...query,

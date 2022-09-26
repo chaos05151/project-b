@@ -25,9 +25,9 @@
                      <div class="text">
                         <div>
                             <span>自启动起</span>
-                            <el-input-number v-model="item.start_in" style="width:60px;margin:0 5px" :controls=false ></el-input-number>
+                            <el-input-number v-model="item.start_in" :min="0" :max="7*24" :precision="0" style="width:60px;margin:0 5px" :controls=false ></el-input-number>
                             <span>小时内，广告播放</span>
-                            <el-input-number  v-model="item.play_times" style="width:60px;margin:0 5px" :controls=false></el-input-number>
+                            <el-input-number  v-model="item.play_times" style="width:60px;margin:0 5px" :precision="0" :controls=false></el-input-number>
                             <span>次</span>
                         </div>
                          <el-button type="text"  @click.prevent="removeitem('ad_play',index)">删除</el-button>
@@ -41,13 +41,13 @@
                     <div class="text">
                         <div>
                             <span>自启动起</span>
-                            <el-input-number v-model="item.start_in" style="width:60px;margin:0 5px" :controls=false></el-input-number>
+                            <el-input-number v-model="item.start_in" style="width:60px;margin:0 5px" :min="0" :max="7*24" :precision="0" :controls=false></el-input-number>
                             <span>小时内，前</span>
                             <el-select v-model="item.forwords_times" style="width:80px;margin:0 5px">
                                 <el-option v-for="item in ecpm_list" :value="item.value"  :key="item.value"></el-option>
                             </el-select>
                             <span>次ecpm最高值</span>
-                            <el-input-number v-model="item.large_value" style="width:60px;margin:0 5px" :controls=false></el-input-number> 
+                            <el-input-number v-model="item.large_value" style="width:60px;margin:0 5px" :precision="0" :controls=false></el-input-number> 
                         </div>
                         <el-button type="text" @click.prevent="removeitem('ecpm_large',index)">删除</el-button>
                     </div>
@@ -60,13 +60,13 @@
                     <div class="text">
                         <div>
                             <span>自启动起</span>
-                            <el-input-number v-model="item.start_in" style="width:60px;margin:0 5px" :controls=false></el-input-number>
+                            <el-input-number v-model="item.start_in" style="width:60px;margin:0 5px" :min="0" :max="7*24" :precision="0" :controls=false></el-input-number>
                             <span>小时内，前</span>
                             <el-select v-model="item.forwords_times" style="width:80px;margin:0 5px">
                                 <el-option v-for="item in ecpm_list" :value="item.value" :key="item.value"></el-option>
                             </el-select>
                             <span>次ecpm最低值</span>
-                            <el-input-number v-model="item.small_value" style="width:60px;margin:0 5px" :controls=false></el-input-number> 
+                            <el-input-number v-model="item.small_value" style="width:60px;margin:0 5px" :precision="0" :controls=false></el-input-number> 
                         </div>
                         <el-button type="text" @click.prevent="removeitem('ecpm_small',index)">删除</el-button>
                     </div>
@@ -79,13 +79,13 @@
                     <div class="text">
                         <div>
                             <span>自启动起</span>
-                            <el-input-number v-model="item.start_in" style="width:60px;margin:0 5px" :controls=false></el-input-number>
+                            <el-input-number v-model="item.start_in" style="width:60px;margin:0 5px" :min="0" :max="7*24" :precision="0" :controls=false></el-input-number>
                             <span>小时内，前</span>
                             <el-select v-model="item.forwords_times" style="width:80px;margin:0 5px">
                                 <el-option v-for="item in ecpm_list" :value="item.value" :key="item.value"></el-option>
                             </el-select>
                             <span>次ecpm均值</span>
-                            <el-input-number v-model="item.middle_value" style="width:60px;margin:0 5px" :controls=false></el-input-number> 
+                            <el-input-number v-model="item.middle_value" style="width:60px;margin:0 5px" :precision="0" :controls=false></el-input-number> 
                         </div>
                         <el-button type="text" @click.prevent="removeitem('ecpm_middle',index)">删除</el-button>
                     </div>
@@ -98,9 +98,9 @@
                     <div class="text">
                         <div>
                             <span>自启动起</span>
-                            <el-input-number v-model="item.start_in" style="width:60px;margin:0 5px" :controls=false></el-input-number>
+                            <el-input-number v-model="item.start_in" style="width:60px;margin:0 5px" :min="0" :max="7*24" :precision="0" :controls=false></el-input-number>
                             <span>小时内，通关</span>
-                            <el-input-number v-model="item.pass_times" style="width:60px;margin:0 5px" :controls=false></el-input-number>
+                            <el-input-number v-model="item.pass_times" style="width:60px;margin:0 5px" :precision="0" :controls=false></el-input-number>
                             <span>次</span>
                         </div>
                         <el-button type="text" @click.prevent="removeitem('passed',index)">删除</el-button>
@@ -114,9 +114,9 @@
                     <div class="text">
                         <div>
                             <span>自启动起</span>
-                            <el-input-number v-model="item.start_in" style="width:60px;margin:0 5px" :controls=false></el-input-number>
+                            <el-input-number v-model="item.start_in" style="width:60px;margin:0 5px" :min="0" :max="7*24" :precision="0" :controls=false></el-input-number>
                             <span >小时内，提现</span>
-                            <el-input-number v-model="item.withdraw_times" style="width:60px;margin:0 5px" :controls=false></el-input-number>
+                            <el-input-number v-model="item.withdraw_times" style="width:60px;margin:0 5px" :precision="0" :controls=false></el-input-number>
                             <span >次</span>
                         </div>
                         <el-button type="text" @click.prevent="removeitem('withdraw',index)">删除</el-button>
@@ -130,6 +130,7 @@
                 </el-form-item>
                 <el-form-item>
                      <div style="display:flex;justify-content: end;">
+                        <el-button type="primary" @click="goback">返回</el-button>
                         <el-button type="primary" @click="submitForm()">保存</el-button>
                     </div>
                 </el-form-item>
@@ -514,6 +515,11 @@
             console.log(err);
         })
          
+    }
+
+    //返回
+    const goback=()=>{
+        router.go(-1)
     }
 
     getTypeList()

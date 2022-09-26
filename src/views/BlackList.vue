@@ -8,17 +8,28 @@
         </div>
         <div class="container">
             <div class="handle-box">
-                <el-select v-model="main_product_name_selected" placeholder="一级游戏" class="m-2"
+                <el-select v-model="main_product_name_selected" placeholder="项目名称" class="m-2"
                     @change="getProductAndDataList">
                     <el-option label="全部" value="-1"></el-option>
                     <el-option v-for="item in options" :key="item.id" :label="item.main_product_name"
                         :value="item.id" />
                 </el-select>
-                <el-select v-model="product_name_selected" placeholder="二级游戏" class="m-2" @change="getDataById">
+                <el-select v-model="product_name_selected" placeholder="应用名称" class="m-2" @change="getDataById">
                     <el-option label="全部" value="-1"></el-option>
                     <el-option v-for="item in suboptions" :key="item.product_id" :label="item.product_name"
                         :value="item.product_id" />
-                </el-select>&nbsp;&nbsp;
+                </el-select>
+                <el-date-picker
+                style="margin: 0 6px"
+                    v-model="dateRange"
+                    type="daterange"
+                    range-separator="→"
+                    start-placeholder="开始时间"
+                    end-placeholder="结束时间"
+                    value-format="YYYY-MM-DD"
+                    @change="handleDate"
+                />
+                &nbsp;&nbsp;
                 <el-button type="primary" @click="goback">返回</el-button>
             </div>
             <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
@@ -68,6 +79,7 @@ const pageTotal = ref(0);
 const main_product_name_selected = ref('')
 const product_name_selected = ref('')
 const tableData = ref([]);
+const dateRange=ref();
 const main_product_value_select = ref('')
 const product_type = ref("一级游戏");
 let options = ref([]);
@@ -86,7 +98,7 @@ const getUserListData = (data) => {
         
     });
 };
-//获取一级游戏产品信息
+//获取项目产品信息
 const getProductDataList = () => {
     fetchMainProductList().then((res) => {
         options.value = res.data;
@@ -94,7 +106,7 @@ const getProductDataList = () => {
         
     });
 };
-//根据一级游戏获取二级游戏产品信息
+//根据项目获取应用产品信息
 const getSubProductDataList = (query) => {
     const data = {
         main_product_id: query
@@ -127,10 +139,25 @@ const removeBlackListData = (id) => {
         
     });
 };
+
+//日期
+const handleDate=()=>{
+  // console.log(dateRange.value);
+  if(dateRange.value!=null){
+    query.start_date=dateRange.value[0]
+    query.end_date=dateRange.value[1]
+    
+  }else{
+    delete query.start_date
+    delete query.end_date
+  }
+  console.log(query)
+  getUserListData(query)
+}
 export default {
     name: "basetable",
     setup() {
-        //获取一级游戏
+        //获取项目
         getProductDataList()
         //获取用户列表
         getUserListData(query)
@@ -160,7 +187,7 @@ export default {
         const getProductAndDataList = () => {
             product_name_selected.value = ''
             suboptions.value = ''
-            //获取二级游戏列表
+            //获取应用列表
             if (main_product_name_selected.value == -1) {
                 getUserListData(query)
             } else {
@@ -173,7 +200,7 @@ export default {
             }
         }
         const getDataById = () => {
-            //通过二级游戏id获取对应用户列表
+            //通过应用id获取对应用户列表
             if (product_name_selected.value == -1) {
                 const data = {
                     main_product_id: main_product_name_selected.value,
@@ -206,8 +233,10 @@ export default {
             main_product_name_selected,
             product_name_selected,
             main_product_value_select,
+            dateRange,
             getProductAndDataList,
-            getDataById
+            getDataById,
+            handleDate
         };
     },
     methods: {

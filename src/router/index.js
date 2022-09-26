@@ -226,6 +226,13 @@ const routes = [
                     title:'提现成功记录'
                 },
                 component: () => import(/* webpackChunkName: "markdown" */ '../views/WithdrawDetailAll.vue')
+            }, {
+                path :'/withdrawreview',
+                name:'withdrawreview',
+                meta:{
+                    title:'提现成功记录'
+                },
+                component: () => import(/* webpackChunkName: "markdown" */ '../views/withdrawReview.vue')
             },{
                 path:'/keybehavior',
                 name:'keybehavior',

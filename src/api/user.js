@@ -157,7 +157,7 @@ export const withdrawCheck = (data) => {
     });
 };
 
-//提现审批列表
+//提现审批列表  （staus状态 1:待审核，2:提现中，3:已提现，4:拒绝提现，5:提现失败）
 export const withdrawCheckList = (data) => {
     const url = 'user_management/withdrawal/find';
     return request({

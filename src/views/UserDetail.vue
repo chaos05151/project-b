@@ -6,10 +6,11 @@
         <el-breadcrumb-item>用户管理</el-breadcrumb-item>
         <el-breadcrumb-item>用户详情</el-breadcrumb-item>
       </el-breadcrumb>
-      <el-button type="primary" @click="goback" style='position: absolute;right:10px;top:-17px;'>
-        返回</el-button>
+      
     </div>
     <div class="container">
+      <el-button type="primary" @click="goback" style="float:right">
+        返回</el-button>
       <el-form :model="userDetail" :inline="true">
         <el-form-item label="用户id">
           {{ userDetail.id }}

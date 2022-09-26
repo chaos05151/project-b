@@ -9,13 +9,13 @@
         </div>
         <div class="container">
             <div class="handle-box">
-                <el-select v-model="main_product_name_selected" placeholder="一级游戏" class="m-2"
+                <el-select v-model="main_product_name_selected" placeholder="项目名称" class="m-2"
                     @change="getProductAndDataList">
                     <!-- <el-option label="全部" value="-1"></el-option> -->
                     <el-option v-for="item in options" :key="item.id" :label="item.main_product_name"
                         :value="item.id" />
                 </el-select>
-                <el-select v-model="product_name_selected" placeholder="二级游戏" class="m-2" @change="getDataById">
+                <el-select v-model="product_name_selected" placeholder="应用名称" class="m-2" @change="getDataById">
                     <!-- <el-option label="全部" value="-1"></el-option> -->
                     <el-option v-for="item in suboptions" :key="item.product_id" :label="item.product_name"
                         :value="item.product_id" />
@@ -28,8 +28,8 @@
                 <el-button type="primary" @click="goback">返回</el-button>
             </div>
             <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
-                <el-table-column prop="main_product_name"  label="一级游戏"></el-table-column>
-                <el-table-column prop="product_name"  label="二级游戏"></el-table-column>
+                <el-table-column prop="main_product_name"  label="项目名称"></el-table-column>
+                <el-table-column prop="product_name"  label="应用名称"></el-table-column>
                 <el-table-column prop="id"  label="用户ID"></el-table-column>
                 <el-table-column prop="nickname" label="用户名"></el-table-column>
                 <el-table-column prop="tel" label="电话"></el-table-column>
@@ -72,7 +72,7 @@ const check_main_product_name = ref(0)
 const tableData = ref("");
 const pageTotal = ref(0);
 const main_product_value_select = ref('')
-const product_type = ref("一级游戏");
+const product_type = ref("项目");
 const value = ref('')
 let options = ref([]);
 let suboptions = ref([]);
@@ -103,7 +103,7 @@ const getData = (data) => {
         
     });
 };
-//获取一级游戏产品信息
+//获取项目产品信息
 const getProductDataList = () => {
     fetchMainProductList().then((res) => {
         options.value = res.data;
@@ -111,7 +111,7 @@ const getProductDataList = () => {
         
     });
 };
-//根据一级游戏获取二级游戏产品信息
+//根据项目获取应用产品信息
 const getSubProductDataList = (query) => {
     const data = {
         main_product_id: query

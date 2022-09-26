@@ -8,13 +8,13 @@
         </div>
         <div class="container">
             <div class="handle-box">
-                <el-select v-model="main_product_name_selected" placeholder="一级游戏" class="m-2"
+                <el-select v-model="main_product_name_selected" placeholder="项目名称" class="m-2"
                     @change="getProductAndDataList">
                     <el-option label="全部" value="-1"></el-option>
                     <el-option v-for="item in options" :key="item.id" :label="item.main_product_name"
                         :value="item.id" />
                 </el-select>
-                <el-select v-model="product_name_selected" placeholder="二级游戏" class="m-2" @change="getDataById">
+                <el-select v-model="product_name_selected" placeholder="应用名称" class="m-2" @change="getDataById">
                     <el-option label="全部" value="-1"></el-option>
                     <el-option v-for="item in suboptions" :key="item.product_id" :label="item.product_name"
                         :value="item.product_id" />
@@ -23,10 +23,10 @@
                 <el-button type="primary" @click="handleAdd">新增项目</el-button>
             </div>
             <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
-                <el-table-column prop="main_product_id" sortable label="父游戏ID"></el-table-column>
-                <el-table-column prop="main_product_name" label="父游戏"></el-table-column>
-                <el-table-column prop="product_id" label="子游戏ID"></el-table-column>
-                <el-table-column prop="product_name" label="子游戏"></el-table-column>
+                <el-table-column prop="main_product_id" sortable label="项目ID"></el-table-column>
+                <el-table-column prop="main_product_name" label="项目名称"></el-table-column>
+                <el-table-column prop="product_id" label="应用ID"></el-table-column>
+                <el-table-column prop="product_name" label="应用名称"></el-table-column>
                 <el-table-column prop="md5key" label="md5key"></el-table-column>
                 <el-table-column prop="package_name" label="包名"></el-table-column>
                 <el-table-column label="操作" width="220" align="center">
@@ -50,12 +50,12 @@
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" v-model="editVisible" width="60%">
             <el-form v-show="check_main_product_name == 0" label-width="110px">
-                <el-form-item label="一级游戏名">
+                <el-form-item label="项目名">
                     <el-input v-model="form.main_product_name"></el-input>
                 </el-form-item>
             </el-form>
             <el-form v-show="check_main_product_name == 1" label-width="110px">
-                <el-form-item label="二级游戏名">
+                <el-form-item label="应用名">
                     <el-input disabled v-model="form.product_name"></el-input>
                 </el-form-item>
                 <el-form-item label="包名">
@@ -75,24 +75,24 @@
             <el-form label-width="70px">
                 <el-form-item label="游戏类型" prop="resource">
                     <el-radio-group v-model="product_type">
-                        <el-radio label="一级游戏"></el-radio>
-                        <el-radio label="二级游戏"></el-radio>
+                        <el-radio label="项目"></el-radio>
+                        <el-radio label="应用"></el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item v-show="product_type == '二级游戏'" label="一级游戏" prop="resource">
-                    <el-select v-model="add_main_product_name_selected" placeholder="一级游戏" class="m-2">
+                <el-form-item v-show="product_type == '应用'" label="项目" prop="resource">
+                    <el-select v-model="add_main_product_name_selected" placeholder="项目" class="m-2">
                         <el-option v-for="item in addoptions" :key="item.id" :label="item.main_product_name"
                             :value="item.id" />
                     </el-select>
                 </el-form-item>
 
-                <el-form-item v-show="product_type == '一级游戏'" label="一级游戏">
+                <el-form-item v-show="product_type == '项目'" label="项目">
                     <el-input v-model="formAdd.main_product_name"></el-input>
                 </el-form-item>
-                <el-form-item v-show="product_type == '二级游戏'" label="二级游戏">
+                <el-form-item v-show="product_type == '应用'" label="应用">
                     <el-input v-model="formAdd.product_name"></el-input>
                 </el-form-item>
-                <el-form-item v-show="product_type == '二级游戏'" label="包名">
+                <el-form-item v-show="product_type == '应用'" label="包名">
                     <el-input v-model="formAdd.package_name"></el-input>
                 </el-form-item>
             </el-form>
@@ -134,7 +134,7 @@ const product_name_selected = ref('')
 const check_main_product_name = ref(0)
 const tableData = ref([]);
 const main_product_value_select = ref('')
-const product_type = ref("一级游戏");
+const product_type = ref("项目");
 let options = ref([]);
 let suboptions = ref([]);
 let addoptions = ref([]);
@@ -169,7 +169,7 @@ const getSubDataById = (product_id) => {
         // ElMessage.error("服务器异常！");
     });
 };
-//获取一级游戏产品信息
+//获取项目产品信息
 const getProductDataList = () => {
     fetchMainProductList().then((res) => {
         options.value = res.data;
@@ -178,7 +178,7 @@ const getProductDataList = () => {
         // ElMessage.error("服务器异常！");
     });
 };
-//根据一级游戏获取二级游戏产品信息
+//根据项目获取应用产品信息
 const getSubProductDataList = (query) => {
     const data = {
         main_product_id: query
@@ -189,7 +189,7 @@ const getSubProductDataList = (query) => {
         // ElMessage.error("服务器异常！");
     });
 };
-// 修改一级游戏数据
+// 修改项目数据
 const editProductTabData = (id, data) => {
     editProductTableData(id, data).then((res) => {
         if (res.status == 200) {
@@ -205,7 +205,7 @@ const editProductTabData = (id, data) => {
         getData(query);
     });
 };
-// 修改二级游戏数据
+// 修改应用数据
 const editSubProductTabData = (id, data) => {
     editSubProductTableData(id, data).then((res) => {
         if (res.status == 200) {
@@ -221,7 +221,7 @@ const editSubProductTabData = (id, data) => {
         getData(query);
     });
 };
-// 删除一级游戏
+// 删除项目
 const deleteProductTabData = (id) => {
     deleteProductTableData(id).then((res) => {
         if (res.status == 200) {
@@ -229,11 +229,11 @@ const deleteProductTabData = (id) => {
             getData(query);
             getProductDataList();
         }else if (res.status == -1) {
-            ElMessage.error("请先删除对应的二级游戏！");
+            ElMessage.error("请先删除对应的应用！");
         }
     });
 };
-// 删除一级游戏
+// 删除项目
 const deleteSubProductTabData = (id) => {
     deleteSubProductTableData(id).then((res) => {
         if (res.status == 200) {
@@ -246,7 +246,7 @@ const deleteSubProductTabData = (id) => {
 const addProductTabData = (data) => {
     addProductTableData(data).then((res) => {
         if (res.status == 200) {
-            ElMessage.success("新增一级游戏成功");
+            ElMessage.success("新增项目成功");
             getData(query)
             getProductDataList()
         }
@@ -255,7 +255,7 @@ const addProductTabData = (data) => {
 const addSubProductTabData = (id, data) => {
     addSubProductTableData(id, data).then((res) => {
         if (res.status == 200) {
-            ElMessage.success("新增二级游戏成功");
+            ElMessage.success("新增应用成功");
             getData(query)
             getProductDataList()
         }
@@ -349,7 +349,7 @@ export default {
             let data = {
                 main_product_name: formAdd.main_product_name,
             }
-            if (product_type.value == '一级游戏') {
+            if (product_type.value == '项目') {
                 if(formAdd.main_product_name){
                 addProductTabData(data)
                 }else{
@@ -373,7 +373,7 @@ data = {
         };
         const getProductAndDataList = () => {
             product_name_selected.value = ''
-            //获取二级游戏列表
+            //获取应用列表
             if (main_product_name_selected.value == -1) {
                 getData(query)
             } else {
@@ -386,7 +386,7 @@ data = {
             }
         }
         const getDataById = () => {
-            //通过二级游戏id获取对应二级游戏
+            //通过应用id获取对应应用
             if (main_product_name_selected.value == -1) {
                 getData(query)
             }

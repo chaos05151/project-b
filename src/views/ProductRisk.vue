@@ -8,9 +8,10 @@
             </el-breadcrumb>
         </div>
         <div class="container">
+            <el-button style="float: right;" type="primary" @click="goback">返回</el-button>
             <div class="form-box">
                 <div>
-                    <el-breadcrumb separator="/">
+                    <el-breadcrumb  separator="/">
                         <el-breadcrumb-item>设备登录限制</el-breadcrumb-item>
                     </el-breadcrumb>
                 </div>
@@ -207,6 +208,7 @@ import {
     addWechatBind,
 } from "../api/risk";
 import { useRoute, useRouter } from "vue-router";
+import router from "../router";
 const formDeviceLogin = reactive({
 });
 const formWechatBind = reactive({
@@ -233,6 +235,12 @@ const checkNonnegative = (value) => {
         return false;
     }
 };
+//返回
+const goback=()=>{
+    router.go(-1)
+}
+
+
 //验证是否是非负数
 const checkNonnegate = (value) => {
     if (value) {
@@ -489,6 +497,7 @@ export default {
             formPhoneBind,
             formPrivacy,
             onSubmit,
+            goback
         };
     },
     methods: {

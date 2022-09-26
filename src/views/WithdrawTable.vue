@@ -8,20 +8,21 @@
         </div>
         <div class="container">
             <div class="handle-box">
-                <el-select v-model="main_product_name_selected" placeholder="一级游戏" class="m-2"
+                <el-select v-model="main_product_name_selected" placeholder="项目名称" class="m-2"
                     @change="getProductAndDataList">
                     <el-option label="全部" value="-1"></el-option>
                     <el-option v-for="item in options" :key="item.id" :label="item.main_product_name"
                         :value="item.id" />
                 </el-select>
-                <el-select v-model="product_name_selected" placeholder="二级游戏" class="m-2" @change="getDataById">
+                <el-select v-model="product_name_selected" placeholder="应用名称" class="m-2" @change="getDataById">
                     <el-option label="全部" value="-1"></el-option>
                     <el-option v-for="item in suboptions" :key="item.product_id" :label="item.product_name"
                         :value="item.product_id" />
                 </el-select>&nbsp;&nbsp;
-                <el-button v-show="showWithdraw" type="primary" @click="withdrawShow = true"> 全局配置</el-button>
+                <el-button v-show="showWithdraw" type="primary" @click="withdrawShow = true"> 默认规则</el-button>
                 <el-button type="primary" @click="handleAdd">提现设置</el-button>
-                <el-drawer v-model="withdrawShow" title="提现全局配置信息：" direction="rtl" size="50%">
+                <el-button type="primary"  @click="withDrawRecord(main_product_name_selected,product_name_selected)">用户提现记录</el-button>
+                <el-drawer v-model="withdrawShow" title="提现默认规则信息：" direction="rtl" size="50%">
                     <el-form ref="formRef" :model="form" label-width="280px">
                         <el-form-item label="是否允许所有用户提现" prop="user_withdrawal_status">
                             <el-switch disabled v-model="form.user_withdrawal_status"></el-switch>
@@ -32,7 +33,7 @@
                         <el-form-item label="提现审核标准" prop="withdrawal_audit_standard">
                             <el-input disabled style="width: 150px" v-model="form.withdrawal_audit_standard"></el-input>
                         </el-form-item>
-                        <el-form-item label="提现次数" prop="withdrawal_count">
+                        <el-form-item label="单日提现次数" prop="withdrawal_count">
                             <el-input disabled style="width: 150px" v-model="form.withdrawal_count">
                             </el-input>
                         </el-form-item>
@@ -40,10 +41,10 @@
                 </el-drawer>
             </div>
             <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
-                <el-table-column prop="main_product_id"  label="父游戏ID"></el-table-column>
-                <el-table-column prop="main_product_name" label="父游戏"></el-table-column>
-                <el-table-column prop="product_id" label="子游戏ID"></el-table-column>
-                <el-table-column prop="product_name" label="子游戏"></el-table-column>
+                <el-table-column prop="main_product_id"  label="项目ID"></el-table-column>
+                <el-table-column prop="main_product_name" label="项目名称"></el-table-column>
+                <el-table-column prop="product_id" label="应用ID"></el-table-column>
+                <el-table-column prop="product_name" label="应用名称"></el-table-column>
                 <el-table-column prop="unaudit_orders_count" label="未审核订单数"></el-table-column>
                 <el-table-column prop="unaudit_reward_sum" label="未审核总金额"></el-table-column>
                 <el-table-column prop="apply_users_count" label="申请人数"></el-table-column>
@@ -98,7 +99,7 @@
                 <el-form-item label="提现审核标准" prop="withdrawal_audit_standard">
                     <el-input style="width: 150px" v-model="formEdit.withdrawal_audit_standard"></el-input>
                 </el-form-item>
-                <el-form-item label="提现次数" prop="withdrawal_count">
+                <el-form-item label="单日提现次数" prop="withdrawal_count">
                     <el-input style="width: 150px" v-model="formEdit.withdrawal_count">
                     </el-input>
                 </el-form-item>
@@ -120,15 +121,15 @@
                         <el-radio label="1">指定项目</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item v-show="formAdd.config_type == 1" label="一级游戏" prop="main_product_name_selected">
-                    <el-select v-model="main_product_name_selected" placeholder="一级游戏" class="m-2"
+                <el-form-item v-show="formAdd.config_type == 1" label="项目" prop="main_product_name_selected">
+                    <el-select v-model="main_product_name_selected" placeholder="项目" class="m-2"
                         @change="getProductAndDataList">
                         <el-option v-for="item in options" :key="item.id" :label="item.main_product_name"
                             :value="item.id" />
                     </el-select>
                 </el-form-item>
-                <el-form-item v-show="formAdd.config_type == 1" label="二级游戏" prop="product_name_selected">
-                    <el-select multiple v-model="product_name_selected" placeholder="二级游戏" class="m-2">
+                <el-form-item v-show="formAdd.config_type == 1" label="应用" prop="product_name_selected">
+                    <el-select multiple v-model="product_name_selected" placeholder="应用" class="m-2">
                         <el-option v-for="item in suboptions" :key="item.product_id" :label="item.product_name"
                             :value="item.product_id" />
                     </el-select>
@@ -142,7 +143,7 @@
                 <el-form-item label="提现审核标准" prop="withdrawal_audit_standard">
                     <el-input style="width: 150px" v-model="formAdd.withdrawal_audit_standard"></el-input>
                 </el-form-item>
-                <el-form-item label="提现次数" prop="withdrawal_count">
+                <el-form-item label="单日提现次数" prop="withdrawal_count">
                     <el-input style="width: 150px" v-model="formAdd.withdrawal_count">
                     </el-input>
                 </el-form-item>
@@ -192,10 +193,11 @@ const showWithdraw = ref(false)
 const withdrawShow = ref(false)
 const tableData = ref([]);
 const main_product_value_select = ref('')
-const product_type = ref("一级游戏");
+const product_type = ref("项目");
 let options = ref([]);
 let suboptions = ref([]);
 let addoptions = ref([]);
+const dateRange=ref()
 
 
 // 获取提现列表
@@ -217,7 +219,7 @@ tableData.value = res.data.lists.filter(
                 : "禁止"
           };
         });
-        // selectedMainProductName == 1 ,即为选中了某个游戏进行查询，否则就是要查全部的需要去掉全局配置一条数据
+        // selectedMainProductName == 1 ,即为选中了某个游戏进行查询，否则就是要查全部的需要去掉默认规则一条数据
         pageTotal.value = selectedMainProductName == 1 ? res.data.total_count : res.data.total_count - 1
         form.value = res.data.lists.filter(
             (column) => column.config_type == 0
@@ -241,6 +243,12 @@ const convertNumToString = idValue => {
     if (idValue == 1) return '允许'
     if (idValue == 0) return '不允许'
 }
+
+
+
+
+
+//获取一级游戏产品信息
 // 获取具体的二级产品
 // const getSubDataById = (product_id) => {
 //     fetchProductTableDataById(product_id).then((res) => {
@@ -250,7 +258,7 @@ const convertNumToString = idValue => {
 //         ElMessage.error("服务器异常！");
 //     });
 // };
-//获取一级游戏产品信息
+//获取项目产品信息
 const getProductDataList = () => {
     fetchMainProductList().then((res) => {
         options.value = res.data;
@@ -259,7 +267,7 @@ const getProductDataList = () => {
         // ElMessage.error("服务器异常！");
     });
 };
-//根据一级游戏获取二级游戏产品信息
+//根据项目获取应用产品信息
 const getSubProductDataList = (query) => {
     const data = {
         main_product_id: query
@@ -343,6 +351,42 @@ export default {
                 },
             })
         }
+
+
+        //获取已审核的体现记录 
+const withDrawRecord=(mName,pName)=>{
+    // console.log(mName,pName,pId);
+
+    let mId=mName;
+    let pId=pName;
+            if(typeof(pName)=="number"){
+                suboptions.value.map(item=>{
+                    if(item.product_id==pName){
+                        mName=item.main_product_name
+                        pName=item.product_name
+                    return 
+                    }
+                })
+            }else if(typeof(mName)=="number"&&pName==""){
+                options.value.map(item=>{
+                    if(item.id==mName){
+                        mName=item.main_product_name
+                    }
+                    return
+                })
+            }
+            dateRange.value=null;
+            console.log(mName,pName,mId,pId);
+            router.push({
+                name:'withdrawdetailall',
+                params:{
+                    main_product_name:mName,
+                    product_name:pName,
+                    product_id:pId,
+                    main_product_id:mId
+                }
+            })
+        }
         
 
         let formEdit = reactive({
@@ -418,9 +462,9 @@ export default {
                         );
                         const data = {
                             config_type: 1, //配置类型：0，所有项目；1：指定项目
-                            main_product_id: product_name[0].main_product_id, //父游戏id选填，选择父游戏id之后，只展示对应父游戏项目
+                            main_product_id: product_name[0].main_product_id, //项目id选填，选择项目id之后，只展示对应项目项目
                             main_product_name: product_name[0].main_product_name,
-                            product_id: product_name[0].product_id, //子游戏id
+                            product_id: product_name[0].product_id, //应用id
                             product_name: product_name[0].product_name,
                             user_withdrawal_status: formAdd.user_withdrawal_status ? 1 : 0, //用户协议
                             biomass_login_status: formAdd.biomass_login_status ? 1 : 0, //隐私协议
@@ -429,7 +473,7 @@ export default {
                         };
                         withdrawAddData(data);
                     });
-                    //查询和新增是共用的选择框，需要清除选择的二级游戏
+                    //查询和新增是共用的选择框，需要清除选择的应用
                     main_product_name_selected.value = '';
                     product_name_selected.value = '';
                     suboptions.value = ''
@@ -449,10 +493,12 @@ export default {
             }
         };
         const getProductAndDataList = () => {
+            console.log(main_product_name_selected.value);
             product_name_selected.value = ''
             suboptions.value = ''
-            //获取二级游戏列表
+            //获取应用列表
             if (main_product_name_selected.value == -1 || !main_product_name_selected.value) {
+                console.log("1");
                 getData(query)
             } else {
                 const data = {
@@ -464,7 +510,7 @@ export default {
             }
         }
         const getDataById = () => {
-            //通过二级游戏id获取对应二级游戏
+            //通过应用id获取对应应用
             if (main_product_name_selected.value == -1 || !main_product_name_selected.value) {
                 getData(query)
             }
@@ -511,7 +557,9 @@ export default {
             form,
             formRef,
             router,
-            withdrawDetail
+            dateRange,
+            withdrawDetail,
+            withDrawRecord
         };
     },
     // methods: {

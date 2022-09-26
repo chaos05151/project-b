@@ -8,10 +8,10 @@
     </div>
     <div class="container">
       <div class="handle-box">
-        <!-- 一级游戏:&nbsp;&nbsp; -->
+        <!-- 项目:&nbsp;&nbsp; -->
         <el-select
           v-model="main_product_name_selected"
-          placeholder="一级游戏"
+          placeholder="项目名称"
           class="m-2"
           @change="getProductAndDataList"
         >
@@ -28,40 +28,40 @@
           type="primary"
           @click="deviceLoginShow = true"
         >
-          全局配置
+          默认规则
         </el-button>
         <el-button
           v-show="showWechatBind && whichTab == 1"
           type="primary"
           @click="wechatBindShow = true"
         >
-          全局配置
+          默认规则
         </el-button>
         <el-button
           v-show="showRealName && whichTab == 2"
           type="primary"
           @click="realNameShow = true"
         >
-          全局配置
+          默认规则
         </el-button>
         <el-button
           v-show="showPhoneBind && whichTab == 3"
           type="primary"
           @click="phoneBindShow = true"
         >
-          全局配置
+          默认规则
         </el-button>
         <el-button
           v-show="showPrivacy && whichTab == 4"
           type="primary"
           @click="privacyShow = true"
         >
-          全局配置
+          默认规则
         </el-button>
         <el-button type="primary" @click="addRule"> 新增项目 </el-button>
         <el-drawer
           v-model="deviceLoginShow"
-          title="设备登录限制全局配置信息："
+          title="设备登录限制默认规则信息："
           direction="rtl"
           size="50%"
         >
@@ -161,7 +161,7 @@
         </el-drawer>
         <el-drawer
           v-model="wechatBindShow"
-          title="微信账号绑定全局配置信息："
+          title="微信账号绑定默认规则信息："
           direction="rtl"
           size="50%"
         >
@@ -198,7 +198,7 @@
         </el-drawer>
         <el-drawer
           v-model="realNameShow"
-          title="实名认证&防沉迷全局配置信息："
+          title="实名认证&防沉迷默认规则信息："
           direction="rtl"
           size="50%"
         >
@@ -270,7 +270,7 @@
         </el-drawer>
         <el-drawer
           v-model="phoneBindShow"
-          title="手机绑定全局配置信息："
+          title="手机绑定默认规则信息："
           direction="rtl"
           size="50%"
         >
@@ -313,7 +313,7 @@
         </el-drawer>
         <el-drawer
           v-model="privacyShow"
-          title="隐私协议全局配置信息："
+          title="隐私协议默认规则信息："
           direction="rtl"
           size="50%"
         >
@@ -736,7 +736,7 @@ const convertNumToString = (idValue) => {
   if (idValue == 1) return "允许";
   if (idValue == 0) return "不允许";
 };
-//获取一级游戏产品信息 select框
+//获取项目产品信息 select框
 const getProductDataList = () => {
   fetchMainProductList()
     .then((res) => {
@@ -751,7 +751,7 @@ const getDeviceLoginDataList = (data) => {
   fetchDeviceLoginTableData(data)
     .then((res) => {
       if(res.status ==200){
-//config_type:0,全局配置;1,单个产品配置
+//config_type:0,默认规则;1,单个产品配置
       //表格数据展示单个产品的配置
       tableDataAAAA.value = res.data.lists
         .filter((column) => column.config_type != 0)
@@ -776,7 +776,7 @@ const getDeviceLoginDataList = (data) => {
           };
         });
         pageTotal.value = res.data.total_count - 1
-      //全局配置信息不展现在表格中
+      //默认规则信息不展现在表格中
       form.value = res.data.lists.filter((column) => column.config_type != 1)[0];
       if (form.value.config_type == 0) {
         showDeviceLogin.value = true;
@@ -816,7 +816,7 @@ const getDeviceLoginDataList = (data) => {
       // ElMessage.error("服务器异常！");
     });
 };
-//获取设备登录信息所对应的一级游戏数据
+//获取设备登录信息所对应的项目数据
 const getSelectedDeviceLoginDataList = (main_product_id) => {
   const data = {
     main_product_id,
@@ -903,7 +903,7 @@ const getWechatBindDataList = (data) => {
       // ElMessage.error("服务器异常！");
     });
 };
-//获取微信账号绑定所对应的一级游戏数据
+//获取微信账号绑定所对应的项目数据
 const getSelectedWechatBindDataList = (main_product_id) => {
   const data = {
     main_product_id,
@@ -1011,7 +1011,7 @@ const getRealNameDataList = (data) => {
       // ElMessage.error("服务器异常！");
     });
 };
-//获取实名认证&防沉迷所对应的一级游戏数据
+//获取实名认证&防沉迷所对应的项目数据
 const getSelectedRealNameList = (main_product_id) => {
   const data = {
     main_product_id,
@@ -1178,7 +1178,7 @@ const getPrivacyDataList = (data) => {
       // ElMessage.error("服务器异常！");
     });
 };
-//获取隐私协议所对应的一级游戏数据
+//获取隐私协议所对应的项目数据
 const getSelectedPrivacyDataList = (main_product_id) => {
   const data = {
     main_product_id,

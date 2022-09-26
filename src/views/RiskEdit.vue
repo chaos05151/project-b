@@ -7,6 +7,7 @@
       </el-breadcrumb>
     </div>
     <div class="container">
+      <el-button type="primary" @click="goback" style="float: right;">返回</el-button>
       <div class="form-box" style="height:2000px">
         <div>
           <el-breadcrumb separator="/">
@@ -384,7 +385,7 @@
 
 <script>
 import { reactive, ref } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute ,useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import {
   updatePhoneBind,
@@ -405,6 +406,7 @@ const version_name=ref("");
 const start_date=ref("");
 const end_date=ref("");
 const dateSelect=ref([]);
+
 //修改设备登录
 const updateDeviceLoginData = (id, data) => {
   updateDeviceLogin(id, data).then((res) => {
@@ -461,6 +463,13 @@ export default {
   name: "riskadd",
   setup() {
     const route = useRoute();
+    const router=useRouter();
+
+    //返回
+    const goback=()=>{
+      console.log(router);
+      router.go(-1)
+    }
     const data = JSON.parse(route.params.data);
     console.log("route.params", route.params);
     console.log("route.params.data", route.params.data);
@@ -556,7 +565,8 @@ export default {
       end_date,
       dateSelect,
       openAD,
-      openFakePage
+      openFakePage,
+      goback
     };
   },
   methods: {

@@ -8,23 +8,33 @@
     </div>
     <div class="container">
       <div class="handle-box">
-        <el-select style="width:12%" v-model="main_product_name_selected" placeholder="一级游戏" class="m-2"
+        <el-select style="width:12%" v-model="main_product_name_selected" placeholder="项目名称" class="m-2"
           @change="getProductAndDataList">
           <el-option label="全部" value="-1"></el-option>
           <el-option v-for="item in options" :key="item.id" :label="item.main_product_name" :value="item.id" />
         </el-select>
-        <el-select style="width:12%" v-model="product_name_selected" placeholder="二级游戏" class="m-2"
+        <el-select style="width:12%" v-model="product_name_selected" placeholder="应用名称" class="m-2"
           @change="getDataById">
           <el-option label="全部" value="-1"></el-option>
           <el-option v-for="item in suboptions" :key="item.product_id" :label="item.product_name"
             :value="item.product_id" />
         </el-select>
-        <el-select style="width:11%" v-model="withdraw_user_selected" placeholder="提现用户" class="m-2"
+        <el-select style="width:20% ;margin: 0 5px;" v-model="withdraw_user_selected" placeholder="提现用户" class="m-2"
           @change="getWithdrawUser">
           <el-option v-for="item in useroptions" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
-        <el-input v-model="idnicknamephonemobile" @input="searchByIdNickNameIpMobile" style="width: 200px"
-          class="w-50 m-2" placeholder="请输入id/用户名/手机号/ip" />&nbsp;&nbsp;
+        <el-input v-model="idnicknamephonemobile" @input="searchByIdNickNameIpMobile" style="width: 200px ;padding: 0 5px;"
+          class="w-50 m-2" placeholder="请输入id/用户名/手机号/ip" />
+        <el-date-picker
+        style="margin: 0 6px"
+            v-model="dateRange"
+            type="daterange"
+            range-separator="→"
+            start-placeholder="开始时间"
+            end-placeholder="结束时间"
+            value-format="YYYY-MM-DD"
+            @change="handleDate"
+          />
         <!-- <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button> -->
         <el-button type="primary" @click="withDraw()">提现设置</el-button>
         <el-button type="primary" @click="blackList()">查看黑名单</el-button>
@@ -32,8 +42,8 @@
         <el-button type="primary" @click="exportExcel()">导出Excel</el-button>
       </div>
       <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
-        <el-table-column prop="main_product_name" label="一级游戏"></el-table-column>
-        <el-table-column prop="product_name" label="二级游戏"></el-table-column>
+        <el-table-column prop="main_product_name" label="项目名称"></el-table-column>
+        <el-table-column prop="product_name" label="应用名称"></el-table-column>
         <el-table-column prop="id" label="用户id"></el-table-column>
         <el-table-column prop="oaid" label="数盟id"></el-table-column>
         <el-table-column prop="is_buy" label="是否买量用户"></el-table-column>
@@ -90,9 +100,10 @@ const check_main_product_name = ref(0);
 const tableData = ref([]);
 const tableExportData = ref([]);
 const pageTotal = ref(0);
+const dateRange=ref();
 const idnicknamephonemobile = ref("");
 const main_product_value_select = ref("");
-const product_type = ref("一级游戏");
+const product_type = ref("项目");
 const dataExport = ref({})
 const query = reactive({
   keywords: '',
@@ -130,6 +141,7 @@ const getUserListData = (data) => {
         });
         pageTotal.value = res.data.total_count
         dataExport.value = JSON.parse(JSON.stringify(data))
+        console.log(dataExport.value)
     .catch(() => { });
 
       } else {
@@ -139,6 +151,9 @@ const getUserListData = (data) => {
     })
     .catch(() => { });
 };
+
+
+
 // clear
 const clearOptions = () => {
   main_product_name_selected.value = ''
@@ -147,7 +162,7 @@ const clearOptions = () => {
   idnicknamephonemobile.value = ''
   query.keywords = ''
 }
-//获取一级游戏产品信息
+//获取项目产品信息
 const getProductDataList = () => {
   fetchMainProductList()
     .then((res) => {
@@ -157,7 +172,7 @@ const getProductDataList = () => {
       //   ElMessage.error("服务器异常！");
     });
 };
-//根据一级游戏获取二级游戏产品信息
+//根据项目获取应用产品信息
 const getSubProductDataList = (query) => {
   const data = {
     main_product_id: query,
@@ -207,11 +222,26 @@ const checkNonnegative = (value) => {
     }
   }
 };
+
+//日期
+const handleDate=()=>{
+  console.log(dateRange.value);
+  if(dateRange.value!=null){
+    query.start_date=dateRange.value[0]
+    query.end_date=dateRange.value[1]
+    
+  }else{
+    delete query.start_date
+    delete query.end_date
+  }
+  console.log(query)
+  getUserListData(query)
+}
 export default {
   name: "basetable",
   setup() {
     clearOptions()
-    //获取一级游戏
+    //获取项目
     getProductDataList();
     //获取用户列表
     getUserListData(query);
@@ -241,9 +271,9 @@ export default {
     const getProductAndDataList = () => {
       // product_name_selected.value = '';
       // suboptions.value = ''
-      //一级游戏选择全部
+      //项目选择全部
       if (main_product_name_selected.value == -1) {
-        //二级游戏选择全部
+        //应用选择全部
         if (product_name_selected.value == -1) {
           if (withdraw_user_selected.value && withdraw_user_selected.value >= 0) {
             const data = {
@@ -328,7 +358,7 @@ export default {
             getUserListData(data);
           }
         }
-        //获取二级游戏列表
+        //获取应用列表
         getSubProductDataList(main_product_name_selected.value)
       } else {
         if (withdraw_user_selected.value && withdraw_user_selected.value >= 0) {
@@ -382,51 +412,9 @@ export default {
         getProductAndDataList()
       }
     };
-    return {
-      tableData,
-      tableExportData,
-      removeBlackList,
-      addBlackList,
-      product_type,
-      Search,
-      checkNonnegative,
-      searchByIdNickNameIpMobile,
-      idnicknamephonemobile,
-      options,
-      suboptions,
-      useroptions,
-      main_product_name_selected,
-      product_name_selected,
-      main_product_value_select,
-      check_main_product_name,
-      getProductAndDataList,
-      getDataById,
-      getWithdrawUser,
-      withdraw_user_selected,
-      handlePageChange,
-      query,
-      pageTotal,
-      clearOptions,
-    };
-  },
-  methods: {
-    withDraw() {
-      this.$router.push("/withdraw");
-    },
-    userDetail(id) {
-      this.$router.push({
-        name: "userdetail",
-        params: { wechat_user_id: id },
-      });
-    },
-    blackList() {
-      this.$router.push("/blacklist");
-    },
-    userFeedback() {
-      this.$router.push("/feedback");
-    },
-    exportExcel() {
+    const exportExcel = () => {
           //处理导出数据
+          // console.log('dataExport.value', dataExport.value)
         dataExport.value.page_size = pageTotal.value ? pageTotal.value <= 10000 ? pageTotal.value  : 10000 : 10
         fetchUserListData(dataExport.value)
     .then((res) => {
@@ -441,8 +429,8 @@ export default {
 
         //表头中文名
       const titleArr = [
-        "一级游戏",
-        "二级游戏",
+        "项目",
+        "应用",
         "用户id",
         "数盟id",
         "是否买量用户",
@@ -484,13 +472,65 @@ export default {
       }
 
     })
-    },
+    };
+    return {
+      tableData,
+      tableExportData,
+      removeBlackList,
+      addBlackList,
+      product_type,
+      Search,
+      checkNonnegative,
+      searchByIdNickNameIpMobile,
+      idnicknamephonemobile,
+      options,
+      suboptions,
+      useroptions,
+      main_product_name_selected,
+      product_name_selected,
+      main_product_value_select,
+      check_main_product_name,
+      getProductAndDataList,
+      getDataById,
+      getWithdrawUser,
+      withdraw_user_selected,
+      handlePageChange,
+      query,
+      pageTotal,
+      clearOptions,
+      dataExport,
+      dateRange,
+      exportExcel,
+      handleDate
+    };
   },
+  methods: {
+    withDraw() {
+      this.$router.push("/withdraw");
+    },
+    userDetail(id) {
+      this.$router.push({
+        name: "userdetail",
+        params: { wechat_user_id: id },
+      });
+    },
+    blackList() {
+      this.$router.push("/blacklist");
+    },
+    userFeedback() {
+      this.$router.push("/feedback");
+    },
+  }
 };
 </script>
 
 <style scoped>
 .handle-box {
+  height: 90px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content:flex-start;
   margin-bottom: 20px;
 }
 
