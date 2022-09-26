@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const service = axios.create({
-    // baseURL: process.env.NODE_ENV == 'production' ? "https://flora-api.relationshipapp.com/" : process.env.NODE_ENV == 'development' ? "https://flora-staging.relationshipapp.com/" : "https://flora-test.relationshipapp.com/",
-    baseURL: "http://3fd8383.r2.cpolar.top/",
+    baseURL: process.env.NODE_ENV == 'production' ? "https://flora-api.relationshipapp.com/" : process.env.NODE_ENV == 'development' ? "https://flora-staging.relationshipapp.com/" : "https://flora-test.relationshipapp.com/",
+    // baseURL: "http://3fd8383.r2.cpolar.top/",
     timeout: 50000000000000
 });
 
