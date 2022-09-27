@@ -74,7 +74,7 @@
                 <el-table-column prop="withdrawal_count" label="单用户当天提现次数"></el-table-column>
                 <el-table-column label="操作" width="220" align="center">
                     <template #default="scope">
-                        <el-button type="text" icon="el-icon-link" @click="withdrawDetail(scope.row.main_product_name,scope.row.main_product_id,scope.row.product_name,scope.row.product_id)">提现申请
+                        <el-button type="text" icon="el-icon-link" @click="withdrawDetail(scope.row.main_product_name,scope.row.main_product_id,scope.row.product_name,scope.row.product_id)">人工审核
                         </el-button>
                         <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.row.id, scope.row)">提现设置
                         </el-button>

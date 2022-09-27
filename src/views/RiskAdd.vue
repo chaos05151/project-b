@@ -46,6 +46,9 @@
           <el-form-item label="允许多开设备登录" prop="more_open_login_status">
             <el-switch v-model="form.more_open_login_status"></el-switch>
           </el-form-item>
+          <el-form-item label="允许风险设备登录" prop="device_type">
+            <el-switch v-model="form.device_type"></el-switch>
+          </el-form-item>
           <el-form-item label="允许异常设备登录" prop="exception_login_status">
             <el-switch v-model="form.exception_login_status"></el-switch>
           </el-form-item>
@@ -682,6 +685,7 @@ export default {
                   package_name: product_name[0].package_name,
                   simulator_login_status: form.simulator_login_status ? 1 : 0, //模拟器登录
                   more_open_login_status: form.more_open_login_status ? 1 : 0, //多开登录
+                  device_type:form.device_type ? 1 : 0,//风险设备
                   exception_login_status: form.exception_login_status ? 1 : 0, //异常登录
                   one_device_login_num: form.one_device_login_num, //单设备登录数
                   exception_device_watch_advertisement_num:
@@ -701,6 +705,7 @@ export default {
                 config_type: 0, //配置类型：0，所有项目；1：指定项目
                 simulator_login_status: form.simulator_login_status ? 1 : 0, //模拟器登录
                 more_open_login_status: form.more_open_login_status ? 1 : 0, //多开登录
+                device_type:form.device_type ? 1 : 0,//风险设备
                 exception_login_status: form.exception_login_status ? 1 : 0, //异常登录
                 one_device_login_num: form.one_device_login_num, //单设备登录数
                 exception_device_watch_advertisement_num:

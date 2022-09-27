@@ -47,6 +47,13 @@
             "show": true
         },
         {
+            "prop": "device_type",
+            "label": "风险登录",
+            "editable": false,
+            "type": "input",
+            "show": true
+        },
+        {
             "prop": "exception_login_status",
             "label": "异常登录",
             "editable": false,

@@ -20,6 +20,9 @@
                 </el-select>
                 <el-date-picker v-model="dateRange" type="daterange" range-separator="→" @change="handleDate"
                     start-placeholder="开始日期" end-placeholder="结束日期" />
+                <el-select v-model="status_selectd" placeholder="状态" class="m-2" style="width:105px;" @change="handleStatus">
+                    <el-option v-for="item in statusList" :key="item.value" :value="item.value" :label="item.label"></el-option>
+                </el-select>
                 <el-button type="primary" @click="getExcel">导出</el-button>
                 <el-button type="primary"
                     @click="goback">返回</el-button>
@@ -35,6 +38,7 @@
                 <el-table-column prop="ip" label="ip"></el-table-column>
                 <el-table-column prop="ip_address" label="ip地址"></el-table-column>
                 <el-table-column prop="updated_at" sortable label="提现时间"></el-table-column>
+                <el-table-column prop="status" label="状态"></el-table-column>
                 <el-table-column label="操作" width="220" align="center">
                     <template #default="scope">
                         <el-button type="text" icon="el-icon-link" @click="withdrawDetail(scope.row.wechat_user_id)">详情
@@ -87,6 +91,23 @@ let suboptions = ref([]);
 let addoptions = ref([]);
 const dateRange = ref()
 const isShow = ref(false)
+const status_selectd=ref(3)
+const statusList=ref([{
+    value:1,
+    label:"待审核"
+},{
+    value:2,
+    label:"提现中"
+},{
+    value:3,
+    label:"已提现"
+},{
+    value:4,
+    label:"拒绝提现"
+},{
+    value:5,
+    label:"提现失败"
+}])
 
 // 获取提现审核列表
 const getData = (data) => {
@@ -94,7 +115,8 @@ const getData = (data) => {
         tableData.value = res.data?.lists.map((item) => {
             return {
                 ...item,
-                updated_at: moment(item.updated_at).format("YYYY-MM-DD HH:mm:ss")
+                updated_at: moment(item.updated_at).format("YYYY-MM-DD HH:mm:ss"),
+                status:item.status==1?"待审核":item.status==2?"提现中":item.status==3?"已提现":item.status==4?"拒绝提现":item.status==5?"提现失败":"",
             };
         });
         pageTotal.value = res.data.total_count
@@ -142,6 +164,13 @@ const withdrawCheckData = (id, status) => {
     }).catch(() => {
     });
 };
+//筛选状态
+ const handleStatus=(val)=>{
+    // console.log(val);
+    query.status=val;
+    console.log(query);
+    getData(query)
+ }
 export default {
     name: "basetable",
     setup() {
@@ -223,15 +252,6 @@ export default {
                 getData(query)
             }
 
-
-        }
-
-        //获取已审核的体现记录 同时隐藏用户提现记录按钮
-        const get = () => {
-            isShow.value = !isShow.value
-            query.status = 3
-            getData(query)
-
         }
 
 
@@ -254,7 +274,8 @@ export default {
                                 oaid: item.oaid,
                                 ip: item.ip,
                                 ip_address: item.ip_address,
-                                updated_at: moment(item.updated_at).format("YYYY-MM-DD HH:mm:ss")
+                                updated_at: moment(item.updated_at).format("YYYY-MM-DD HH:mm:ss"),
+                                status:item.status==1?"待审核":item.status==2?"提现中":item.status==3?"已提现":item.status==4?"拒绝提现":item.status==5?"提现失败":"",
                             };
 
                         });
@@ -269,9 +290,11 @@ export default {
                             "ip",
                             "ip地址",
                             "提现时间",
+                            "提现状态"
                         ]
 
                         // let data = JSON.parse(JSON.stringify(tableExportData.value))
+                        console.log(tableExportData.value);
                         exportExcelData(tableExportData.value, "提现记录", titleArr, "提现记录");
                         // console.log(res.data.lists);
                     } else {
@@ -379,9 +402,11 @@ export default {
             dateRange,
             getExcel,
             isShow,
-            get,
             goback,
-            main_product_id
+            main_product_id,
+            status_selectd,
+            statusList,
+            handleStatus
         };
     },
     methods: {

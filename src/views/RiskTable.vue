@@ -90,6 +90,16 @@
             </el-form-item>
             <el-form-item
               label="允许异常设备登录"
+              prop="device_type"
+            >
+              <el-input
+                disabled
+                style="width: 150px"
+                v-model="form.device_type"
+              ></el-input>
+            </el-form-item>
+            <el-form-item
+              label="允许异常设备登录"
               prop="exception_login_status"
             >
               <el-input

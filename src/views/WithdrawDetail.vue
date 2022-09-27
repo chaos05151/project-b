@@ -4,7 +4,7 @@
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item>风控系统</el-breadcrumb-item>
                 <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-                <el-breadcrumb-item>申请提现列表</el-breadcrumb-item>
+                <el-breadcrumb-item>人工审核</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="container">
@@ -26,7 +26,7 @@
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
                 />
-                <el-button type="primary"  @click="withDrawRecord(main_product_name_selected,product_name_selected,query.product_id)">人工审核记录</el-button>
+                <!-- <el-button type="primary" disabled  @click="withDrawRecord(main_product_name_selected,product_name_selected,query.product_id)">人工审核记录</el-button> -->
                 <el-button type="primary"  @click="goback">返回</el-button>
             </div>
             <el-form :model="widthdrawDetail" :inline="true">
@@ -397,7 +397,7 @@ export default {
             ExcelData,
             main_product_id,
             getExcelData,
-            goback
+            goback,
         };
     },
     methods: {
