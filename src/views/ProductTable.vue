@@ -8,13 +8,13 @@
         </div>
         <div class="container">
             <div class="handle-box">
-                <el-select v-model="main_product_name_selected" placeholder="项目名称" class="m-2"
+                <el-select v-model="main_product_name_selected" placeholder="项目" class="m-2"
                     @change="getProductAndDataList">
                     <el-option label="全部" value="-1"></el-option>
                     <el-option v-for="item in options" :key="item.id" :label="item.main_product_name"
                         :value="item.id" />
                 </el-select>
-                <el-select v-model="product_name_selected" placeholder="应用名称" class="m-2" @change="getDataById">
+                <el-select v-model="product_name_selected" placeholder="应用" class="m-2" @change="getDataById">
                     <el-option label="全部" value="-1"></el-option>
                     <el-option v-for="item in suboptions" :key="item.product_id" :label="item.product_name"
                         :value="item.product_id" />
@@ -23,17 +23,19 @@
                 <el-button type="primary" @click="handleAdd">新增项目</el-button>
             </div>
             <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
-                <el-table-column prop="main_product_id" sortable label="项目ID"></el-table-column>
-                <el-table-column prop="main_product_name" label="项目名称"></el-table-column>
-                <el-table-column prop="product_id" label="应用ID"></el-table-column>
-                <el-table-column prop="product_name" label="应用名称"></el-table-column>
+                <el-table-column prop="main_product_id" sortable label="父游戏ID"></el-table-column>
+                <el-table-column prop="main_product_name" label="父游戏"></el-table-column>
+                <el-table-column prop="product_id" label="子游戏ID"></el-table-column>
+                <el-table-column prop="product_name" label="子游戏"></el-table-column>
                 <el-table-column prop="md5key" label="md5key"></el-table-column>
                 <el-table-column prop="package_name" label="包名"></el-table-column>
                 <el-table-column label="操作" width="220" align="center">
                     <template #default="scope">
-                        <el-button type="text" v-show="scope.row.product_id > ''" icon="el-icon-link" @click="riskManage(scope.row)">风控配置
+                        <el-button type="text" v-show="scope.row.product_id > ''" icon="el-icon-link"
+                            @click="riskManage(scope.row)">风控配置
                         </el-button>
-                        <el-button type="text" v-show="scope.row.product_id > ''" icon="el-icon-edit" @click="handleEdit(scope.row.id, scope.row)">编辑
+                        <el-button type="text" v-show="scope.row.product_id > ''" icon="el-icon-edit"
+                            @click="handleEdit(scope.row.id, scope.row)">编辑
                         </el-button>
                         <el-button type="text" icon="el-icon-delete" class="red"
                             @click="handleDelete(scope.row.main_product_id, scope.row.product_id)">删除
@@ -43,8 +45,8 @@
             </el-table>
             <div class="pagination">
                 <el-pagination background layout="total, prev, pager, next" :current-page="query.page_index"
-                  :page-size="query.page_size" :total="pageTotal" @current-change="handlePageChange"></el-pagination>
-              </div>
+                    :page-size="query.page_size" :total="pageTotal" @current-change="handlePageChange"></el-pagination>
+            </div>
         </div>
 
         <!-- 编辑弹出框 -->
@@ -106,8 +108,10 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import { ref, reactive } from "vue";
+import { useRouter } from "vue-router";
+
 import { ElMessage, ElMessageBox } from "element-plus";
 import {
     fetchProductTableData,
@@ -121,9 +125,12 @@ import {
     fetchMainProductList,
     fetchProductList,
 } from "../api/product";
+import { useProject } from '../store/project'
+const router=useRouter()
+const useproject = useProject()
 const query = reactive({
-  page_index: 1,
-  page_size: 10,
+    page_index: 1,
+    page_size: 10,
 });
 const pageTotal = ref(0);
 // import table from "../mock/table.json";
@@ -142,12 +149,12 @@ let addoptions = ref([]);
 // 获取产品管理表格数据
 const getData = (data) => {
     fetchProductTableData(data).then((res) => {
-        if(res.status ==200){
+        if (res.status == 200) {
             pageTotal.value = res.data.total_count;
             tableData.value = res.data.lists;
         }
-        else{
-                ElMessage.error(res?.message);
+        else {
+            ElMessage.error(res?.message);
         }
     }).catch(() => {
         // ElMessage.error("服务器异常！");
@@ -156,12 +163,12 @@ const getData = (data) => {
 // 获取具体的二级产品
 const getSubDataById = (product_id) => {
     fetchProductTableDataById(product_id).then((res) => {
-        if(res.status ==200)
-        tableData.value = res.data;
-        else{
-            if(res.message){
+        if (res.status == 200)
+            tableData.value = res.data;
+        else {
+            if (res.message) {
                 ElMessage.error(res.message);
-            }else{
+            } else {
                 ElMessage.error('后端api接口异常！');
             }
         }
@@ -228,7 +235,7 @@ const deleteProductTabData = (id) => {
             ElMessage.success("删除成功");
             getData(query);
             getProductDataList();
-        }else if (res.status == -1) {
+        } else if (res.status == -1) {
             ElMessage.error("请先删除对应的应用！");
         }
     });
@@ -261,9 +268,9 @@ const addSubProductTabData = (id, data) => {
         }
     });
 };
-export default {
+
     name: "basetable",
-    setup() {
+    
         main_product_name_selected.value = ''
         product_name_selected.value = ''
         getData(query);
@@ -273,11 +280,11 @@ export default {
             query.pageIndex = 1;
             getData(query);
         };
-                    // 分页导航
-    const handlePageChange = (val) => {
-      query.page_index = val;
-      getDataById()
-    };
+        // 分页导航
+        const handlePageChange = (val) => {
+            query.page_index = val;
+            getDataById()
+        };
 
         // 删除操作
         const handleDelete = (main_product_id, product_id) => {
@@ -339,7 +346,7 @@ export default {
             }
             if (check_main_product_name.value == 1) {
                 editSubProductTabData(form.product_id, data)
-            } 
+            }
             // else {
             //     editProductTabData(form.main_product_id, main_data)
             // }
@@ -350,25 +357,25 @@ export default {
                 main_product_name: formAdd.main_product_name,
             }
             if (product_type.value == '项目') {
-                if(formAdd.main_product_name){
-                addProductTabData(data)
-                }else{
+                if (formAdd.main_product_name) {
+                    addProductTabData(data)
+                } else {
                     ElMessage.error("游戏名不能为空！");
                     return
                 }
             } else {
-                if(formAdd.product_name && formAdd.package_name && add_main_product_name_selected.value){
-data = {
-                    product_name: formAdd.product_name,
-                    package_name: formAdd.package_name,
-                }
-                addSubProductTabData(add_main_product_name_selected.value, data)
-                }else{
+                if (formAdd.product_name && formAdd.package_name && add_main_product_name_selected.value) {
+                    data = {
+                        product_name: formAdd.product_name,
+                        package_name: formAdd.package_name,
+                    }
+                    addSubProductTabData(add_main_product_name_selected.value, data)
+                } else {
                     ElMessage.error("游戏名和包名不能为空！");
                     return
                 }
                 // let main_product_name = options.value.find(val => val.main_product_id == main_product_name_selected.value).main_product_name
-                
+
             }
         };
         const getProductAndDataList = () => {
@@ -377,10 +384,10 @@ data = {
             if (main_product_name_selected.value == -1) {
                 getData(query)
             } else {
-                    const data = {
-        main_product_id: main_product_name_selected.value,
-        ...query
-    }
+                const data = {
+                    main_product_id: main_product_name_selected.value,
+                    ...query
+                }
                 getData(data)
                 getSubProductDataList(main_product_name_selected.value)
             }
@@ -404,43 +411,18 @@ data = {
                 getData(data)
             }
         }
-        return {
-            query,
-            tableData,
-            pageTotal,
-            editVisible,
-            addVisible,
-            form,
-            formAdd,
-            handleSearch,
-            handlePageChange,
-            handleDelete,
-            handleEdit,
-            handleAdd,
-            saveEdit,
-            saveAdd,
-            product_type,
-            options,
-            suboptions,
-            addoptions,
-            main_product_name_selected,
-            add_main_product_name_selected,
-            product_name_selected,
-            main_product_value_select,
-            check_main_product_name,
-            getProductAndDataList,
-            getDataById
-        };
-    },
-    methods: {
-        riskManage(row) {
-            this.$router.push({
-        name: "productrisk",
-        params: { data: JSON.stringify(row) },
-      });
-        },
-    },
-};
+       
+    
+    const riskManage=(row)=>{
+        router.push({
+                name: "productrisk",
+            });
+           
+            useproject.setproduct(row)
+
+    }
+   
+
 </script>
 
 <style scoped>

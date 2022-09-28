@@ -8,13 +8,16 @@
         </div>
         <div class="container">
             <div class="handle-box">
+
                 <el-select v-model="main_product_name_selected" placeholder="项目名称" class="m-2"
+
                     @change="getProductAndDataList">
                     <el-option label="全部" value="-1"></el-option>
                     <el-option v-for="item in options" :key="item.id" :label="item.main_product_name"
                         :value="item.id" />
                 </el-select>
                 <el-select v-model="product_name_selected" placeholder="应用名称" class="m-2" @change="getDataById">
+
                     <el-option label="全部" value="-1"></el-option>
                     <el-option v-for="item in suboptions" :key="item.product_id" :label="item.product_name"
                         :value="item.product_id" />
@@ -81,7 +84,7 @@ const product_name_selected = ref('')
 const tableData = ref([]);
 const dateRange=ref();
 const main_product_value_select = ref('')
-const product_type = ref("一级游戏");
+const product_type = ref("项目");
 let options = ref([]);
 let suboptions = ref([]);
 
@@ -98,7 +101,7 @@ const getUserListData = (data) => {
         
     });
 };
-//获取项目产品信息
+
 const getProductDataList = () => {
     fetchMainProductList().then((res) => {
         options.value = res.data;
@@ -106,7 +109,7 @@ const getProductDataList = () => {
         
     });
 };
-//根据项目获取应用产品信息
+
 const getSubProductDataList = (query) => {
     const data = {
         main_product_id: query
@@ -157,7 +160,7 @@ const handleDate=()=>{
 export default {
     name: "basetable",
     setup() {
-        //获取项目
+
         getProductDataList()
         //获取用户列表
         getUserListData(query)
@@ -187,7 +190,7 @@ export default {
         const getProductAndDataList = () => {
             product_name_selected.value = ''
             suboptions.value = ''
-            //获取应用列表
+
             if (main_product_name_selected.value == -1) {
                 getUserListData(query)
             } else {
@@ -200,7 +203,7 @@ export default {
             }
         }
         const getDataById = () => {
-            //通过应用id获取对应用户列表
+
             if (product_name_selected.value == -1) {
                 const data = {
                     main_product_id: main_product_name_selected.value,

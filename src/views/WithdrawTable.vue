@@ -9,19 +9,20 @@
         <div class="container">
             <div class="handle-box">
                 <el-select v-model="main_product_name_selected" placeholder="项目名称" class="m-2"
+
                     @change="getProductAndDataList">
                     <el-option label="全部" value="-1"></el-option>
                     <el-option v-for="item in options" :key="item.id" :label="item.main_product_name"
                         :value="item.id" />
                 </el-select>
                 <el-select v-model="product_name_selected" placeholder="应用名称" class="m-2" @change="getDataById">
+
                     <el-option label="全部" value="-1"></el-option>
                     <el-option v-for="item in suboptions" :key="item.product_id" :label="item.product_name"
                         :value="item.product_id" />
                 </el-select>&nbsp;&nbsp;
                 <el-button v-show="showWithdraw" type="primary" @click="withdrawShow = true"> 默认规则</el-button>
                 <el-button type="primary" @click="handleAdd">提现设置</el-button>
-                <el-button type="primary"  @click="withDrawRecord(main_product_name_selected,product_name_selected)">用户提现记录</el-button>
                 <el-drawer v-model="withdrawShow" title="提现默认规则信息：" direction="rtl" size="50%">
                     <el-form ref="formRef" :model="form" label-width="280px">
                         <el-form-item label="是否允许所有用户提现" prop="user_withdrawal_status">
@@ -45,6 +46,7 @@
                 <el-table-column prop="main_product_name" label="项目名称"></el-table-column>
                 <el-table-column prop="product_id" label="应用ID"></el-table-column>
                 <el-table-column prop="product_name" label="应用名称"></el-table-column>
+
                 <el-table-column prop="unaudit_orders_count" label="未审核订单数"></el-table-column>
                 <el-table-column prop="unaudit_reward_sum" label="未审核总金额"></el-table-column>
                 <el-table-column prop="apply_users_count" label="申请人数"></el-table-column>
@@ -123,13 +125,16 @@
                 </el-form-item>
                 <el-form-item v-show="formAdd.config_type == 1" label="项目" prop="main_product_name_selected">
                     <el-select v-model="main_product_name_selected" placeholder="项目" class="m-2"
+
                         @change="getProductAndDataList">
                         <el-option v-for="item in options" :key="item.id" :label="item.main_product_name"
                             :value="item.id" />
                     </el-select>
                 </el-form-item>
+
                 <el-form-item v-show="formAdd.config_type == 1" label="应用" prop="product_name_selected">
                     <el-select multiple v-model="product_name_selected" placeholder="应用" class="m-2">
+
                         <el-option v-for="item in suboptions" :key="item.product_id" :label="item.product_name"
                             :value="item.product_id" />
                     </el-select>
@@ -158,7 +163,10 @@
     </div>
 </template>
 
-<script>
+
+
+<script setup>
+
 import { ref, reactive } from "vue";
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
@@ -193,7 +201,9 @@ const showWithdraw = ref(false)
 const withdrawShow = ref(false)
 const tableData = ref([]);
 const main_product_value_select = ref('')
+
 const product_type = ref("项目");
+
 let options = ref([]);
 let suboptions = ref([]);
 let addoptions = ref([]);
@@ -248,7 +258,7 @@ const convertNumToString = idValue => {
 
 
 
-//获取一级游戏产品信息
+//获取项目产品信息
 // 获取具体的二级产品
 // const getSubDataById = (product_id) => {
 //     fetchProductTableDataById(product_id).then((res) => {
@@ -258,7 +268,7 @@ const convertNumToString = idValue => {
 //         ElMessage.error("服务器异常！");
 //     });
 // };
-//获取项目产品信息
+
 const getProductDataList = () => {
     fetchMainProductList().then((res) => {
         options.value = res.data;
@@ -267,7 +277,7 @@ const getProductDataList = () => {
         // ElMessage.error("服务器异常！");
     });
 };
-//根据项目获取应用产品信息
+
 const getSubProductDataList = (query) => {
     const data = {
         main_product_id: query
@@ -329,9 +339,6 @@ const checkNonnegate = (value) => {
         }
     }
 };
-export default {
-    name: "basetable",
-    setup() {
         main_product_name_selected.value = ''
         product_name_selected.value = ''
         const rules = {
@@ -462,9 +469,11 @@ const withDrawRecord=(mName,pName)=>{
                         );
                         const data = {
                             config_type: 1, //配置类型：0，所有项目；1：指定项目
+
                             main_product_id: product_name[0].main_product_id, //项目id选填，选择项目id之后，只展示对应项目项目
                             main_product_name: product_name[0].main_product_name,
                             product_id: product_name[0].product_id, //应用id
+
                             product_name: product_name[0].product_name,
                             user_withdrawal_status: formAdd.user_withdrawal_status ? 1 : 0, //用户协议
                             biomass_login_status: formAdd.biomass_login_status ? 1 : 0, //隐私协议
@@ -473,7 +482,7 @@ const withDrawRecord=(mName,pName)=>{
                         };
                         withdrawAddData(data);
                     });
-                    //查询和新增是共用的选择框，需要清除选择的应用
+
                     main_product_name_selected.value = '';
                     product_name_selected.value = '';
                     suboptions.value = ''
@@ -496,7 +505,7 @@ const withDrawRecord=(mName,pName)=>{
             console.log(main_product_name_selected.value);
             product_name_selected.value = ''
             suboptions.value = ''
-            //获取应用列表
+
             if (main_product_name_selected.value == -1 || !main_product_name_selected.value) {
                 console.log("1");
                 getData(query)
@@ -510,7 +519,7 @@ const withDrawRecord=(mName,pName)=>{
             }
         }
         const getDataById = () => {
-            //通过应用id获取对应应用
+
             if (main_product_name_selected.value == -1 || !main_product_name_selected.value) {
                 getData(query)
             }
@@ -528,53 +537,6 @@ const withDrawRecord=(mName,pName)=>{
                 getData(data,1)
             }
         }
-        return {
-            tableData,
-            pageTotal,
-            editVisible,
-            addVisible,
-            form,
-            formEdit,
-            formAdd,
-            showWithdraw,
-            withdrawShow,
-            handleEdit,
-            handleAdd,
-            saveEdit,
-            saveAdd,
-            product_type,
-            options,
-            suboptions,
-            addoptions,
-            main_product_name_selected,
-            product_name_selected,
-            main_product_value_select,
-            getProductAndDataList,
-            getDataById,
-            handlePageChange,
-            query,
-            rules,
-            form,
-            formRef,
-            router,
-            dateRange,
-            withdrawDetail,
-            withDrawRecord
-        };
-    },
-    // methods: {
-    //     withdrawDetail(mId,product_id) {
-    //         console.log(mId,product_id);
-    //         this.$router.push({
-    //             path:"/withdrawdetail",
-    //             params:{
-    //                 main_product_id:"1",
-    //                 product_id:product_id
-    //             }
-    //         })
-    //     },
-    // },
-};
 </script>
 
 <style scoped>

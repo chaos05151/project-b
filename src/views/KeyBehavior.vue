@@ -26,7 +26,7 @@
             <el-button type="primary" style="margin-bottom:10px;" @click="addKeyBehavior">新增关键行为 +</el-button>
             <el-table :data="tableData" border>
                 <el-table-column prop="id" label="关键行为id"></el-table-column>
-                <el-table-column prop="name" label="关键行为名称" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="event_name" label="关键行为名称" show-overflow-tooltip></el-table-column>
                 <el-table-column prop="created_at" label="创建时间"></el-table-column>
                 <el-table-column  label="操作">
                     <template #default="scope">
@@ -111,9 +111,18 @@ const handlePageChange=(val)=>{
 
 //新增关键行为
     const addKeyBehavior=()=>{
-        router.push({
+
+        if(pageTotal.value<30){
+            router.push({
                 name: 'keybehavioradd',
             })  
+        }else{
+            ElMessage({
+                type:'warning',
+                message:'关键行为数已达上限',
+            })
+        }
+        
     }
 
 //关键字模糊搜索

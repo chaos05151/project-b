@@ -10,32 +10,36 @@
       <div class="form-box" style="height:2000px">
         <div>
           <el-breadcrumb separator="/">
+
             <el-breadcrumb-item v-show="this.$route.params.whichTab == 0">设备登录限制</el-breadcrumb-item>
             <el-breadcrumb-item v-show="this.$route.params.whichTab == 1">微信账号绑定</el-breadcrumb-item>
             <el-breadcrumb-item v-show="this.$route.params.whichTab == 2">实名认证&防沉迷</el-breadcrumb-item>
             <el-breadcrumb-item v-show="this.$route.params.whichTab == 3">手机绑定</el-breadcrumb-item>
             <el-breadcrumb-item v-show="this.$route.params.whichTab == 4">隐私协议</el-breadcrumb-item>
             <el-breadcrumb-item v-show="this.$route.params.whichTab == 5">假页面</el-breadcrumb-item>
+
             <el-breadcrumb-item>新增配置</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
         <el-divider />
+
         <el-form ref="formRef" v-show="this.$route.params.whichTab == 0" :rules="rules" :model="form"
+
           label-width="280px">
-          <el-form-item label="配置类型" prop="config_type">
+          <!-- <el-form-item label="配置类型" prop="config_type">
             <el-radio-group v-model="form.config_type">
               <el-radio label="0">所有项目</el-radio>
               <el-radio label="1">指定项目</el-radio>
             </el-radio-group>
-          </el-form-item>
-          <el-form-item v-show="form.config_type == 1" label="一级游戏" prop="main_product_name_selected">
-            <el-select v-model="main_product_name_selected" placeholder="一级游戏" class="m-2"
+          </el-form-item> -->
+          <el-form-item v-show="form.config_type == 1" label="项目" prop="main_product_name_selected">
+            <el-select v-model="main_product_name_selected" placeholder="项目" class="m-2"
               @change="getProductAndDataList">
               <el-option v-for="item in options" :key="item.id" :label="item.main_product_name" :value="item.id" />
             </el-select>
           </el-form-item>
-          <el-form-item v-show="form.config_type == 1" label="二级游戏" prop="product_name_selected">
-            <el-select multiple v-model="product_name_selected" placeholder="二级游戏" class="m-2">
+          <el-form-item v-show="form.config_type == 1" label="应用" prop="product_name_selected">
+            <el-select multiple v-model="product_name_selected" placeholder="应用" class="m-2">
               <el-option v-for="item in suboptions" :key="item.product_id" :label="item.product_name"
                 :value="item.product_id" />
             </el-select>
@@ -46,8 +50,8 @@
           <el-form-item label="允许多开设备登录" prop="more_open_login_status">
             <el-switch v-model="form.more_open_login_status"></el-switch>
           </el-form-item>
-          <el-form-item label="允许风险设备登录" prop="device_type">
-            <el-switch v-model="form.device_type"></el-switch>
+          <el-form-item label="允许风险设备登录" prop="risk_device_disabled_status">
+            <el-switch v-model="form.risk_device_disabled_status"></el-switch>
           </el-form-item>
           <el-form-item label="允许异常设备登录" prop="exception_login_status">
             <el-switch v-model="form.exception_login_status"></el-switch>
@@ -77,22 +81,23 @@
             <el-button @click="onReset">取消</el-button>
           </el-form-item>
         </el-form>
-        <el-form ref="formRef" v-show="this.$route.params.whichTab == 1" :rules="rules" :model="form"
+
+        <el-form ref="formRef" v-show="route.params.whichTab == 1" :rules="rules" :model="form"
           label-width="280px">
-          <el-form-item label="配置类型" prop="config_type">
+          <!-- <el-form-item label="配置类型" prop="config_type">
             <el-radio-group v-model="form.config_type">
               <el-radio label="0">所有项目</el-radio>
               <el-radio label="1">指定项目</el-radio>
             </el-radio-group>
-          </el-form-item>
-          <el-form-item v-show="form.config_type == 1" label="一级游戏" prop="main_product_name_selected">
-            <el-select v-model="main_product_name_selected" placeholder="一级游戏" class="m-2"
+          </el-form-item> -->
+          <el-form-item v-show="form.config_type == 1" label="项目" prop="main_product_name_selected">
+            <el-select v-model="main_product_name_selected" placeholder="项目" class="m-2"
               @change="getProductAndDataList">
               <el-option v-for="item in options" :key="item.id" :label="item.main_product_name" :value="item.id" />
             </el-select>
           </el-form-item>
-          <el-form-item v-show="form.config_type == 1" label="二级游戏" prop="product_name_selected">
-            <el-select multiple v-model="product_name_selected" placeholder="二级游戏" class="m-2">
+          <el-form-item v-show="form.config_type == 1" label="应用" prop="product_name_selected">
+            <el-select multiple v-model="product_name_selected" placeholder="应用" class="m-2">
               <el-option v-for="item in suboptions" :key="item.product_id" :label="item.product_name"
                 :value="item.product_id" />
             </el-select>
@@ -113,22 +118,24 @@
             <el-button @click="onReset">取消</el-button>
           </el-form-item>
         </el-form>
-        <el-form ref="formRef" v-show="this.$route.params.whichTab == 2" :rules="rules" :model="form"
+
+        <el-form ref="formRef" v-show="route.params.whichTab == 2" :rules="rules" :model="form"
+
           label-width="280px">
-          <el-form-item label="配置类型" prop="config_type">
+          <!-- <el-form-item label="配置类型" prop="config_type">
             <el-radio-group v-model="form.config_type">
               <el-radio label="0">所有项目</el-radio>
               <el-radio label="1">指定项目</el-radio>
             </el-radio-group>
-          </el-form-item>
-          <el-form-item v-show="form.config_type == 1" label="一级游戏" prop="main_product_name_selected">
-            <el-select v-model="main_product_name_selected" placeholder="一级游戏" class="m-2"
+          </el-form-item> -->
+          <el-form-item v-show="form.config_type == 1" label="项目" prop="main_product_name_selected">
+            <el-select v-model="main_product_name_selected" placeholder="项目" class="m-2"
               @change="getProductAndDataList">
               <el-option v-for="item in options" :key="item.id" :label="item.main_product_name" :value="item.id" />
             </el-select>
           </el-form-item>
-          <el-form-item v-show="form.config_type == 1" label="二级游戏" prop="product_name_selected">
-            <el-select multiple v-model="product_name_selected" placeholder="二级游戏" class="m-2">
+          <el-form-item v-show="form.config_type == 1" label="应用" prop="product_name_selected">
+            <el-select multiple v-model="product_name_selected" placeholder="应用" class="m-2">
               <el-option v-for="item in suboptions" :key="item.product_id" :label="item.product_name"
                 :value="item.product_id" />
             </el-select>
@@ -198,22 +205,24 @@
             <el-button @click="onReset">取消</el-button>
           </el-form-item>
         </el-form>
-        <el-form ref="formRef" v-show="this.$route.params.whichTab == 3" :rules="rules" :model="form"
+
+        <el-form ref="formRef" v-show="route.params.whichTab == 3" :rules="rules" :model="form"
+
           label-width="280px">
-          <el-form-item label="配置类型" prop="config_type">
+          <!-- <el-form-item label="配置类型" prop="config_type">
             <el-radio-group v-model="form.config_type">
               <el-radio label="0">所有项目</el-radio>
               <el-radio label="1">指定项目</el-radio>
             </el-radio-group>
-          </el-form-item>
-          <el-form-item v-show="form.config_type == 1" label="一级游戏" prop="main_product_name_selected">
-            <el-select v-model="main_product_name_selected" placeholder="一级游戏" class="m-2"
+          </el-form-item> -->
+          <el-form-item v-show="form.config_type == 1" label="项目" prop="main_product_name_selected">
+            <el-select v-model="main_product_name_selected" placeholder="项目" class="m-2"
               @change="getProductAndDataList">
               <el-option v-for="item in options" :key="item.id" :label="item.main_product_name" :value="item.id" />
             </el-select>
           </el-form-item>
-          <el-form-item v-show="form.config_type == 1" label="二级游戏" prop="product_name_selected">
-            <el-select multiple v-model="product_name_selected" placeholder="二级游戏" class="m-2">
+          <el-form-item v-show="form.config_type == 1" label="应用" prop="product_name_selected">
+            <el-select multiple v-model="product_name_selected" placeholder="应用" class="m-2">
               <el-option v-for="item in suboptions" :key="item.product_id" :label="item.product_name"
                 :value="item.product_id" />
             </el-select>
@@ -237,22 +246,24 @@
             <el-button @click="onReset">取消</el-button>
           </el-form-item>
         </el-form>
-        <el-form ref="formRef" v-show="this.$route.params.whichTab == 4" :rules="rules" :model="form"
+
+        <el-form ref="formRef" v-show="route.params.whichTab == 4" :rules="rules" :model="form"
+
           label-width="280px">
-          <el-form-item label="配置类型" prop="config_type">
+          <!-- <el-form-item label="配置类型" prop="config_type">
             <el-radio-group v-model="form.config_type">
               <el-radio label="0">所有项目</el-radio>
               <el-radio label="1">指定项目</el-radio>
             </el-radio-group>
-          </el-form-item>
-          <el-form-item v-show="form.config_type == 1" label="一级游戏" prop="main_product_name_selected">
-            <el-select v-model="main_product_name_selected" placeholder="一级游戏" class="m-2"
+          </el-form-item> -->
+          <el-form-item v-show="form.config_type == 1" label="项目" prop="main_product_name_selected">
+            <el-select v-model="main_product_name_selected" placeholder="项目" class="m-2"
               @change="getProductAndDataList">
               <el-option v-for="item in options" :key="item.id" :label="item.main_product_name" :value="item.id" />
             </el-select>
           </el-form-item>
-          <el-form-item v-show="form.config_type == 1" label="二级游戏" prop="product_name_selected">
-            <el-select multiple v-model="product_name_selected" placeholder="二级游戏" class="m-2">
+          <el-form-item v-show="form.config_type == 1" label="应用" prop="product_name_selected">
+            <el-select multiple v-model="product_name_selected" placeholder="应用" class="m-2">
               <el-option v-for="item in suboptions" :key="item.product_id" :label="item.product_name"
                 :value="item.product_id" />
             </el-select>
@@ -275,13 +286,15 @@
         </el-form>
         <el-form
         ref="formRef"
-          v-show="this.$route.params.whichTab == 5"
+
+          v-show="route.params.whichTab == 5"
+
           :rules="rules"
           :model="form"
           label-width="280px"
         >
-          <el-form-item label="一级游戏">
-            <el-select placeholder="一级游戏" v-model="main_game_selected" @change="getPorductList" class="m-2">
+          <el-form-item label="项目">
+            <el-select placeholder="项目" v-model="main_game_selected" @change="getPorductList" class="m-2">
               <el-option
               v-for="item in main_gameChanneVersionList"
               :key="item.value"
@@ -292,12 +305,12 @@
             </el-select>
           </el-form-item>
            <el-form-item
-           label="二级游戏"
+           label="应用"
            prop="game_selected"
            >
               <el-select
                   v-model="game_selected"
-                  placeholder="二级游戏"
+                  placeholder="应用"
                   class="m-2"
                   @change="getChannelList"
                 
@@ -386,7 +399,9 @@
   </div>
 </template>
 
-<script>
+
+<script setup>
+
 import { reactive, ref } from "vue";
 import { ElMessage } from "element-plus";
 import { fetchMainProductList, fetchProductList } from "../api/product";
@@ -400,11 +415,18 @@ import {
   addFakePageData
 } from "../api/risk";
 import moment from "moment";
+
+import { useRoute,useRouter } from "vue-router";
+const route=useRoute()
+const router=useRouter()
+
 const main_product_name_selected = ref("");
 const product_name_selected = ref([]);
 let options = ref();
 let suboptions = ref();
-const form = reactive({});
+const form = reactive({
+  config_type:1
+});
 const formRef = ref(null);
 const openAD=ref(1);
 const openFakePage=ref(0);
@@ -418,7 +440,7 @@ const main_gameChanneVersionList=ref("");
 const gameChannelVersionList=ref("");
 const channelList=ref("");
 const versionList=ref("");
-//获取一级游戏产品信息
+//获取项目产品信息
 const getProductDataList = () => {
   fetchMainProductList()
     .then((res) => {
@@ -430,7 +452,7 @@ const getProductDataList = () => {
       // ElMessage.error("服务器异常！");
     });
 };
-//根据一级游戏获取二级游戏产品信息
+//根据项目获取应用产品信息
 const getSubProductDataList = (query) => {
   const data = {
     main_product_id: query,
@@ -459,7 +481,7 @@ const getSelectLists=()=>{
   })
 }
 
-//获取二级游戏列表，一级游戏选择
+//获取应用列表，项目选择
 const getPorductList=(val)=>{
   console.log("erjiyx",val);
   game_selected.value=""
@@ -478,7 +500,7 @@ const getPorductList=(val)=>{
 }
 
 
-//获取渠道列表，二级游戏选择
+//获取渠道列表，应用选择
 const getChannelList=(val)=>{
   console.log(val);
   game_version_selected.value=""
@@ -600,52 +622,25 @@ const addPrivacyData = (data) => {
     }
   });
 };
-export default {
-  name: "riskadd",
-  setup() {
+
     const rules = {};
 
     getSelectLists()
 
-    //获取一级游戏产品信息
+    //获取项目产品信息
     getProductDataList();
 
     const getProductAndDataList = () => {
       product_name_selected.value = '';
-      //获取二级游戏列表
+      //获取应用列表
       getSubProductDataList(main_product_name_selected.value);
     };
-    return {
-      getProductAndDataList,
-      getSelectLists,
-      getPorductList,
-      getChannelList,
-      getVersionList,
-      getVersionSelect,
-      suboptions,
-      options,
-      main_product_name_selected,
-      product_name_selected,
-      rules,
-      formRef,
-      form,
-      openAD,
-      openFakePage,
-      main_game_selected,
-      channel_selected,
-      game_version_selected,
-      game_selected,
-      gameChannelVersionList,
-      channelList,
-      versionList,
-      game_selected_name,
-      main_game_selected_name,
-      main_gameChanneVersionList
-    };
-  },
-  methods: {
+
+
+
     // 设备登录限制提交
-    onSubmit() {
+  const  onSubmit=()=> {
+
       // 表单校验
       formRef.value.validate((valid) => {
         if (valid) {
@@ -685,7 +680,7 @@ export default {
                   package_name: product_name[0].package_name,
                   simulator_login_status: form.simulator_login_status ? 1 : 0, //模拟器登录
                   more_open_login_status: form.more_open_login_status ? 1 : 0, //多开登录
-                  device_type:form.device_type ? 1 : 0,//风险设备
+                  risk_device_disabled_status:form.risk_device_disabled_status ? 1 : 0,//风险设备
                   exception_login_status: form.exception_login_status ? 1 : 0, //异常登录
                   one_device_login_num: form.one_device_login_num, //单设备登录数
                   exception_device_watch_advertisement_num:
@@ -698,6 +693,7 @@ export default {
                     form.more_open_watch_advertisement_status ? 1 : 0, //多开设备看广告
                   appoint_time: appoint_time_format, //指定生效时间
                 };
+                console.log(data);
                 addDeviceLoginData(data);
               });
             } else {
@@ -705,7 +701,7 @@ export default {
                 config_type: 0, //配置类型：0，所有项目；1：指定项目
                 simulator_login_status: form.simulator_login_status ? 1 : 0, //模拟器登录
                 more_open_login_status: form.more_open_login_status ? 1 : 0, //多开登录
-                device_type:form.device_type ? 1 : 0,//风险设备
+                risk_device_disabled_status:form.risk_device_disabled_status ? 1 : 0,//风险设备
                 exception_login_status: form.exception_login_status ? 1 : 0, //异常登录
                 one_device_login_num: form.one_device_login_num, //单设备登录数
                 exception_device_watch_advertisement_num:
@@ -716,21 +712,27 @@ export default {
                   form.more_open_watch_advertisement_status ? 1 : 0, //多开设备看广告
                 appoint_time: appoint_time_format, //指定生效时间
               };
+              console.log(globaldata);
               addDeviceLoginData(globaldata);
             }
           } else {
             ElMessage.error("必须选择配置类型！");
             return;
           }
-          this.$router.push("/risk");
+
+
+          router.push("/risk");
+
         } else {
           return false;
         }
       });
-    },
+
+    }
 
     //微信账号绑定提交
-    onSecondSubmit() {
+  const  onSecondSubmit=()=> {
+
       // 表单校验
       formRef.value.validate((valid) => {
         if (valid) {
@@ -789,16 +791,19 @@ export default {
             return;
           }
 
-          this.$router.push("/risk");
+
+          router.push("/risk");
+
         } else {
           return false;
         }
       });
-    },
+
+    }
 
     //实名认证提交
-    onThirdSubmit() {
-      // 表单校验
+   const onThirdSubmit=()=> {
+
       formRef.value.validate((valid) => {
         if (valid) {
           let appoint_time_format;
@@ -871,15 +876,19 @@ export default {
             ElMessage.error("必须选择配置类型！");
             return;
           }
-          this.$router.push("/risk");
+
+          router.push("/risk");
+
         } else {
           return false;
         }
       });
-    },
+
+    }
 
     //手机绑定提交
-    onFourSubmit() {
+ const   onFourSubmit=()=> {
+
       // 表单校验
       formRef.value.validate((valid) => {
         if (valid) {
@@ -933,15 +942,17 @@ export default {
             ElMessage.error("必须选择配置类型！");
             return;
           }
-          this.$router.push("/risk");
+          router.push("/risk");
+
         } else {
           return false;
         }
       });
-    },
+
+    }
     //隐私协议提交
-    onFiveSubmit() {
-      // 表单校验
+  const  onFiveSubmit=()=> {
+
       formRef.value.validate((valid) => {
         if (valid) {
           let appoint_time_format;
@@ -990,14 +1001,18 @@ export default {
             ElMessage.error("必须选择配置类型！");
             return;
           }
-          this.$router.push("/risk");
+
+          router.push("/risk");
+
         } else {
           return false;
         }
       });
-    },
+
+    }
     //假页面提交
-    onSixSubmit(){
+ const   onSixSubmit=()=>{
+
       if(main_game_selected.value!=""&&game_selected.value!=""&&channel_selected.value!=""&&game_version_selected.value!=""){
         let arr=[]
 
@@ -1042,7 +1057,9 @@ export default {
         if(res.status==200){
           ElMessage.success("添加成功");
 
-          this.$router.push("/risk");
+
+          router.push("/risk");
+
         }else{
           ElMessage.error(res.message)
         }
@@ -1054,14 +1071,16 @@ export default {
       }
       
     
-    },
+
+    }
     // 重置
-    onReset() {
+ const   onReset=()=> {
       //   formRef.value.resetFields();
       main_product_name_selected.value = '';
       product_name_selected.value = '';
-      this.$router.push("/risk");
-    },
-  },
-};
+      router.push("/risk");
+    }
+  
+
+
 </script>

@@ -3,9 +3,10 @@
         <v-header />
         <v-sidebar />
         <div class="content-box" :class="{ 'content-collapse': sidebar.collapse }">
-            <!-- <v-tags></v-tags> -->
+
+            <v-tags></v-tags>
             <div class="content">
-                <router-view v-slot="{ Component }">
+                <router-view v-slot="{ Component }" :key="key">
                     <transition name="move" mode="out-in">
                         <keep-alive :include="tags.nameList">
                             <component :is="Component" />
@@ -17,25 +18,23 @@
         </div>
     </div>
 </template>
-<script>
+
+<script setup>
+import { useRoute } from "vue-router";
+import { computed } from "vue";
 import { useSidebarStore } from '../store/sidebar'
 import { useTagsStore } from '../store/tags'
 import vHeader from "../components/Header.vue";
 import vSidebar from "../components/Sidebar.vue";
 import vTags from "../components/Tags.vue";
-export default {
-    components: {
-        vHeader,
-        vSidebar,
-        vTags,
-    },
-    setup() {
-        const sidebar = useSidebarStore();
-        const tags = useTagsStore();
-        return {
-            tags,
-            sidebar,
-        };
-    },
-};
+
+const route = useRoute();
+const key = computed(() => {
+    return route.path + Math.random();
+})
+const sidebar = useSidebarStore();
+const tags = useTagsStore();
+
+
+
 </script>

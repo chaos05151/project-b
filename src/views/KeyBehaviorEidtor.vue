@@ -9,6 +9,11 @@
         </div>
         <div class="container">
             <el-form  :model="form">
+                <el-form-item label="添加关键行为事件">
+                    <el-select v-model="keyBehaviorEvent">
+                        <el-option v-for="item in events" :label="item.label" :key="item.value" :value="item.value"></el-option>
+                    </el-select>
+                </el-form-item>
                 <el-form-item label="关键行为类型">
                      <el-select v-model="form.behavior_type" @change="handleSelect">
                         <el-option v-for="item in typeList" :label="item.label" :value="item.value"></el-option>
@@ -155,10 +160,13 @@
     import {reactive, ref} from 'vue'
     import { useRoute,useRouter } from "vue-router";
     import {updateKeyBehavior,getKeyBehaviorTypeList} from '../api/risk'
+    import keybehaviorjson from "../config/keyBehavior.json";
     import { ElMessage} from 'element-plus'
     const router=useRouter()
     const id=ref("")
     const type=ref("0")
+    const events=ref(keybehaviorjson.events)
+    const keyBehaviorEvent=ref("event_1")
     const dialogVisible=ref(false)
     const typeList=ref([{
         label:"激励视频",
@@ -202,7 +210,7 @@
     const isOr=ref("1")
     const form=reactive({
         name:"",
-        behavior_type:"event_1",
+        behavior_type:"ad_play",
         condition:"1",
         ad_play:[],
         ecpm_large:[],
@@ -222,6 +230,7 @@
        form.behavior_type=obj.behavior_type
        form.condition=obj.condition
        form.name=obj.name
+       keyBehaviorEvent.value=obj.event_name
        let dataRow=JSON.parse(obj.rule)
        console.log(dataRow);
        if(dataRow.ad_play){
@@ -248,7 +257,7 @@
        const handleSelect=(val)=>{
         console.log(val);
         switch (val) {
-        case 'event_1':
+        case 'ad_play':
                 form.ad_play=[]
                 form.ecpm_large=[]
                 form.ecpm_middle=[]
@@ -279,7 +288,7 @@
                     middle_value:0,
                 }];
                 break;
-        case 'event_2':
+        case 'other':
                 form.ad_play=[]
                 form.ecpm_large=[]
                 form.ecpm_middle=[]
@@ -301,20 +310,12 @@
     }
 
 
-    //获取关键行为类型列表
-    const getTypeList=()=>{
+  //获取关键行为类型列表
+  const getTypeList=()=>{
         getKeyBehaviorTypeList().then(res=>{
-            let data=res.data
-            let arr=[]
-            for(let key in data){
-                console.log(key,data[key]);
-                arr.push({
-                    value:key,
-                    label:data[key]
-                })
-            }
-            typeList.value=arr
-            
+            if(res.status==200){
+                typeList.value=res.data.behavior_type
+            }    
         }).catch(err=>{
             console.log(err);
         })
@@ -497,6 +498,7 @@ const getAddData=()=>{
         let jsonStr=JSON.stringify(form_copy)
 
         let data={
+            event_name:keyBehaviorEvent.value,
             name:str,
             behavior_type:form.behavior_type,
             condition:form.condition,
@@ -520,6 +522,11 @@ const getAddData=()=>{
                 router.push({
                             name:'keybehavior'
                         })
+            }else{
+                ElMessage({
+                    type:"warning",
+                    message:res.message
+                })
             }
         })
         .catch(err=>{

@@ -6,11 +6,13 @@
         <el-breadcrumb-item>用户管理</el-breadcrumb-item>
         <el-breadcrumb-item>用户详情</el-breadcrumb-item>
       </el-breadcrumb>
-      
+
+
     </div>
     <div class="container">
       <el-button type="primary" @click="goback" style="float:right">
         返回</el-button>
+
       <el-form :model="userDetail" :inline="true">
         <el-form-item label="用户id">
           {{ userDetail.id }}
@@ -69,48 +71,25 @@
 
       <!-- <el-button type="primary" style='position: absolute;right:10px;top:1px;'>添加规则</el-button> -->
       <div>
-        <el-tabs
-          v-model="message"
-          type="border-card"
-          @tab-click="handleTabClick"
-        >
+        <el-tabs v-model="message" type="border-card" @tab-click="handleTabClick">
           <el-tab-pane label="提现记录" name="first">
             <el-table :data="tableDataAAAA" style="width: 100%">
-              <el-table-column
-                :prop="item.prop"
-                :label="item.label"
-                v-for="(item, index) in tableHeaderFirstTab"
-                :key="item.prop"
-              >
+              <el-table-column :prop="item.prop" :label="item.label" v-for="(item, index) in tableHeaderFirstTab"
+                :key="item.prop">
                 <template #default="scope">
-                  <div
-                    v-show="item.editable || scope.row.editable"
-                    class="editable-row"
-                  >
+                  <div v-show="item.editable || scope.row.editable" class="editable-row">
                     <template v-if="item.type === 'input'">
-                      <el-input
-                        size="small"
-                        v-model="scope.row[item.prop]"
-                        :placeholder="`请输入${item.label}`"
-                        @change="handleEdit(scope.$index, scope.row)"
-                      />
+                      <el-input size="small" v-model="scope.row[item.prop]" :placeholder="`请输入${item.label}`"
+                        @change="handleEdit(scope.$index, scope.row)" />
                     </template>
                     <template v-if="item.type === 'date'">
-                      <el-date-picker
-                        v-model="scope.row[item.prop]"
-                        type="date"
-                        value-format="YYYY-MM-DD"
-                        :placeholder="`请输入${item.label}`"
-                        @change="handleEdit(scope.$index, scope.row)"
-                      />
+                      <el-date-picker v-model="scope.row[item.prop]" type="date" value-format="YYYY-MM-DD"
+                        :placeholder="`请输入${item.label}`" @change="handleEdit(scope.$index, scope.row)" />
                     </template>
                   </div>
-                  <div
-                    v-show="!item.editable && !scope.row.editable"
-                    class="editable-row"
-                  >
+                  <div v-show="!item.editable && !scope.row.editable" class="editable-row">
                     <span class="editable-row-span">{{
-                      scope.row[item.prop]
+                    scope.row[item.prop]
                     }}</span>
                   </div>
                 </template>
@@ -119,41 +98,22 @@
           </el-tab-pane>
           <el-tab-pane label="登录记录" name="second">
             <el-table :data="tableDataBBBB" style="width: 100%">
-              <el-table-column
-                :prop="item.prop"
-                :label="item.label"
-                v-for="(item, index) in tableHeaderSecondTab"
-                :key="item.prop"
-              >
+              <el-table-column :prop="item.prop" :label="item.label" v-for="(item, index) in tableHeaderSecondTab"
+                :key="item.prop">
                 <template #default="scope">
-                  <div
-                    v-show="item.editable || scope.row.editable"
-                    class="editable-row"
-                  >
+                  <div v-show="item.editable || scope.row.editable" class="editable-row">
                     <template v-if="item.type === 'input'">
-                      <el-input
-                        size="small"
-                        v-model="scope.row[item.prop]"
-                        :placeholder="`请输入${item.label}`"
-                        @change="handleEdit(scope.$index, scope.row)"
-                      />
+                      <el-input size="small" v-model="scope.row[item.prop]" :placeholder="`请输入${item.label}`"
+                        @change="handleEdit(scope.$index, scope.row)" />
                     </template>
                     <template v-if="item.type === 'date'">
-                      <el-date-picker
-                        v-model="scope.row[item.prop]"
-                        type="date"
-                        value-format="YYYY-MM-DD"
-                        :placeholder="`请输入${item.label}`"
-                        @change="handleEdit(scope.$index, scope.row)"
-                      />
+                      <el-date-picker v-model="scope.row[item.prop]" type="date" value-format="YYYY-MM-DD"
+                        :placeholder="`请输入${item.label}`" @change="handleEdit(scope.$index, scope.row)" />
                     </template>
                   </div>
-                  <div
-                    v-show="!item.editable && !scope.row.editable"
-                    class="editable-row"
-                  >
+                  <div v-show="!item.editable && !scope.row.editable" class="editable-row">
                     <span class="editable-row-span">{{
-                      scope.row[item.prop]
+                    scope.row[item.prop]
                     }}</span>
                   </div>
                 </template>
@@ -170,10 +130,12 @@
   </div>
 </template>
 
-<script>
+
+<script setup>
 import { ref, reactive } from "vue";
 import { ElMessage } from "element-plus";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
+
 import userjson from "../config/user.json";
 import moment from "moment";
 import {
@@ -182,6 +144,12 @@ import {
   fetchUserDetailData,
   updateUserDetail,
 } from "../api/user";
+
+import { usermodular } from '../store/user'
+
+const user = usermodular()
+
+
 const whichTab = ref(0);
 const message = ref("first");
 const tableDataAAAA = ref([]);
@@ -194,29 +162,31 @@ const query = reactive({
   page_index: 1,
   page_size: 10,
 });
-const pageTotal=ref(0)
-const id=ref("")
+const pageTotal = ref(0)
+const id = ref("")
 //获取提现记录
 const getUserWithdrawData = (id) => {
-  const data={
+  const data = {
     ...id,
-    page_index:query.page_index,
-    page_size:query.page_size
+    page_index: query.page_index,
+    page_size: query.page_size
   }
-  console.log(data);
+
+  // console.log(data);
   fetchUserWithdrawData(data)
     .then((res) => {
-      console.log("getUserWithdrawData", res);
-      pageTotal.value=res.data.total_count
+      // console.log("getUserWithdrawData", res)
+      pageTotal.value = res.data.total_count
       tableDataAAAA.value = res.data.lists.map((item) => {
-          return {
-            ...item,
-            updated_at: moment(item.updated_at).format("YYYY-MM-DD HH:mm:ss"),
-            status:
-              item.status == 1 ? "待审核" : item.status == 2 ? "提现中" : item.status == 3 ? "已提现" : item.status == 4 ? "拒绝提现" :item.status == 5 ? "提现失败" :  "未知状态"
-          };
-        });
-      console.log("tableDataAAAA.value", tableDataAAAA.value);
+        return {
+          ...item,
+          updated_at: moment(item.updated_at).format("YYYY-MM-DD HH:mm:ss"),
+          status:
+            item.status == 1 ? "待审核" : item.status == 2 ? "提现中" : item.status == 3 ? "已提现" : item.status == 4 ? "拒绝提现" : item.status == 5 ? "提现失败" : "未知状态"
+        };
+      });
+
+      // console.log("tableDataAAAA.value", tableDataAAAA.value);
     })
     .catch(() => {
       // ElMessage.error("服务器异常！");
@@ -226,11 +196,13 @@ const getUserWithdrawData = (id) => {
 const getUserDetailData = (data) => {
   fetchUserDetailData(data)
     .then((res) => {
-      console.log("getUserDetailData", res.data);
+
+      // console.log("getUserDetailData", res.data);
       userDetail.value = res.data;
-      console.log("userDetail", userDetail.value);
-      console.log("userDetail.blacked_days", userDetail.value.blacked_days);
-      console.log("userDetail.withdrawable", userDetail.value.withdrawable);
+      // console.log("userDetail", userDetail.value);
+      // console.log("userDetail.blacked_days", userDetail.value.blacked_days);
+      // console.log("userDetail.withdrawable", userDetail.value.withdrawable);
+
       userDetail.id = userDetail.value.id;
       userDetail.oaid = userDetail.value.oaid;
       userDetail.blacked_days = userDetail.value.blacked_days;
@@ -254,22 +226,22 @@ const getUserDetailData = (data) => {
 };
 //获取登录记录
 const getUserLoginData = () => {
-  const data={
-    uid:id.value,
-    page_index:query.page_index,
-    page_size:query.page_size
+  const data = {
+    uid: id.value,
+    page_index: query.page_index,
+    page_size: query.page_size
   }
   console.log(data);
   fetchUserLoginData(data)
     .then((res) => {
       console.log("getUserLoginData", res.data);
-      pageTotal.value=res.data.total_count
+      pageTotal.value = res.data.total_count
       tableDataBBBB.value = res.data.lists.map((item) => {
-          return {
-            ...item,
-            updated_at: moment(item.updated_at).format("YYYY-MM-DD HH:mm:ss")
-          };
-        });
+        return {
+          ...item,
+          updated_at: moment(item.updated_at).format("YYYY-MM-DD HH:mm:ss")
+        };
+      });
       console.log("tableDataAAAA.value", tableDataBBBB.value);
     })
     .catch(() => {
@@ -277,8 +249,8 @@ const getUserLoginData = () => {
     });
 };
 //修改用户数据
-const updateUserDetailData = (id,data) => {
-  updateUserDetail(id,data).then((res) => {
+const updateUserDetailData = (id, data) => {
+  updateUserDetail(id, data).then((res) => {
     if (res.status == 200) {
       ElMessage.success("修改成功！");
     }
@@ -288,13 +260,13 @@ const updateUserDetailData = (id,data) => {
 const getData = (id) => {
   const data = {
     wechat_user_id: id,
-    page_index:query.page_index,
-    page_size:query.page_size
+    page_index: query.page_index,
+    page_size: query.page_size
   };
   const logindata = {
     uid: id,
-    page_index:query.page_index,
-    page_size:query.page_size
+    page_index: query.page_index,
+    page_size: query.page_size
   };
   if (whichTab.value == 0) {
     getUserWithdrawData(data);
@@ -303,63 +275,56 @@ const getData = (id) => {
   }
 };
 
-export default {
-  name: "DynamicModifyTable",
-  setup() {
-    const route = useRoute();
-    wechat_user_id.value = route.params.wechat_user_id;
-    id.value=route.params.wechat_user_id
-    console.log("wechat_user_id", wechat_user_id.value);
-    getData(wechat_user_id.value);
-    getUserDetailData(wechat_user_id.value);
-    const handlePageChange=(val)=>{
-      query.page_index = val;
-      console.log(wechat_user_id.value);
-      getUserDetailData(wechat_user_id.value)
-      getUserLoginData()
-    }
-    return {
-      message,
-      whichTab,
-      wechat_user_id,
-      userDetail,
-      tableDataAAAA,
-      tableDataBBBB,
-      tableHeaderFirstTab,
-      tableHeaderSecondTab,
-      query,
-      pageTotal,
-      id,
-      handlePageChange
-    };
-  },
-  data() {
-    return {};
-  },
-  methods: {
-    handleTabClick(tab) {
-      // formRef.value.resetFields();
-      whichTab.value = tab.index;
-      console.log("whichTab", whichTab.value);
-      getData(wechat_user_id.value);
-    },
-    blackedDays(){
-      const data ={
-        blacked_days: userDetail.blacked_days
-      }
-      updateUserDetailData(wechat_user_id.value,data)
-    },
-    withDrawable(){
-      const data ={
-        withdrawable: userDetail.withdrawable
-      }
-      updateUserDetailData(wechat_user_id.value,data)
-    },
-    goback(){
-         this.$router.go(-1)
-        }
-  },
-};
+const route = useRoute();
+wechat_user_id.value = user.achieveuseruserDetail;
+id.value = user.achieveuseruserDetail
+// console.log("wechat_user_id", wechat_user_id.value);
+
+getData(wechat_user_id.value);
+getUserDetailData(wechat_user_id.value);
+const handlePageChange = (val) => {
+  query.page_index = val;
+  console.log(wechat_user_id.value);
+  getUserDetailData(wechat_user_id.value)
+  getUserLoginData()
+}
+
+const handleTabClick = (tab) => {
+
+
+  // formRef.value.resetFields();
+  whichTab.value = tab.index;
+  console.log("whichTab", whichTab.value);
+  getData(wechat_user_id.value);
+
+
+}
+const blackedDays = () => {
+  const data = {
+    blacked_days: userDetail.blacked_days
+  }
+  // console.log(userDetail.blacked_days)
+  updateUserDetailData(wechat_user_id.value, data)
+}
+const withDrawable = () => {
+
+
+  const data = {
+    withdrawable: userDetail.withdrawable
+  }
+  updateUserDetailData(wechat_user_id.value, data)
+
+
+}
+const router = useRouter()
+const goback = () => {
+
+  router.go(-1)
+
+}
+
+
+
 </script>
 
 <style scoped>

@@ -248,7 +248,7 @@ export const deleteFakePageData=(id)=>{
 
 //关键行为查询
 export const fetchKeyBehavior=(data)=>{
-    const url="/api/v1/system_b/key_behavior"
+    const url="/admin/v1/key_behavior/key_behaviors"
     return request({
         url,
         method:"get",
@@ -261,7 +261,7 @@ export const fetchKeyBehavior=(data)=>{
 
 //关键行为新增
 export const AddKeyBehavior=(data)=>{
-    const url="/api/v1/system_b/key_behavior"
+    const url="/admin/v1/key_behavior/key_behaviors"
     return request({
         url,
         method:"post",
@@ -273,7 +273,7 @@ export const AddKeyBehavior=(data)=>{
 
 //删除关键行为
 export const deleteKeyBehavior=(id)=>{
-    const url="/api/v1/system_b/key_behavior/"+id
+    const url="/admin/v1/key_behavior/key_behaviors/"+id
     return request({
         url,
         method:"delete",
@@ -284,7 +284,7 @@ export const deleteKeyBehavior=(id)=>{
 
 //更新关键行为
 export const updateKeyBehavior=(id,data)=>{
-    const url="/api/v1/system_b/key_behavior/"+id
+    const url="/admin/v1/key_behavior/key_behaviors/"+id
     return request({
         url,
         method:"put",
@@ -295,9 +295,10 @@ export const updateKeyBehavior=(id,data)=>{
 
 //获取关键行为类型
 export const getKeyBehaviorTypeList=()=>{
-    const url="/api/v1/system_b/key_behavior/type"
+    const url="/admin/v1/key_behavior/key_behaviors/type"
     return request({
         url,
         method:"get"
     })
+
 }

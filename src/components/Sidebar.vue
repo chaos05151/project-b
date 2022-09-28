@@ -15,7 +15,7 @@
                                 <el-menu-item v-for="(threeItem, i) in subItem.subs" :key="i" :index="threeItem.index">
                                     {{ threeItem.title }}</el-menu-item>
                             </el-submenu>
-                            <el-menu-item v-else :index="subItem.index" :key="subItem.index">{{ subItem.title }}
+                            <el-menu-item v-else :index="subItem.index" >{{ subItem.title }}
                             </el-menu-item>
                         </template>
                     </el-submenu>
@@ -37,53 +37,6 @@ import { useSidebarStore } from '../store/sidebar'
 import { useRoute } from "vue-router";
 export default {
     setup() {
-        const items = [
-            {
-                icon: "el-icon-lx-cascades",
-                index: "4",
-                title: "风控系统",
-                subs: [
-                    {
-                        index: "/product",
-                        title: "产品管理",
-                    },
-                    {
-                        index: "/version",
-                        title: "版本管理",
-                    },
-                    {
-                        index: "/user",
-                        title: "用户管理",
-                    },
-                    {
-                        index: "/risk",
-                        title: "风控管理",
-                    },
-                    {
-                        index: "/withdraw",
-                        title: "提现配置",
-                    },
-                    {
-                        index:"/keybehavior",
-                        title:"关键行为配置"
-                    }
-                    // {
-                    //     index: "4",
-                    //     title: "三级菜单",
-                    //     subs: [
-                    //         {
-                    //             index: "/editor",
-                    //             title: "富文本编辑器",
-                    //         },
-                    //         {
-                    //             index: "/markdown",
-                    //             title: "markdown编辑器",
-                    //         },
-                    //     ],
-                    // },
-                ],
-            },
-        ];
 
         const route = useRoute();
         const onRoutes = computed(() => {
@@ -91,6 +44,7 @@ export default {
         });
 
         const sidebar = useSidebarStore();
+        const items = sidebar.menu
 
         return {
             items,

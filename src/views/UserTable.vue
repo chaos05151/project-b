@@ -8,12 +8,12 @@
     </div>
     <div class="container">
       <div class="handle-box">
-        <el-select style="width:12%" v-model="main_product_name_selected" placeholder="项目名称" class="m-2"
+        <el-select style="width:12%" v-model="main_product_name_selected" placeholder="项目" class="m-2"
           @change="getProductAndDataList">
           <el-option label="全部" value="-1"></el-option>
           <el-option v-for="item in options" :key="item.id" :label="item.main_product_name" :value="item.id" />
         </el-select>
-        <el-select style="width:12%" v-model="product_name_selected" placeholder="应用名称" class="m-2"
+        <el-select style="width:12%" v-model="product_name_selected" placeholder="应用" class="m-2"
           @change="getDataById">
           <el-option label="全部" value="-1"></el-option>
           <el-option v-for="item in suboptions" :key="item.product_id" :label="item.product_name"
@@ -36,14 +36,14 @@
             @change="handleDate"
           />
         <!-- <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button> -->
-        <el-button type="primary" @click="withDraw()">提现设置</el-button>
-        <el-button type="primary" @click="blackList()">查看黑名单</el-button>
-        <el-button type="primary" @click="userFeedback()">用户反馈</el-button>
+        <!-- <el-button type="primary" @click="withDraw()">提现设置</el-button> -->
+        <!-- <el-button type="primary" @click="blackList()">查看黑名单</el-button> -->
+        <!-- <el-button type="primary" @click="userFeedback()">用户反馈</el-button> -->
         <el-button type="primary" @click="exportExcel()">导出Excel</el-button>
       </div>
       <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
-        <el-table-column prop="main_product_name" label="项目名称"></el-table-column>
-        <el-table-column prop="product_name" label="应用名称"></el-table-column>
+        <el-table-column prop="main_product_name" label="项目"></el-table-column>
+        <el-table-column prop="product_name" label="应用"></el-table-column>
         <el-table-column prop="id" label="用户id"></el-table-column>
         <el-table-column prop="oaid" label="数盟id"></el-table-column>
         <el-table-column prop="is_buy" label="是否买量用户"></el-table-column>
@@ -83,15 +83,20 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, reactive } from "vue";
 import { Search } from "@element-plus/icons";
 import { ElMessage, ElMessageBox } from "element-plus";
+import { usermodular } from '../store/user'
 import { fetchMainProductList, fetchProductList } from "../api/product";
 import { fetchUserListData, addBlacklist, removeBlacklist } from "../api/user";
 import { exportExcelData } from "../utils/export2excel"
 import moment from "moment";
+import { useRouter  } from 'vue-router'
+
+
 // import table from "../mock/table.json";
+const userouter=useRouter()
 const main_product_name_selected = ref("");
 const product_name_selected = ref("");
 const withdraw_user_selected = ref("")
@@ -100,6 +105,7 @@ const check_main_product_name = ref(0);
 const tableData = ref([]);
 const tableExportData = ref([]);
 const pageTotal = ref(0);
+const user=usermodular()
 const dateRange=ref();
 const idnicknamephonemobile = ref("");
 const main_product_value_select = ref("");
@@ -132,6 +138,7 @@ const getUserListData = (data) => {
   fetchUserListData(data)
     .then((res) => {
       if (res.status == 200) {
+        
         tableData.value = res.data.lists.map((item) => {
           return {
             ...item,
@@ -139,9 +146,9 @@ const getUserListData = (data) => {
             created_at: moment(item.created_at).format("YYYY-MM-DD HH:mm:ss"),
           };
         });
+        // console.log(tableData.value)
         pageTotal.value = res.data.total_count
         dataExport.value = JSON.parse(JSON.stringify(data))
-        console.log(dataExport.value)
     .catch(() => { });
 
       } else {
@@ -222,7 +229,6 @@ const checkNonnegative = (value) => {
     }
   }
 };
-
 //日期
 const handleDate=()=>{
   console.log(dateRange.value);
@@ -237,9 +243,6 @@ const handleDate=()=>{
   console.log(query)
   getUserListData(query)
 }
-export default {
-  name: "basetable",
-  setup() {
     clearOptions()
     //获取项目
     getProductDataList();
@@ -411,11 +414,34 @@ export default {
         query.keywords = ''
         getProductAndDataList()
       }
-    };
-    const exportExcel = () => {
-          //处理导出数据
-          // console.log('dataExport.value', dataExport.value)
-        dataExport.value.page_size = pageTotal.value ? pageTotal.value <= 10000 ? pageTotal.value  : 10000 : 10
+    }
+   //提现设置的路由
+    const withDraw=()=>{ 
+      userouter.push("/withdraw")
+
+    }
+    //详情跳转
+    const  userDetail=(id)=>{
+      userouter.push({
+        name: "userdetail",
+
+        params: { wechat_user_id: id },
+      })
+      console.log(id)
+      user.setuserDetail(id)
+     
+    }
+    //黑名单跳转
+    const blackList=()=>{
+      userouter.push("/blacklist")
+    }
+    //用户反馈跳转
+    const userFeedback=()=>{
+      userouter.push("/feedback")
+    }
+    //excel导出
+    const exportExcel=()=>{
+      dataExport.value.page_size = pageTotal.value ? pageTotal.value <= 10000 ? pageTotal.value  : 10000 : 10
         fetchUserListData(dataExport.value)
     .then((res) => {
       if (res.status == 200) {
@@ -472,56 +498,9 @@ export default {
       }
 
     })
-    };
-    return {
-      tableData,
-      tableExportData,
-      removeBlackList,
-      addBlackList,
-      product_type,
-      Search,
-      checkNonnegative,
-      searchByIdNickNameIpMobile,
-      idnicknamephonemobile,
-      options,
-      suboptions,
-      useroptions,
-      main_product_name_selected,
-      product_name_selected,
-      main_product_value_select,
-      check_main_product_name,
-      getProductAndDataList,
-      getDataById,
-      getWithdrawUser,
-      withdraw_user_selected,
-      handlePageChange,
-      query,
-      pageTotal,
-      clearOptions,
-      dataExport,
-      dateRange,
-      exportExcel,
-      handleDate
-    };
-  },
-  methods: {
-    withDraw() {
-      this.$router.push("/withdraw");
-    },
-    userDetail(id) {
-      this.$router.push({
-        name: "userdetail",
-        params: { wechat_user_id: id },
-      });
-    },
-    blackList() {
-      this.$router.push("/blacklist");
-    },
-    userFeedback() {
-      this.$router.push("/feedback");
-    },
-  }
-};
+
+
+    }
 </script>
 
 <style scoped>

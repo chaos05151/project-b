@@ -185,9 +185,11 @@ const routes = [
                 path: '/upload',
                 name: 'upload',
                 meta: {
+
                     title: '文件上传'
                 },
                 component: () => import(/* webpackChunkName: "markdown" */ '../views/Upload.vue')
+
             }, 
             // {
             //     path: '/excel',
@@ -212,7 +214,9 @@ const routes = [
                     title: '提现配置'
                 },
                 component: () => import(/* webpackChunkName: "markdown" */ '../views/WithdrawTable.vue')
+
             },  {
+
                 path: '/withdrawdetail',
                 name: 'withdrawdetail',
                 meta: {
@@ -254,6 +258,8 @@ const routes = [
                     title:'添加关键行为配置'
                 },
                 component:()=>import('../views/KeyBehaviorEidtor.vue')
+
+
             }
         ]
     }, {
@@ -263,6 +269,14 @@ const routes = [
             title: '登录'
         },
         component: () => import( /* webpackChunkName: "login" */ "../views/Login.vue")
+    }
+    , {
+        path: "/icon",
+        name: "Icon",
+        meta: {
+            title: '图标'
+        },
+        component: () => import( /* webpackChunkName: "login" */ "../views/Icon.vue")
     }
 ];
 

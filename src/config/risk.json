@@ -10,7 +10,9 @@
         },
         {
             "prop": "main_product_name",
+
             "label": "项目名称",
+
             "editable": false,
             "type": "input",
             "show": true,
@@ -19,6 +21,7 @@
         {
             "prop": "product_name",
             "label": "应用名称",
+
             "editable": false,
             "type": "input",
             "show": true,
@@ -47,7 +50,7 @@
             "show": true
         },
         {
-            "prop": "device_type",
+            "prop": "risk_device_disabled_status",
             "label": "风险登录",
             "editable": false,
             "type": "input",
@@ -108,7 +111,9 @@
         },
         {
             "prop": "main_product_name",
+
             "label": "项目名称",
+
             "editable": false,
             "type": "input",
             "show": true,
@@ -116,7 +121,9 @@
         },
         {
             "prop": "product_name",
+
             "label": "应用名称",
+
             "editable": false,
             "type": "input",
             "show": true,
@@ -164,7 +171,9 @@
         },
         {
             "prop": "main_product_name",
+
             "label": "项目名称",
+
             "editable": false,
             "type": "input",
             "show": true,
@@ -173,6 +182,7 @@
         {
             "prop": "product_name",
             "label": "应用名称",
+
             "editable": false,
             "type": "input",
             "show": true,
@@ -242,6 +252,7 @@
         {
             "prop": "main_product_name",
             "label": "项目名称",
+
             "editable": false,
             "type": "input",
             "show": true,
@@ -249,7 +260,9 @@
         },
         {
             "prop": "product_name",
+
             "label": "应用名称",
+
             "editable": false,
             "type": "input",
             "show": true,
@@ -299,7 +312,9 @@
         },
         {
             "prop": "main_product_name",
+
             "label": "项目名称",
+
             "editable": false,
             "type": "input",
             "show": true,
@@ -308,6 +323,7 @@
         {
             "prop": "product_name",
             "label": "应用名称",
+
             "editable": false,
             "type": "input",
             "show": true,
@@ -354,7 +370,9 @@
         },
         {
             "prop": "main_product_name",
+
             "label": "项目名称",
+
             "editable": false,
             "type": "input",
             "show": true,
@@ -362,7 +380,9 @@
         },
         {
             "prop": "product_name",
+
             "label": "应用名称",
+
             "editable": false,
             "type": "input",
             "show": true,

@@ -258,7 +258,7 @@ export default {
         // 导出为excel
         const getExcel = () => {
             //处理导出数据
-            console.log('dataExport.value', dataExport.value)
+
             dataExport.value.page_size = pageTotal.value ? pageTotal.value <= 10000 ? pageTotal.value : 10000 : 10
             withdrawCheckList(dataExport.value)
                 .then((res) => {

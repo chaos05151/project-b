@@ -8,6 +8,7 @@
             </el-breadcrumb>
         </div>
         <div class="container">
+
             <el-button style="float: right;" type="primary" @click="goback">返回</el-button>
             <div class="form-box">
                 <div>
@@ -15,6 +16,8 @@
                         <el-breadcrumb-item>设备登录限制</el-breadcrumb-item>
                     </el-breadcrumb>
                 </div>
+
+
                 <el-divider />
                 <el-form ref="formRef" :model="formDeviceLogin" label-width="280px">
                     <el-form-item label="允许模拟器登录" prop="simulator_login_status">
@@ -23,8 +26,8 @@
                     <el-form-item label="允许多开设备登录" prop="more_open_login_status">
                         <el-switch v-model="formDeviceLogin.more_open_login_status"></el-switch>
                     </el-form-item>
-                    <el-form-item label="允许风险设备登录" prop="device_type">
-                        <el-switch v-model="formDeviceLogin.device_type"></el-switch>
+                    <el-form-item label="允许风险设备登录" prop="risk_device_disabled_status">
+                        <el-switch v-model="formDeviceLogin.risk_device_disabled_status"></el-switch>
                     </el-form-item>
                     <el-form-item label="允许异常设备登录" prop="exception_login_status">
                         <el-switch v-model="formDeviceLogin.exception_login_status"></el-switch>
@@ -158,7 +161,9 @@
                         <el-switch v-model="formPhoneBind.mobile_phone_bind_status"></el-switch>
                     </el-form-item>
                     <el-form-item label="手机绑定条件" prop="mobile_phone_bind_condition">
-                        <el-radio-group v-model="formPhoneBind.mobile_phone_bind_condition">
+
+                        <el-radio-group v-model="formPhoneBind.mobile_phone_bind_condition" >
+
                             <el-radio label="1">全部用户</el-radio>
                             <el-radio label="2">新用户</el-radio>
                             <el-radio label="3">老用户</el-radio>
@@ -199,7 +204,11 @@
     </div>
 </template>
 
-<script>
+
+
+
+<script setup>
+
 import { reactive, ref } from "vue";
 import { ElMessage } from "element-plus";
 import moment from "moment";
@@ -211,7 +220,13 @@ import {
     addWechatBind,
 } from "../api/risk";
 import { useRoute, useRouter } from "vue-router";
-import router from "../router";
+
+
+
+
+import { useProject } from '../store/project'
+const router = useRouter();
+
 const formDeviceLogin = reactive({
 });
 const formWechatBind = reactive({
@@ -238,11 +253,10 @@ const checkNonnegative = (value) => {
         return false;
     }
 };
-//返回
+
 const goback=()=>{
     router.go(-1)
 }
-
 
 //验证是否是非负数
 const checkNonnegate = (value) => {
@@ -311,12 +325,19 @@ const addPrivacyData = (data) => {
         }
     });
 };
-export default {
-    name: "riskadd",
-    setup() {
-        const route = useRoute();
-        const router = useRouter();
-        const data = JSON.parse(route.params.data);
+
+
+    
+        const useproject = useProject()
+        const route = useRoute(); 
+        
+            //从pinia上面拿去数据
+        const  data =useproject.achieveuseruserproduct
+        console.log(data)
+
+    
+        // const data = JSON.parse(route.params.data);
+
         console.log("route.params", route.params);
         console.log("route.params.data", route.params.data);
         const onSubmit = () => {
@@ -352,7 +373,7 @@ export default {
                         package_name: data.package_name,
                         simulator_login_status: formDeviceLogin.simulator_login_status ? 1 : 0, //模拟器登录
                         more_open_login_status: formDeviceLogin.more_open_login_status ? 1 : 0, //多开登录
-                        device_type:formDeviceLogin.device_type ? 1 : 0,//风险登录
+                        risk_device_disabled_status:formDeviceLogin.risk_device_disabled_status ? 1 : 0,//风险登录
                         exception_login_status: formDeviceLogin.exception_login_status ? 1 : 0, //异常登录
                         one_device_login_num: formDeviceLogin.one_device_login_num, //单设备登录数
                         exception_device_watch_advertisement_num: formDeviceLogin.exception_device_watch_advertisement_num, //异常设备观看广告数量
@@ -490,25 +511,22 @@ export default {
                     router.push("product");
                 } else {
                     return false;
-                }
+
+                }     
             });
+
+            //清除pinia里面的数据
+            useproject.claerproduct()
         };
-        return {
-            formRef,
-            formDeviceLogin,
-            formWechatBind,
-            formRealName,
-            formPhoneBind,
-            formPrivacy,
-            onSubmit,
-            goback
-        };
-    },
-    methods: {
-        onReset() {
-            formRef.value.resetFields();
-            this.$router.push("/product");
-        },
-    },
-};
+       const onReset=()=>{
+        formRef.value.resetFields();
+            router.push("/product");
+        
+       }
+
+   
+
 </script>
+<style scoped>
+  
+</style>

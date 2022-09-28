@@ -43,8 +43,6 @@ git checkout -b feat-versionmanage origin/dev
 
 3.代码推到gitlab后，需要发起merge request，待审核通过后，会合并到主分支
 
-## 安装步骤
-> 因为使用vite3，node版本需要 14.18+
 
 ```
 // 安装项目依赖

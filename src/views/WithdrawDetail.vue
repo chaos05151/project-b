@@ -26,7 +26,6 @@
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
                 />
-                <!-- <el-button type="primary" disabled  @click="withDrawRecord(main_product_name_selected,product_name_selected,query.product_id)">人工审核记录</el-button> -->
                 <el-button type="primary"  @click="goback">返回</el-button>
             </div>
             <el-form :model="widthdrawDetail" :inline="true">
@@ -72,7 +71,9 @@
     </div>
 </template>
 
-<script>
+
+<script setup>
+
 import { ref, reactive } from "vue";
 import {  useRouter ,useRoute} from "vue-router";
 import { onMounted } from 'vue';
@@ -114,6 +115,7 @@ const isShow=ref(false)
 // 获取提现审核列表
 const getData = (data) => {
     withdrawCheckList(data).then((res) => {
+
         tableData.value = res.data?.lists.map((item) => {
             return {
                 ...item,
@@ -190,9 +192,6 @@ const withdrawCheckData = (id, status) => {
     }).catch(() => {
     });
 };
-export default {
-    name: "basetable",
-    setup() {  
         product_name_selected.value = ''
         if(typeof(main_product_name_selected.value)=="number"){
             main_product_id.value=main_product_name_selected.value
@@ -373,42 +372,17 @@ export default {
                 }
                 getData(data)
             }
-        }
-        return {
-            tableData,
-            widthdrawDetail,
-            handleDelete,
-            handleOk,
-            product_type,
-            options,
-            suboptions,
-            addoptions,
-            main_product_name_selected,
-            product_name_selected,
-            getProductAndDataList,
-            getDataById,
-            query,
-            handlePageChange,
-            pageTotal,
-            handleDate,
-            dateRange,
-            isShow,
-            withDrawRecord,
-            ExcelData,
-            main_product_id,
-            getExcelData,
-            goback,
-        };
-    },
-    methods: {
-        withdrawDetail(id) {
-            this.$router.push({
+        } 
+        const withdrawDetail=(id)=>{
+            router.push({
                 name: "userdetail",
                 params: { wechat_user_id: id },
             });
-        },
-    },
-};
+        }
+        
+    
+   
+
 </script>
 
 <style scoped>
