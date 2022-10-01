@@ -149,6 +149,7 @@ const getUserListData = (data) => {
         // console.log(tableData.value)
         pageTotal.value = res.data.total_count
         dataExport.value = JSON.parse(JSON.stringify(data))
+        console.log(dataExport.value)
     .catch(() => { });
 
       } else {

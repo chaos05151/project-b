@@ -23,6 +23,7 @@
                 </el-select>&nbsp;&nbsp;
                 <el-button v-show="showWithdraw" type="primary" @click="withdrawShow = true"> 默认规则</el-button>
                 <el-button type="primary" @click="handleAdd">提现设置</el-button>
+                <el-button type="primary" @click="goWithdarawReview">人工审核记录</el-button>
                 <el-drawer v-model="withdrawShow" title="提现默认规则信息：" direction="rtl" size="50%">
                     <el-form ref="formRef" :model="form" label-width="280px">
                         <el-form-item label="是否允许所有用户提现" prop="user_withdrawal_status">
@@ -41,7 +42,7 @@
                     </el-form>
                 </el-drawer>
             </div>
-            <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
+            <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header" v-loading="loading">
                 <el-table-column prop="main_product_id"  label="项目ID"></el-table-column>
                 <el-table-column prop="main_product_name" label="项目名称"></el-table-column>
                 <el-table-column prop="product_id" label="应用ID"></el-table-column>
@@ -207,11 +208,13 @@ const product_type = ref("项目");
 let options = ref([]);
 let suboptions = ref([]);
 let addoptions = ref([]);
-const dateRange=ref()
+const dateRange=ref();
+const loading=ref(false)
 
 
 // 获取提现列表
 const getData = (data,selectedMainProductName) => {
+    loading.value=true
     withdrawList(data).then((res) => {
         if(res.status == 200){
 tableData.value = res.data.lists.filter(
@@ -241,7 +244,9 @@ tableData.value = res.data.lists.filter(
             form.withdrawal_audit_standard = form.value.withdrawal_audit_standard//提现审核标准
             form.withdrawal_count = form.value.withdrawal_count //单日用户提现次数
         }
+        loading.value=false
         }else{
+            loading.value=false
                 ElMessage.error(res?.message);
         }
         
@@ -255,19 +260,12 @@ const convertNumToString = idValue => {
 }
 
 
-
-
-
-//获取项目产品信息
-// 获取具体的二级产品
-// const getSubDataById = (product_id) => {
-//     fetchProductTableDataById(product_id).then((res) => {
-//         console.log("getSubDataById", res.data);
-//         tableData.value = res.data;
-//     }).catch(() => {
-//         ElMessage.error("服务器异常！");
-//     });
-// };
+//跳转人工审核页面
+const goWithdarawReview=()=>{
+    router.push({
+        name:'withdrawreview'
+    })
+}
 
 const getProductDataList = () => {
     fetchMainProductList().then((res) => {

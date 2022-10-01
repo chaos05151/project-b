@@ -2,13 +2,23 @@ import axios from 'axios';
 
 const service = axios.create({
     baseURL: process.env.NODE_ENV == 'production' ? "https://flora-api.relationshipapp.com/" : process.env.NODE_ENV == 'development' ? "https://flora-staging.relationshipapp.com/" : "https://flora-test.relationshipapp.com/",
-    // baseURL: "https://47574100.cpolar.top",
+    // baseURL: "http://a93341.cpolar.top",
     timeout: 50000000000000
 });
 
 service.interceptors.request.use(
     config => {
         config.headers['x-access-token'] = localStorage.getItem('token')
+        if(config.params){
+            let args=Object.keys(config.params)
+            args.forEach(item=>{
+                if(config.params[item]==undefined){
+                    delete config.params[item]
+                }
+            })
+        }
+        
+        console.log("config",config.params);
         return config;
     },
     error => {

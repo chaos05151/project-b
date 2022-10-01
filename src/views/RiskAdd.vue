@@ -11,19 +11,19 @@
         <div>
           <el-breadcrumb separator="/">
 
-            <el-breadcrumb-item v-show="this.$route.params.whichTab == 0">设备登录限制</el-breadcrumb-item>
-            <el-breadcrumb-item v-show="this.$route.params.whichTab == 1">微信账号绑定</el-breadcrumb-item>
-            <el-breadcrumb-item v-show="this.$route.params.whichTab == 2">实名认证&防沉迷</el-breadcrumb-item>
-            <el-breadcrumb-item v-show="this.$route.params.whichTab == 3">手机绑定</el-breadcrumb-item>
-            <el-breadcrumb-item v-show="this.$route.params.whichTab == 4">隐私协议</el-breadcrumb-item>
-            <el-breadcrumb-item v-show="this.$route.params.whichTab == 5">假页面</el-breadcrumb-item>
+            <el-breadcrumb-item v-show="dataadd== 0">设备登录限制</el-breadcrumb-item>
+            <el-breadcrumb-item v-show="dataadd== 1">微信账号绑定</el-breadcrumb-item>
+            <el-breadcrumb-item v-show="dataadd== 2">实名认证&防沉迷</el-breadcrumb-item>
+            <el-breadcrumb-item v-show="dataadd== 3">手机绑定</el-breadcrumb-item>
+            <el-breadcrumb-item v-show="dataadd== 4">隐私协议</el-breadcrumb-item>
+            <el-breadcrumb-item v-show="dataadd== 5">假页面</el-breadcrumb-item>
 
             <el-breadcrumb-item>新增配置</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
         <el-divider />
 
-        <el-form ref="formRef" v-show="this.$route.params.whichTab == 0" :rules="rules" :model="form"
+        <el-form ref="formRef" v-show="dataadd== 0" :rules="rules" :model="form"
 
           label-width="280px">
           <!-- <el-form-item label="配置类型" prop="config_type">
@@ -82,7 +82,7 @@
           </el-form-item>
         </el-form>
 
-        <el-form ref="formRef" v-show="route.params.whichTab == 1" :rules="rules" :model="form"
+        <el-form ref="formRef" v-show="dataadd== 1" :rules="rules" :model="form"
           label-width="280px">
           <!-- <el-form-item label="配置类型" prop="config_type">
             <el-radio-group v-model="form.config_type">
@@ -119,7 +119,7 @@
           </el-form-item>
         </el-form>
 
-        <el-form ref="formRef" v-show="route.params.whichTab == 2" :rules="rules" :model="form"
+        <el-form ref="formRef" v-show="dataadd== 2" :rules="rules" :model="form"
 
           label-width="280px">
           <!-- <el-form-item label="配置类型" prop="config_type">
@@ -206,7 +206,7 @@
           </el-form-item>
         </el-form>
 
-        <el-form ref="formRef" v-show="route.params.whichTab == 3" :rules="rules" :model="form"
+        <el-form ref="formRef" v-show="dataadd== 3" :rules="rules" :model="form"
 
           label-width="280px">
           <!-- <el-form-item label="配置类型" prop="config_type">
@@ -247,7 +247,7 @@
           </el-form-item>
         </el-form>
 
-        <el-form ref="formRef" v-show="route.params.whichTab == 4" :rules="rules" :model="form"
+        <el-form ref="formRef" v-show="dataadd== 4" :rules="rules" :model="form"
 
           label-width="280px">
           <!-- <el-form-item label="配置类型" prop="config_type">
@@ -287,7 +287,7 @@
         <el-form
         ref="formRef"
 
-          v-show="route.params.whichTab == 5"
+          v-show="dataadd== 5"
 
           :rules="rules"
           :model="form"
@@ -415,10 +415,14 @@ import {
   addFakePageData
 } from "../api/risk";
 import moment from "moment";
+import {riskmodular} from '../store/risk'
+
 
 import { useRoute,useRouter } from "vue-router";
+const risk=riskmodular()
 const route=useRoute()
 const router=useRouter()
+const dataadd=risk.getstatewhichTab
 
 const main_product_name_selected = ref("");
 const product_name_selected = ref([]);

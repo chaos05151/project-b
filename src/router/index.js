@@ -167,7 +167,14 @@ const routes = [
                     title: '黑名单'
                 },
                 component: () => import(/* webpackChunkName: "markdown" */ '../views/BlackList.vue')
-            }, {
+            },{
+                path:'/blacklistall',
+                name:'blacklistall',
+                meta:{
+                    title:'所有项目共同黑名单'
+                },
+                component:() => import('../views/BlackAll.vue')
+            },{
                 path: '/feedback',
                 name: 'feedback',
                 meta: {
@@ -234,7 +241,7 @@ const routes = [
                 path :'/withdrawreview',
                 name:'withdrawreview',
                 meta:{
-                    title:'提现成功记录'
+                    title:'人工审核记录'
                 },
                 component: () => import(/* webpackChunkName: "markdown" */ '../views/withdrawReview.vue')
             },{
@@ -258,8 +265,41 @@ const routes = [
                     title:'添加关键行为配置'
                 },
                 component:()=>import('../views/KeyBehaviorEidtor.vue')
-
-
+            },{
+                path:"/privilegemanage",
+                name:"privilegemanage",
+                meta:{
+                    title:"角色创建",
+                },
+                component:()=>import('../views/privilegeManagement/PrivilegeManage.vue')
+            },{
+                path:'/privilegelist',
+                name:'privilegelist',
+                meta:{
+                    title:'账号列表',
+                },
+                component:()=>import('../views/privilegeManagement/PrivilegeList.vue')
+            },{
+                path:'/privilegeadd',
+                name:'privilegeadd',
+                meta:{
+                    title:'添加角色'
+                },
+                component:()=>import('../views/privilegeManagement/PrivilegeAdd.vue')
+            },{
+                path:'/privilegeeidtor',
+                name:'privilegeeidtor',
+                meta:{
+                    title:'添加角色'
+                },
+                component:()=>import('../views/privilegeManagement/PrivilegeEidtor.vue')
+            },{
+                path:'/accountadd',
+                name:'accountadd',
+                meta:{
+                    title:'添加账号'
+                },
+                component:()=>import('../views/privilegeManagement/AccountAdd.vue')
             }
         ]
     }, {

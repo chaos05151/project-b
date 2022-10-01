@@ -11,17 +11,17 @@
       <div class="form-box" style="height:2000px">
         <div>
           <el-breadcrumb separator="/">
-            <el-breadcrumb-item v-show="route.params.whichTab == 0">设备登录限制</el-breadcrumb-item>
-            <el-breadcrumb-item v-show="route.params.whichTab == 1">微信账号绑定</el-breadcrumb-item>
-            <el-breadcrumb-item v-show="route.params.whichTab == 2">实名认证&防沉迷</el-breadcrumb-item>
-            <el-breadcrumb-item v-show="route.params.whichTab == 3">手机绑定</el-breadcrumb-item>
-            <el-breadcrumb-item v-show="route.params.whichTab == 4">隐私协议</el-breadcrumb-item>
-            <el-breadcrumb-item v-show="route.params.whichTab == 5">假页面</el-breadcrumb-item>
+            <el-breadcrumb-item v-show="whichTab == 0">设备登录限制</el-breadcrumb-item>
+            <el-breadcrumb-item v-show="whichTab == 1">微信账号绑定</el-breadcrumb-item>
+            <el-breadcrumb-item v-show="whichTab == 2">实名认证&防沉迷</el-breadcrumb-item>
+            <el-breadcrumb-item v-show="whichTab == 3">手机绑定</el-breadcrumb-item>
+            <el-breadcrumb-item v-show="whichTab == 4">隐私协议</el-breadcrumb-item>
+            <el-breadcrumb-item v-show="whichTab == 5">假页面</el-breadcrumb-item>
             <el-breadcrumb-item>修改配置</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
         <el-divider />
-        <el-form ref="formRef" v-show="route.params.whichTab == 0" :rules="rules" :model="form"
+        <el-form ref="formRef" v-show="whichTab == 0" :rules="rules" :model="form"
           label-width="280px">
           <el-form-item label="允许模拟器登录" prop="simulator_login_status">
             <el-switch v-model="form.simulator_login_status"></el-switch>
@@ -60,7 +60,7 @@
             <el-button @click="onReset">取消</el-button>
           </el-form-item>
         </el-form>
-        <el-form ref="formRef" v-show="route.params.whichTab == 1" :rules="rules" :model="form"
+        <el-form ref="formRef" v-show="whichTab == 1" :rules="rules" :model="form"
           label-width="280px">
           <el-form-item label="微信最多绑定账号数" prop="account_bind_num">
             <el-input style="width: 150px" v-model="form.account_bind_num"></el-input>
@@ -78,7 +78,7 @@
             <el-button @click="onReset">取消</el-button>
           </el-form-item>
         </el-form>
-        <el-form ref="formRef" v-show="route.params.whichTab == 2" :rules="rules" :model="form"
+        <el-form ref="formRef" v-show="whichTab == 2" :rules="rules" :model="form"
           label-width="280px">
           <el-form-item label="是否开启实名认证" prop="open_real_name_authentication_status">
             <el-radio-group v-model="form.open_real_name_authentication_status">
@@ -145,7 +145,7 @@
             <el-button @click="onReset">取消</el-button>
           </el-form-item>
         </el-form>
-        <el-form ref="formRef" v-show="route.params.whichTab == 3" :rules="rules" :model="form"
+        <el-form ref="formRef" v-show="whichTab == 3" :rules="rules" :model="form"
           label-width="280px">
           <el-form-item label="开启手机绑定" prop="mobile_phone_bind_status">
             <el-switch v-model="form.mobile_phone_bind_status"></el-switch>
@@ -166,7 +166,7 @@
             <el-button @click="onReset">取消</el-button>
           </el-form-item>
         </el-form>
-        <el-form ref="formRef" v-show="route.params.whichTab == 4" :rules="rules" :model="form"
+        <el-form ref="formRef" v-show="whichTab == 4" :rules="rules" :model="form"
           label-width="280px">
           <el-form-item label="用户协议地址" prop="user_agreement_url">
             <el-input style="width: 150px" v-model="form.user_agreement_url"></el-input>
@@ -184,7 +184,7 @@
             <el-button @click="onReset">取消</el-button>
           </el-form-item>
         </el-form>
-        <el-form ref="formRef" v-show="route.params.whichTab == 5" :rules="rules" :model="form"
+        <el-form ref="formRef" v-show="whichTab == 5" :rules="rules" :model="form"
           label-width="280px">
           <el-form-item label="指定游戏">
             <el-input style="width: 150px" v-model="product_name" :disabled=true></el-input>
@@ -228,6 +228,8 @@ import {
 } from "../api/risk";
 import { useRouter,useRoute } from "vue-router";
 import moment from "moment";
+import {riskmodular} from '../store/risk'
+const risk=riskmodular()
 const router = useRouter()
 const route =useRoute()
 const form = reactive({});
@@ -240,6 +242,7 @@ const version_name = ref("");
 const start_date = ref("");
 const end_date = ref("");
 const dateSelect = ref([]);
+const whichTab=risk.getstatewhichTab
 //修改设备登录
 const updateDeviceLoginData = (id, data) => {
   updateDeviceLogin(id, data).then((res) => {
@@ -294,11 +297,13 @@ const checkNonnegate = (value) => {
 };
 
 
-const data = JSON.parse(route.params.data);
+const data=risk.getstaterowdata
+console.log(data);
+// const data = JSON.parse(route.params.data);
 console.log("route.params", route.params);
 console.log("route.params.data", route.params.data);
 //设备登录
-if (route.params.whichTab == 0) {
+if (whichTab == 0) {
   form.simulator_login_status =
     data.simulator_login_status == 1 ? true : false;
   form.more_open_login_status =
@@ -314,16 +319,20 @@ if (route.params.whichTab == 0) {
     data.more_open_watch_advertisement_status == 1 ? true : false;
   form.exception_device_watch_advertisement_status =
     data.exception_device_watch_advertisement_status == 1 ? true : false;
+  form.risk_device_disabled_status=
+    data.risk_device_disabled_status == 1 ? true :false;
+  form.exception_login_status=
+   data.exception_login_status ==1 ? true :false
 }
 
 //微信绑定
-if (route.params.whichTab == 1) {
+if (whichTab == 1) {
   form.account_bind_num = data.account_bind_num;
   form.one_day_withdrawal_count = data.one_day_withdrawal_count;
 }
 
 //实名认证
-if (route.params.whichTab == 2) {
+if (whichTab == 2) {
   form.open_real_name_authentication_status =
     data.open_real_name_authentication_status; //是否开启实名认证	1不开启  2开启（非强制） 3开启（强制）
   form.real_name_authentication_node = data.real_name_authentication_node; //实名认证节点	1登录前 2登陆成功xx后 3提现x次后 4绑定微信号第二次登录
@@ -341,20 +350,20 @@ if (route.params.whichTab == 2) {
 }
 
 //手机绑定
-if (route.params.whichTab == 3) {
+if (whichTab == 3) {
   form.mobile_phone_bind_status =
     data.mobile_phone_bind_status == 1 ? true : false;
   form.mobile_phone_bind_condition = data.mobile_phone_bind_condition;
 }
 
 //隐私协议
-if (route.params.whichTab == 4) {
+if (whichTab == 4) {
   form.privacy_agreement_url = data.privacy_agreement_url;
   form.user_agreement_url = data.user_agreement_url;
 }
 
 //假页面
-if (route.params.whichTab == 5) {
+if (whichTab == 5) {
 
   console.log(data);
   product_name.value = data.product_name;
@@ -386,6 +395,7 @@ const onSubmit = () => {
   let appoint_time_format;
   if (!form.appoint_time) {
     appoint_time_format = moment().format("YYYY-MM-DD HH:mm:ss");
+    console.log("3131");
   } else {
     if (
       form.appoint_time[0] > moment().format("YYYY-MM-DD HH:mm:ss") &&
@@ -407,10 +417,13 @@ const onSubmit = () => {
           return;
         }
       }
+  }
+      }
       // 表单校验
       formRef.value.validate((valid) => {
         if (valid) {
           if (form.one_device_login_num) {
+            console.log("dfghhhhhhhh");
             if (!checkNonnegate(form.one_device_login_num)) return;
           }
           if (form.exception_device_watch_advertisement_num) {
@@ -431,15 +444,14 @@ const onSubmit = () => {
               form.more_open_watch_advertisement_status ? 1 : 0, //多开设备看广告
             appoint_time: appoint_time_format, //指定生效时间
           };
-          console.log(data);
+          console.log("3434532",data);
           updateDeviceLoginData(form.id, data);
       router.push("/risk");
     } else {
+      console.log("gdfgd");
       return false;
     }
-  })
-}
-}
+    })
 }
 
 //微信账号绑定提交

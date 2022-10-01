@@ -44,6 +44,7 @@ export default {
         });
 
         const sidebar = useSidebarStore();
+        // console.log(sidebar.getSidear());
         const items = sidebar.menu
 
         return {

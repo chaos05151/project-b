@@ -565,7 +565,10 @@ import {
   addWechatBind,
 } from "../api/risk";
 import moment from "moment";
+import {riskmodular} from '../store/risk'
 import { main } from "@popperjs/core";
+const risk=riskmodular()
+
 const router=useRouter()
 const main_product_name_selected = ref("");
 const formRef = ref(null);
@@ -1658,8 +1661,10 @@ const handlePrivacyPageChange = (val) => {
 const addRule = () => {
   router.push({
     name: "riskadd",
-    params: { whichTab: whichTab.value },
+    // params: { whichTab: whichTab.value },
   });
+  console.log(whichTab.value)
+  risk.setriskwhichTab(whichTab.value)
 }
 const editRule = () => {
   router.push({
@@ -1676,6 +1681,7 @@ const handleTabClick = (tab) => {
 }
 //设备登录修改
 const handleDeviceLoginEdit = (id, item) => {
+  console.log(item);
   const rowdata = {
     ...item,
     simulator_login_status: item.simulator_login_status == "允许" ? 1 : 0,
@@ -1684,16 +1690,24 @@ const handleDeviceLoginEdit = (id, item) => {
     simulator_watch_advertisement_status:
       item.simulator_watch_advertisement_status == "允许" ? 1 : 0,
     more_open_watch_advertisement_status:
-      item.more_open_watch_advertisement_status == "允许" ? 1 : 0
+      item.more_open_watch_advertisement_status == "允许" ? 1 : 0,
+    risk_device_disabled_status:
+      item.risk_device_disabled_status == "允许" ? 1:0,
+    exception_login_status:
+      item.exception_login_status =="允许" ? 1:0
   };
   router.push({
     name: "riskedit",
-    params: {
-      whichTab: whichTab.value,
-      id: id,
-      data: JSON.stringify(rowdata)
-    },
-  });
+    // params: {
+    //   whichTab: whichTab.value,
+    //   id: id,
+    //   data: JSON.stringify(rowdata)
+    // },
+    
+  })
+  risk.setriskwhichTab(whichTab.value)
+  risk.setriskid(id)
+  risk.setriskrowdata(rowdata)
 }
 // 设备登录删除操作
 const handleDeviceLoginDelete = (id) => {
@@ -1719,8 +1733,11 @@ const deleteDeviceLoginData = (id) => {
 const handleWechatBindEdit = (id, row) => {
   router.push({
     name: "riskedit",
-    params: { whichTab: whichTab.value, id: id, data: JSON.stringify(row) },
   });
+  risk.setriskwhichTab(whichTab.value)
+  risk.setriskid(id)
+  risk.setriskrowdata(row)
+  
 }
 // 微信绑定删除操作
 const handleWechatBindDelete = (id) => {
@@ -1768,12 +1785,11 @@ const handleRealNameEdit = (id, item) => {
   };
   router.push({
     name: "riskedit",
-    params: {
-      whichTab: whichTab.value,
-      id: id,
-      data: JSON.stringify(rowdata),
-    },
-  });
+  }
+  );
+  risk.setriskwhichTab(whichTab.value)
+  risk.setriskid(id)
+  risk.setriskrowdata(rowdata)
 }
 // 实名认证删除操作
 const handleRealNameDelete = (id) => {
@@ -1795,8 +1811,12 @@ const handlePhoneBindEdit = (id, item) => {
   };
   router.push({
     name: "riskedit",
-    params: { whichTab: whichTab.value, id: id, data: JSON.stringify(rowdata) },
+   
   });
+  risk.setriskwhichTab(whichTab.value)
+  risk.setriskid(id)
+  risk.setriskrowdata(rowdata)
+
 }
 // 手机绑定删除操作
 const handlePhoneBindDelete = (id) => {
@@ -1815,6 +1835,9 @@ const handlePrivacyEdit = (id, row) => {
     name: "riskedit",
     params: { whichTab: whichTab.value, id: id, data: JSON.stringify(row) },
   });
+  risk.setriskwhichTab(whichTab.value)
+  risk.setriskid(id)
+  risk.setriskrowdata(row)
 }
 // 隐私协议删除操作
 const handlePrivacyDelete = (id) => {
@@ -1839,6 +1862,9 @@ const handleFakePageEdit = (id, row) => {
     name: "riskedit",
     params: { whichTab: whichTab.value, id: id, data: JSON.stringify(row) },
   })
+  risk.setriskwhichTab(whichTab.value)
+  risk.setriskid(id)
+  risk.setriskrowdata(row)
 }
 
 

@@ -3,6 +3,8 @@ export const useProject=defineStore('project',{
     state: ()=>{
         return{
           userproduct:{
+          },
+          privilegemanage:{
           }
         }
      },
@@ -17,16 +19,22 @@ export const useProject=defineStore('project',{
       }   
   ,
      getters:{
-        achieveuseruserproduct: (state) => state.userproduct
+        achieveuseruserproduct: (state) => state.userproduct,
+        getPrivilegemanage:(state)=>state.privilegemanage
      },
      actions: {
         setproduct(row) {
             this.userproduct=row
         },
         claerproduct(){
-            this.userproduct={
-                
+            this.userproduct={  
             }
+        },
+        setprivilegemanage(row){
+          this.privilegemanage=row
+        },
+        clearprivilegemanage(){
+          this.privilegemanage={}
         }
         
     }

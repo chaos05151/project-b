@@ -20,6 +20,7 @@
                 </el-form-item>
                 <div class="login-btn">
                     <el-button type="primary" @click="submitForm()">登录</el-button>
+                    <el-button @click="test">test</el-button>
                 </div>
                 <p class="login-tips">Tips : 用户名和密码随便填。</p>
             </el-form>
@@ -30,9 +31,11 @@
 <script>
 import { ref, reactive } from "vue";
 import { useTagsStore } from '../store/tags'
-import { useRouter } from "vue-router";
+import { useRouter  } from "vue-router";
 import { ElMessage } from "element-plus";
 import md5 from 'js-md5'
+import {getPrivilege} from '../utils/getPrivilege'
+import { useSidebarStore} from '../store/sidebar'
 
 export default {
     setup() {
@@ -41,6 +44,22 @@ export default {
             username: "admin",
             password: "123123",
         });
+        const  useSidebar=useSidebarStore()
+        const test=()=>{
+            useSidebar.addTarbar(
+            {
+                    icon:"el-icon-menu",
+                    index:"6",
+                    title:"权限管理6",
+                    subs:[
+                        {
+                            index:"/privilegeadd",
+                            title:"角色创建6"
+                        }
+                    ]
+                }
+        )
+        }
 
         const rules = {
             username: [
@@ -56,6 +75,15 @@ export default {
         };
         const login = ref(null);
         const submitForm = () => {
+            // router.addRoute()
+            // let res={"status":200,"message":"ok","data":[{"id":100,"parent_id":0,"path":"/productsd","name":"product","component":"Layout","menu_type":1,"sort":0,"title":"产品管理","icon":"","redirect":""},{"id":110,"parent_id":0,"path":"/user","name":"user","component":"Layout","menu_type":1,"sort":0,"title":"用户管理","icon":"","redirect":""},{"id":120,"parent_id":0,"path":"/service","name":"service","component":"Layout","menu_type":1,"sort":0,"title":"客服中心","icon":"","redirect":""},{"id":130,"parent_id":0,"path":"/risk","name":"risk","component":"Layout","menu_type":1,"sort":0,"title":"风控管理","icon":"","redirect":""},{"id":1272,"parent_id":100,"path":"/product/product","name":"productProduct","component":"/product/product","menu_type":1,"sort":0,"title":"应用中心","icon":"","redirect":""},{"id":1272,"parent_id":120,"path":"/product/product","name":"productProduct","component":"/product/product","menu_type":1,"sort":0,"title":"应用中心","icon":"","redirect":""}]}
+            // let arr=getPrivilege(res)
+            // console.log(arr);
+            // arr.map(item=>{
+            //     router.addRoute(item)
+            // })
+
+            console.log(router.getRoutes());
             login.value.validate((valid) => {
                 if (valid) {
                     ElMessage.success("登录成功");
@@ -77,6 +105,8 @@ export default {
             rules,
             login,
             submitForm,
+            useSidebar,
+            test
         };
     },
 };
