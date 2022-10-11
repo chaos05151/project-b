@@ -1,1 +1,0 @@
-import{r as o}from"./request.0f196fd3.js";const t=a=>o({url:"/admin/v1/admin/admins/login",method:"post",params:a}),m=a=>o({url:"/admin/v1/admin/admin_roles",method:"post",params:a}),d=(a,n)=>{const r="/admin/v1/admin/admin_roles/"+a;return o({url:r,method:"put",params:n})};export{m as a,t as l,d as u};

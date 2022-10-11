@@ -13,8 +13,11 @@
             </div>
             <el-divider />
             <div class="search">
-                <el-input placeholder="请输入用户名称" style="width:250px;height: 42px;" v-model="query.account"></el-input>
-                <el-button style="margin-left:10px" type="primary" @click="handleSearch"><el-icon><Search /></el-icon></el-button>
+                <el-input placeholder="请输入用户名称" style="width:250px;" v-model="query.account">
+                    <template #append>
+                        <el-button  @click="handleSearch"><el-icon><Search /></el-icon></el-button>
+                    </template>
+                </el-input>
             </div>
             <el-table border :data="tableData">
                 <el-table-column prop="name" label="昵称"></el-table-column>
