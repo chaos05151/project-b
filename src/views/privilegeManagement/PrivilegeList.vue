@@ -13,7 +13,7 @@
             </div>
             <el-divider />
             <div class="search">
-                <el-input placeholder="请输入角色名称" style="width:250px;height: 42px;" v-model="query.account" @change="inputChange"></el-input>
+                <el-input placeholder="请输入用户名称" style="width:250px;height: 42px;" v-model="query.account"></el-input>
                 <el-button style="margin-left:10px" type="primary" @click="handleSearch"><el-icon><Search /></el-icon></el-button>
             </div>
             <el-table border :data="tableData">
@@ -24,7 +24,7 @@
                     <template #default="scope">
                         <el-button type="text"  icon="el-icon-edit" @click="handleEidtor(scope.row)">编辑</el-button>
                         <el-button type="text" style="color:red" icon="el-icon-delete" @click="handleDelte(scope.row.id)">删除</el-button>
-                        <el-button type="text" style="color:rgb(11 210 72)" icon="el-icon-delete" @click="handleDelte(scope.row.id)">改密</el-button>
+                        <el-button type="text" style="color:rgb(11 210 72)" icon="el-icon-delete" @click="changePSW(scope.row)">改密</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -33,12 +33,35 @@
                 :page-size="query.page_size" :total="pageTotal" @current-change="handlePageChange"></el-pagination>
             </div>
         </div>
+        <!-- 改密对话框 -->
+        <el-dialog
+            v-model="dialogVisible"
+            title="修改密码"
+            width="30%"
+        >
+            <div>id:{{currentAccount.id}}</div>
+            <div>昵称:{{currentAccount.name}}</div>
+            <div>用户名:{{currentAccount.user_name}}</div>
+            <div>密码：<el-input v-model="currentAccount.password"></el-input></div>
+            <template #footer>
+            <span class="dialog-footer">
+                <el-button @click="dialogVisible = false">取消</el-button>
+                <el-button type="primary" @click="confirmChange"
+                >确认</el-button
+                >
+            </span>
+            </template>
+        </el-dialog>
     </div>
 </template>
 
 <script setup>
     import { ref,reactive } from 'vue';
     import { useRouter } from 'vue-router';
+    import {ElMessageBox} from 'element-plus';
+    import { useProject } from '../../store/project';
+    const useProjectStore=useProject()
+    const dialogVisible=ref(false)
     const router=useRouter()
     const query=reactive({
         page_index:1,
@@ -48,11 +71,23 @@
     const pageTotal=ref(1);
     const tableData=ref([
         {
+            id:"1",
             name:"sdf",
             user_name:"1313",
+            password:"dfggdf8",
             add_date:"2022-10-13"
         }
     ])
+    const currentAccount=ref({
+        id:"",
+        name:"",
+        user_name:"",
+        password:""
+    })
+    //handleSearch
+    const handleSearch=()=>{
+        console.log(query);
+    }
     //获取表格数据
     const getData=()=>{
         console.log();
@@ -67,7 +102,27 @@
             name:'accountadd'
         })
     }
-
+    //编辑
+    const handleEidtor=(row)=>{
+        console.log(row);
+        useProjectStore.setprivilegeaccount(row)
+        router.push({name:"accounteidtor"})
+    }
+    //删除
+    const handleDelte=(id)=>{
+        console.log(id);
+    }
+    //改密
+    const changePSW=(row)=>{
+        currentAccount.value=row
+        console.log(currentAccount.value);
+        dialogVisible.value=true
+    }
+    //改密确认
+     const confirmChange=()=>{
+        console.log(currentAccount.value.password);
+        dialogVisible.value=false
+     }
 </script>
 
 <style  scoped>

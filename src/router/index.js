@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import Home from "../views/Home.vue";
-
+import {getRouterPrivileg} from '../utils/routerPrivilege'
 const routes = [
     {
         path: '/',
@@ -300,6 +300,10 @@ const routes = [
                     title:'添加账号'
                 },
                 component:()=>import('../views/privilegeManagement/AccountAdd.vue')
+            },{
+                path:'/accounteidtor',
+                name:'accounteidtor',
+                component:()=>import('../views/privilegeManagement/AccountEidtor.vue')
             }
         ]
     }, {
@@ -328,6 +332,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     document.title = `${to.meta.title} | 流量商业化B端`;
     const role = localStorage.getItem('ms_username');
+    console.log("fsddgs",to,from);
     if (!role && to.path !== '/login') {
         next('/login');
     } else if (to.meta.permission) {
@@ -336,7 +341,31 @@ router.beforeEach((to, from, next) => {
             ? next()
             : next('/403');
     } else {
-        next();
+        // console.log(to.path,getRouterPrivileg(to.path));
+        // getRouterPrivileg(to.path)
+        if(to.path=='/login'){
+            next()
+        }else{
+            next()
+            // switch(getRouterPrivileg(to.path)){
+            //     case 'pass':
+            //         next()
+            //         break;
+            //     case 'no_pass':
+            //         next('/403')
+            //         break;
+            // }
+            
+            // console.log(to.path);
+            // if(getRouterPrivileg(to.path)=='pass'){
+            //     next();
+            // }else if(getRouterPrivileg(to.path)=='no_pass'){
+            //     next('/403')
+            //     console.log("fdssdfgghhgfh");
+            // }
+        }
+        
+        
     }
 });
 

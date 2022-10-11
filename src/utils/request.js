@@ -2,17 +2,18 @@ import axios from 'axios';
 
 const service = axios.create({
     baseURL: process.env.NODE_ENV == 'production' ? "https://flora-api.relationshipapp.com/" : process.env.NODE_ENV == 'development' ? "https://flora-staging.relationshipapp.com/" : "https://flora-test.relationshipapp.com/",
-    // baseURL: "http://a93341.cpolar.top",
+    // baseURL: "http://58a8-219-138-49-240.ngrok.io",
     timeout: 50000000000000
 });
 
 service.interceptors.request.use(
     config => {
+        // config.headers['Authorization'] = 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluMTIiLCJleHAiOjE2NjY0MDQyNTB9._iDjTzvpgj3yOBMfKS1pfYrbb8-HQw9tyxLC9v_LRCg'
         config.headers['x-access-token'] = localStorage.getItem('token')
         if(config.params){
             let args=Object.keys(config.params)
             args.forEach(item=>{
-                if(config.params[item]==undefined){
+                if(typeof config.params[item]=='undefined'){
                     delete config.params[item]
                 }
             })

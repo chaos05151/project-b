@@ -5,6 +5,9 @@ export const useProject=defineStore('project',{
           userproduct:{
           },
           privilegemanage:{
+          },
+          privilegeaccount:{
+
           }
         }
      },
@@ -20,7 +23,8 @@ export const useProject=defineStore('project',{
   ,
      getters:{
         achieveuseruserproduct: (state) => state.userproduct,
-        getPrivilegemanage:(state)=>state.privilegemanage
+        getPrivilegemanage:(state)=>state.privilegemanage,
+        getPrivilegeAccount:(state)=>state.privilegeaccount
      },
      actions: {
         setproduct(row) {
@@ -35,6 +39,12 @@ export const useProject=defineStore('project',{
         },
         clearprivilegemanage(){
           this.privilegemanage={}
+        },
+        setprivilegeaccount(row){
+          this.privilegeaccount=row
+        },
+        clearprivilegaccount(){
+          this.privilegeaccount={}
         }
         
     }

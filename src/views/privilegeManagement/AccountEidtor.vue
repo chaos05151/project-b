@@ -12,14 +12,8 @@
                 <el-form-item prop="user_name" label="用户名" :required="true">
                     <el-input  v-model="form.user_name" placeholder="请输入用户名" clearable></el-input>
                 </el-form-item>
-                <el-form-item prop="password" label="密码" :required="true">
-                    <el-input v-model="form.password" type="password" placeholder="请输入密码"  show-password ></el-input>
-                </el-form-item>
                 <el-form-item prop="name" label="昵称" :required="true">
                     <el-input v-model="form.name" placeholder="请输入昵称" clearable></el-input>
-                </el-form-item>
-                <el-form-item prop="game" label="应用" :required="true">
-                    <el-cascader :options="selectList" :props="props" v-model="selectGame" @change="hanleChange" ></el-cascader>
                 </el-form-item>
                 <el-form-item prop="prilegeList" label="角色" :rules="[{ required: true,message: '请选择角色', trigger: 'blur' }]">
                      <el-checkbox v-model="checkAll" :indeterminate="isIndeterminate" @change="handleAllChange">全选</el-checkbox>
@@ -28,7 +22,7 @@
                      </el-checkbox-group>
                 </el-form-item>
                 <el-form-item>
-                    <el-button>取消</el-button>
+                    <el-button @click="goback">取消</el-button>
                     <el-button type="primary" @click="submit">保存</el-button>
                 </el-form-item>
             </el-form>
@@ -37,106 +31,20 @@
 </template>
 
 <script setup>
-import { ref,reactive } from 'vue'
-    import {fetchRoles} from '../../api/privilelge'
-    import { fetchMainProductList,fetchProductList} from '../../api/product'
+    import { ref,reactive } from 'vue'
+import router from '../../router';
+    import { useProject } from '../../store/project'
+    const useProjectStore=useProject()
     const form=reactive({
         user_name:"",
-        password:"",
         name:"",
         privilegeList:''
     });
-  const selectList=ref([])
-
-    //获取项目
-    const getMainprodutlist=()=>{
-        fetchMainProductList().then(res=>{
-            if(res.status==200){
-                selectList.value=res.data.map(item=>{
-                    return {
-                        value:item.id,
-                        label:item.main_product_name,
-                        children:[]
-                    }
-                })
-            }
-        })
-    }
-    // const getProductList=(id)=>{
-    //     let data={
-    //         main_product_id:id
-    //     }
-    //   return  fetchProductList(data)
-    // }
-    const selectGame=ref([])
     const checkAll=ref(false)
     const checkedList=ref([])
     const isIndeterminate = ref(true)
     const ruleFormRef = ref()
     
-
-    const props=ref({
-        expandTrigger:'click',
-        lazy: true,
-        lazyLoad(node, resolve){
-            const { value }=node
-            let data={
-                main_product_id:value
-            }
-            fetchProductList(data).then(res=>{
-                if(res.data==200){
-                    const nodes=res.data.map(item=>{
-                        return {
-                            value:item.product_id,
-                            label:item.item.product_name
-                        }
-                    })
-                    resolve(nodes)
-                }
-            })
-        }
-    })
-
-    //hanleChange
-    const hanleChange=(val)=>{
-        console.log(val);
-    }
-
-
-    const getProductList=(val)=>{
-        console.log(val[0]);
-        let data={
-            main_product_id:val[0]
-        }
-        fetchProductList(data).then(res=>{
-            if(res.status==200){
-              const childrenList=res.data.map(item=>{
-                    return {
-                        value:item.product_id,
-                        label:item.product_name
-                    }
-                })
-                let arr=JSON.parse(JSON.stringify(selectList.value))
-                arr.forEach(item=>{
-                    if(item.value==val[0]){
-                        item.children.push(childrenList)
-                    }
-                })
-                
-            }
-        })
-    }
-
-
-    //角色列表
-    const getRoles=()=>{
-        fetchRoles().then(res=>{
-            if(res.status==200){
-                res.data.lists
-            }
-        })
-    }
-
     const list=[
         {
             value:"admin",
@@ -203,8 +111,19 @@ import { ref,reactive } from 'vue'
         validatePSW()
         console.log(data);
     }
+    //取消
+    const goback=()=>{
+        router.go(-1)
+    }
 
-    getMainprodutlist()
+    //数据回显示
+    const getDataBack=()=>{    
+        console.log(useProjectStore.privilegeaccount);
+        form.user_name=useProjectStore.privilegeaccount.user_name;
+        form.name=useProjectStore.privilegeaccount.name
+    }
+
+    getDataBack()
 </script>
 
 <style  scoped>

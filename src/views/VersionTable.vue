@@ -21,7 +21,7 @@
                         :value="item.value" />
                 </el-select>&nbsp;&nbsp;
                 <!-- <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button> -->
-                <el-button type="primary" @click="handleAdd">新增版本</el-button>
+                <el-button type="primary" v-if="button_add" @click="handleAdd">新增版本</el-button>
             </div>
 
             <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
@@ -61,6 +61,11 @@ import {
     fetchProductChannelData,
 } from "../api/product";
 import moment from "moment";
+import {showButton} from '../utils/showButton'
+const button_view=showButton('product:version:view')
+const button_add=showButton('product:version:add')
+const button_edit=showButton('product:version:edit')
+const button_del=showButton('product:version:del')
 const addVisible = ref(false);
 const channeloptions = ref([]);
 const tableData = ref([]);

@@ -18,8 +18,8 @@
             </div>
             <el-table border :data="tableData">
                 <el-table-column prop="id" label="id"></el-table-column>
-                <el-table-column prop="characterName" label="角色名称"></el-table-column>
-                <el-table-column prop="describe" label="备注/描述"></el-table-column>
+                <el-table-column prop="name" label="角色名称"></el-table-column>
+                <el-table-column prop="remark" label="备注/描述"></el-table-column>
                 <el-table-column prop="founder"  label="创建者"></el-table-column>
                 <el-table-column prop="add_date" label="添加日期"></el-table-column>
                 <el-table-column  label="操作">
@@ -41,6 +41,7 @@
     import { ref,reactive } from 'vue'
     import {useRouter} from 'vue-router'
     import { useProject } from '../../store/project'
+    import {fetchRoles,deleteRoles } from  '../../api/privilelge'
     const router=useRouter()
     const useProjectStore=useProject()
     const query=reactive({
@@ -52,30 +53,33 @@
     const tableData=ref([
         {
             id:"1",
-            characterName:"fdsafh",
-            describe:"dsf",
+            name:"fdsafh",
+            remark:"dsf",
             founder:"sdf",
             add_date:"2022-09-13",
-            privilege:[
-    {
-        "id": "1-1-1",
-        "label": "查看应用"
-    },
-    {
-        "id": "1-1-2",
-        "label": "编辑应用"
-    },
-    {
-        "id": "1-2-1",
-        "label": "查看版本"
-    },
-    {
-        "id": "1-2-2",
-        "label": "编辑版本"
-    }
-]
+            privilege:'100,1372,1373,1374,1375,1376,1377,1472,1473,1474,1475,1476'
         }
     ]);
+
+
+    //获取角色权限列表
+    const getRoles=()=>{
+        fetchRoles(query).then(res=>{
+            if(res.status==200){
+                tableData.value=res.data.lists
+                pageTotal=res.data.total_count
+            }
+        })
+    }
+
+    //删除角色权限
+    const delRoles=(id)=>{
+        deleteRoles(id).then(res=>{
+            if(res.status==200){
+                ElMessage.success('删除成功')
+            }
+        })
+    }
 
     //输入框的值改变
     const inputChange=(val)=>{
@@ -103,14 +107,17 @@
 
      }
      //编辑
-     const handleEidtor=(row)=>[
-        // console.log(row)
-        useProjectStore.setprivilegemanage(row),
+     const handleEidtor=(row)=>{
+                // console.log(row)
+                useProjectStore.setprivilegemanage(row),
         router.push({
             name:'privilegeeidtor'
         })
-        
-     ]
+     }
+     //删除
+    const handleDelte=(id)=>{
+        console.log(id);
+    }
 
 
 

@@ -20,7 +20,7 @@
                 </el-form-item>
                 <div class="login-btn">
                     <el-button type="primary" @click="submitForm()">登录</el-button>
-                    <el-button @click="test">test</el-button>
+                    <el-button @click="testAllPrivilege">test</el-button>
                 </div>
                 <p class="login-tips">Tips : 用户名和密码随便填。</p>
             </el-form>
@@ -35,7 +35,9 @@ import { useRouter  } from "vue-router";
 import { ElMessage } from "element-plus";
 import md5 from 'js-md5'
 import {getPrivilege} from '../utils/getPrivilege'
-import { useSidebarStore} from '../store/sidebar'
+import { fetchPrivilege,loginAccount} from '../api/privilelge'
+import {testAllPrivilege} from '../utils/test'
+
 
 export default {
     setup() {
@@ -44,22 +46,6 @@ export default {
             username: "admin",
             password: "123123",
         });
-        const  useSidebar=useSidebarStore()
-        const test=()=>{
-            useSidebar.addTarbar(
-            {
-                    icon:"el-icon-menu",
-                    index:"6",
-                    title:"权限管理6",
-                    subs:[
-                        {
-                            index:"/privilegeadd",
-                            title:"角色创建6"
-                        }
-                    ]
-                }
-        )
-        }
 
         const rules = {
             username: [
@@ -73,21 +59,39 @@ export default {
                 { required: true, message: "请输入密码", trigger: "blur" },
             ],
         };
+        //请求登录接口
+        const handleLogin=(data)=>{
+            loginAccount(data).then(res=>{
+                if(res.status==200){
+                    ElMessage.success("登录成功");
+                    localStorage.setItem("ms_username", param.username);
+                    localStorage.setItem("token",res.data.token)
+                    getPermission()
+                }else{
+                    ElMessage.error("登录失败")
+                }
+            })
+        }
+        //获取权限接口
+        const getPermission =()=>{
+            // let token=localStorage.getItem("token")
+            let token='eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MTAsImV4cCI6MTY2NjQyMzgyNH0.gWAFsdZB9BIO6NPr95amGEoSlRU_QoUIjLNWYT6iQcE'
+            fetchPrivilege(token).then(res=>{
+                if(res.status==200){
+                    getPrivilege(res.data)
+                }
+            })
+        }
         const login = ref(null);
         const submitForm = () => {
-            // router.addRoute()
-            // let res={"status":200,"message":"ok","data":[{"id":100,"parent_id":0,"path":"/productsd","name":"product","component":"Layout","menu_type":1,"sort":0,"title":"产品管理","icon":"","redirect":""},{"id":110,"parent_id":0,"path":"/user","name":"user","component":"Layout","menu_type":1,"sort":0,"title":"用户管理","icon":"","redirect":""},{"id":120,"parent_id":0,"path":"/service","name":"service","component":"Layout","menu_type":1,"sort":0,"title":"客服中心","icon":"","redirect":""},{"id":130,"parent_id":0,"path":"/risk","name":"risk","component":"Layout","menu_type":1,"sort":0,"title":"风控管理","icon":"","redirect":""},{"id":1272,"parent_id":100,"path":"/product/product","name":"productProduct","component":"/product/product","menu_type":1,"sort":0,"title":"应用中心","icon":"","redirect":""},{"id":1272,"parent_id":120,"path":"/product/product","name":"productProduct","component":"/product/product","menu_type":1,"sort":0,"title":"应用中心","icon":"","redirect":""}]}
-            // let arr=getPrivilege(res)
-            // console.log(arr);
-            // arr.map(item=>{
-            //     router.addRoute(item)
-            // })
-
+            // handleLogin(param)
+            console.log(param);
             console.log(router.getRoutes());
             login.value.validate((valid) => {
                 if (valid) {
                     ElMessage.success("登录成功");
                     localStorage.setItem("ms_username", param.username);
+                 
                     localStorage.setItem("token", md5(param.username+param.password));
                     router.push("/");
                 } else {
@@ -99,14 +103,16 @@ export default {
 
         const tags = useTagsStore();
         tags.clearTags();
+   
 
         return {
             param,
             rules,
             login,
             submitForm,
-            useSidebar,
-            test
+            testAllPrivilege,
+            getPrivilege,
+            loginAccount
         };
     },
 };

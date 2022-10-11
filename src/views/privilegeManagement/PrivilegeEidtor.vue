@@ -8,15 +8,15 @@
         </div>
         <div class="container">
             <el-form :model="form" label-width="100px" style="width:400px">
-                <el-form-item prop="characterName" label="角色名称"
+                <el-form-item prop="name" label="角色名称"
                 :rules="[{ required: true,message: '请输入角色名称', trigger: 'blur' }]"
                 >
-                    <el-input  v-model="form.characterName" placeholder="请输入角色名称" clearable></el-input>
+                    <el-input  v-model="form.name" placeholder="请输入角色名称" clearable></el-input>
                 </el-form-item>
                 <el-form-item prop="remark" label="备注/描述">
                     <el-input v-model="form.remark" placeholder="请输入您的昵称"></el-input>
                 </el-form-item>
-                <el-form-item prop="characterControl" label="角色权限" :rules="[{ required: true, message: '请选择', trigger: 'blur' }]">
+                <el-form-item prop="menus" label="角色权限" :rules="[{ required: true, message: '请选择', trigger: 'blur' }]">
                     <el-tree
                     ref="treeRef"
                     :data="data"
@@ -34,34 +34,56 @@
 </template>
 
 <script setup>
-    import {ref ,reactive} from 'vue'
+    import {ref ,reactive, nextTick} from 'vue'
     import { useRouter } from 'vue-router';
-    import privilegeJSON from '../../config/privilege.json'
     import { useProject } from '../../store/project'
     import { ElMessage } from 'element-plus'
+    import menus from '../../mock/menus.json'
+    import {updateRoles } from '../../api/privilelge' 
+    import { dealMenus } from '../../utils/getMenus'
     const router=useRouter()
+    const id=ref("")
     const form=reactive({
-        characterName:"",
+        name:"",
         remark:"",
-        characterControl:[]
+        menus:[]
     })
     const treeRef=ref()
     const useProjectStore=useProject()
-    const data=privilegeJSON.privilegList
+    // const data=privilegeJSON.privilegList
+    const data=dealMenus(menus)
+
+//修改
+const changeRoles=(id,data)=>{
+    updateRoles(id,data).then(res=>{
+        if(res.status==200){
+            ElMessage.success("添加成功")
+            router.push({
+                name:'privilegemanage'
+            })
+        }
+    })
+}
+
 
 //提交
 const submit=()=>{
-    let arr=JSON.parse(JSON.stringify(treeRef.value.getCheckedNodes(true, true)))
-    form.characterControl=arr
+    let arr=JSON.parse(JSON.stringify(treeRef.value.getCheckedNodes(false, true)))
+    arr=arr.map(item=>{
+        return item.id
+    })
+    const str=arr.join(',')
+    form.menus=str
     console.log(arr)
-    if(form.characterControl==0){
+    if(form.menus==0){
         ElMessage.error('请选择角色权限')
         return 
-    }else if(form.characterName==""){
+    }else if(form.name==""){
         ElMessage.error('请输入角色名称')
         return 
     }else{
-        console.log(form);
+        // console.log(id.value,form);
+        changeRoles(id.value,form)
     } 
 }
 //取消（返回）
@@ -69,15 +91,29 @@ const goback=()=>{
     router.go(-1)
 }
 
+//选中节回显
+const  showCheckoutNodes=(str)=>{
+   const arr=str.split(",")
+    nextTick(()=>{
+        arr.forEach(item=>{
+            treeRef.value.setChecked(item,true,false)
+        })
+        
+    })
+}
+
 //getprivilegeData
 const getprivilegeData=()=>{
-    
     console.log(useProjectStore.privilegemanage);
-    form.characterName=useProjectStore.privilegemanage.characterName
-    form.remark=useProjectStore.privilegemanage.describe
-    form.characterControl=useProjectStore.privilegemanage.characterControl
+    form.name=useProjectStore.privilegemanage.name
+    form.remark=useProjectStore.privilegemanage.remark
+    form.menus=useProjectStore.privilegemanage.menus
+    id.value=useProjectStore.privilegemanage.id
+    let arr=useProjectStore.privilegemanage.privilege
+    showCheckoutNodes(arr)
 }
 getprivilegeData()
+
 </script>
 
 <style  scoped>

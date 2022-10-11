@@ -1,18 +1,32 @@
-export const getPrivilege=(res)=>{
+import {useRouterStore} from '../store/router'
+const useRouter=useRouterStore()
+export const getPrivilege=(data)=>{
+    useRouter.setButton(data.button)
             let arr=[]
             let child=[]
-            const routerAdd=res.data.map(item=>{
-                return{
-                    path:item.path,
-                    name:item.name,
-                    meta:{
-                        title:item.title
-                    },
-                    component:item.component
+            // console.log(data);
+            const getPath=(str)=>{
+                const arr=str.split('/')
+                console.log(arr);
+                 str='/'+arr[2]
+                return str
+            }
+ 
+            const routerAdd=[]
+            data.menu.map(item=>{
+                if(item.parent_id!=0){
+                    routerAdd.push({
+                        path:item.path,
+                        name:item.name,
+                        meta:{
+                            title:item.title
+                        },
+                        component:item.component
+                    })
                 }
             })
             
-            res.data.map(item=>{
+            data.menu.map(item=>{
                 if(item.parent_id==0){
                     arr.push({...item,children:[]})
                 }else{
@@ -26,15 +40,26 @@ export const getPrivilege=(res)=>{
                     }
                 })
             })
-            // console.log(arr,routerAdd);
+            console.log(arr,routerAdd);
+            useRouter.setRouter(routerAdd)
+           
+            const getSubs=(arr)=>{
+                arr=arr.map(item=>{
+                    return {
+                        index:item.path,
+                        title:item.title
+                    }
+                })
+                return arr
+            }
           const tabar=arr.map((item,index)=>{
                 return{
-                    icon:"",
+                    icon:item.icon,
                     index:index,
                     title:item.title,
-                    subs:[]
+                    subs:getSubs(item.children)
                 }
            })
-        //    console.log(tabar);
-           return routerAdd
+           console.log(tabar);
+           return tabar
 }

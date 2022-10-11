@@ -20,7 +20,7 @@
                         :value="item.product_id" />
                 </el-select>&nbsp;&nbsp;
                 <!-- <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button> -->
-                <el-button type="primary" @click="handleAdd">新增项目</el-button>
+                <el-button type="primary" v-if="button_edit" @click="handleAdd">新增项目</el-button>
             </div>
             <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
                 <el-table-column prop="main_product_id" sortable label="父游戏ID"></el-table-column>
@@ -31,13 +31,13 @@
                 <el-table-column prop="package_name" label="包名"></el-table-column>
                 <el-table-column label="操作" width="220" align="center">
                     <template #default="scope">
-                        <el-button type="text" v-show="scope.row.product_id > ''" icon="el-icon-link"
+                        <el-button type="text" v-if="button_edit" v-show="scope.row.product_id >''" icon="el-icon-link"
                             @click="riskManage(scope.row)">风控配置
                         </el-button>
-                        <el-button type="text" v-show="scope.row.product_id > ''" icon="el-icon-edit"
+                        <el-button type="text" v-if="button_edit" v-show="scope.row.product_id > ''" icon="el-icon-edit"
                             @click="handleEdit(scope.row.id, scope.row)">编辑
                         </el-button>
-                        <el-button type="text" icon="el-icon-delete" class="red"
+                        <el-button type="text" v-if="button_edit" icon="el-icon-delete" class="red"
                             @click="handleDelete(scope.row.main_product_id, scope.row.product_id)">删除
                         </el-button>
                     </template>
@@ -111,7 +111,7 @@
 <script setup>
 import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
-
+import {showButton} from '../utils/showButton'
 import { ElMessage, ElMessageBox } from "element-plus";
 import {
     fetchProductTableData,
@@ -126,6 +126,9 @@ import {
     fetchProductList,
 } from "../api/product";
 import { useProject } from '../store/project'
+
+const button_edit=showButton('product:product:edit')
+
 const router=useRouter()
 const useproject = useProject()
 const query = reactive({

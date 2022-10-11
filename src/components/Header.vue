@@ -44,6 +44,7 @@
 <script>
 import { computed, onMounted } from "vue";
 import { useSidebarStore } from '../store/sidebar'
+import { useRouterStore } from '../store/router';
 import { useRouter } from "vue-router";
 export default {
     setup() {
@@ -51,6 +52,7 @@ export default {
         const message = 2;
 
         const sidebar = useSidebarStore();
+        const routerStore=useRouterStore()
         // 侧边栏折叠
         const collapseChage = () => {
             sidebar.handleCollapse();
@@ -68,8 +70,10 @@ export default {
             if (command == "loginout") {
                 localStorage.removeItem("ms_username");
                 localStorage.removeItem("token");
+                sidebar.clearTarbar();
                 localStorage.removeItem("sidebar")
-                sidebar.clearTarbar()
+                routerStore.clearRouter()
+                routerStore.clearButton()
                 router.push("/login");
             } else if (command == "user") {
                 router.push("/personal");
@@ -78,6 +82,7 @@ export default {
 
         return {
             sidebar,
+            routerStore,
             username,
             message,
             collapseChage,
