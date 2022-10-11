@@ -18,8 +18,15 @@
                 <el-form-item prop="name" label="昵称" :required="true">
                     <el-input v-model="form.name" placeholder="请输入昵称" clearable></el-input>
                 </el-form-item>
-                <el-form-item prop="game" label="应用" :required="true">
-                    <el-cascader :options="selectList" :props="props" v-model="selectGame" @change="hanleChange" ></el-cascader>
+                <el-form-item  label="项目" required>
+                    <el-select v-model="selectedProject" @change="getProductList" placeholder="请选择项目">
+                        <el-option v-for="item in projectList" :value="item.value" :label="item.label" :key="item.value"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item  label="应用" :required="true" >
+                    <el-select v-model="form.product_id" @change="hanleChange" placeholder="请先选择项目">
+                        <el-option v-for="item in selectList" :value="item.value" :label="item.label" :key="item.value"></el-option>
+                    </el-select>
                 </el-form-item>
                 <el-form-item prop="prilegeList" label="角色" :rules="[{ required: true,message: '请选择角色', trigger: 'blur' }]">
                      <el-checkbox v-model="checkAll" :indeterminate="isIndeterminate" @change="handleAllChange">全选</el-checkbox>
@@ -43,16 +50,19 @@ import { ref,reactive } from 'vue'
     const form=reactive({
         user_name:"",
         password:"",
+        product_id:"",
         name:"",
         privilegeList:''
     });
-  const selectList=ref([])
+    const selectedProject=ref("")
+    const projectList=ref([])
+    const selectList=ref([])
 
     //获取项目
     const getMainprodutlist=()=>{
         fetchMainProductList().then(res=>{
             if(res.status==200){
-                selectList.value=res.data.map(item=>{
+                projectList.value=res.data.map(item=>{
                     return {
                         value:item.id,
                         label:item.main_product_name,
@@ -85,6 +95,7 @@ import { ref,reactive } from 'vue'
             }
             fetchProductList(data).then(res=>{
                 if(res.data==200){
+                    console.log(res);
                     const nodes=res.data.map(item=>{
                         return {
                             value:item.product_id,
@@ -103,26 +114,21 @@ import { ref,reactive } from 'vue'
     }
 
 
-    const getProductList=(val)=>{
-        console.log(val[0]);
+    //获取应用
+    const getProductList=()=>{
+        selectList.value=[]
+        form.product_id=""
         let data={
-            main_product_id:val[0]
+            main_product_id:selectedProject.value
         }
         fetchProductList(data).then(res=>{
             if(res.status==200){
-              const childrenList=res.data.map(item=>{
+               selectList.value=res.data.map(item=>{
                     return {
                         value:item.product_id,
                         label:item.product_name
                     }
                 })
-                let arr=JSON.parse(JSON.stringify(selectList.value))
-                arr.forEach(item=>{
-                    if(item.value==val[0]){
-                        item.children.push(childrenList)
-                    }
-                })
-                
             }
         })
     }
