@@ -176,6 +176,8 @@ import { ref,reactive } from 'vue'
     const validateUserName=(rule,value,callback)=>{
         if(!value){
             return callback(new Error('请输入用户名'))
+        }else{
+            callback()
         }
     }
 
@@ -183,6 +185,8 @@ import { ref,reactive } from 'vue'
     const validatePSW=(rule,value,callback)=>{
         if(!value){
             return callback(new Error('请输入密码'))
+        }else{
+            callback()
         }
     }
 
@@ -190,6 +194,8 @@ import { ref,reactive } from 'vue'
     const checkName=(rule,value,callback)=>{
         if(!value){
             return callback(new Error('请输入昵称'))
+        }else{
+            callback()
         }
     }
 
