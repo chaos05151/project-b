@@ -1,1 +1,0 @@
-import{M as r}from"./index.8b258034.js";const s=r("project",{state:()=>({userproduct:{}}),persist:{enabled:!0,strategies:[{key:"project",storage:localStorage}]},getters:{achieveuseruserproduct:e=>e.userproduct},actions:{setproduct(e){this.userproduct=e},claerproduct(){this.userproduct={}}}});export{s as u};
